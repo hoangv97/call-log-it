@@ -94,7 +94,7 @@
         <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
             <li class="nav-item start active open">
                 <a href="javascript:" class="nav-link nav-toggle">
-                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <i class="fa fa-th-list" aria-hidden="true"></i>
                     <span class="title">Việc tôi được giao</span>
                     <span class="selected"></span>
                     <span class="arrow open"></span>
@@ -187,7 +187,7 @@
             <li class="nav-item start active open">
                 <a href="javascript:" class="nav-link nav-toggle">
                     <i class="fa fa-users" aria-hidden="true"></i>
-                    <span class="title">Công việc của bộ phận IT</span>
+                    <span class="title" style="font-size: small">Công việc của bộ phận IT</span>
                     <span class="selected"></span>
                     <span class="arrow open"></span>
                 </a>

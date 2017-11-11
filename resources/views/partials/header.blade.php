@@ -32,12 +32,12 @@
                         <ul class="dropdown-menu dropdown-menu-default">
                             <li>
                                 <a href="#">
-                                    <i class="icon-user"></i> My Profile </a>
+                                    <i class="icon-user"></i> Tài khoản của tôi</a>
                             </li>
                             <li class="divider"> </li>
                             <li>
                                 <a href="#">
-                                    <i class="icon-key"></i> Log Out </a>
+                                    <i class="icon-key"></i> Đăng xuất</a>
                             </li>
                         </ul>
                     </li>
