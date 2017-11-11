@@ -1,0 +1,24 @@
+@extends('layouts.base')
+
+@section('page.content')
+<div class="portlet light portlet-fit portlet-form bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            <span class="caption-subject font-blue sbold">
+                Danh sách công việc
+            </span>
+        </div>
+        <div class="actions">
+            <a href="#" class="btn btn-primary">
+                Reset bộ lọc
+            </a>
+            <a href="#" class="btn btn-primary">
+                Tìm kiếm
+            </a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <!--DATATABLE-->
+    </div>
+</div>
+@endsection

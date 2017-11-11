@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Auth::routes();
+
+Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('/requests', 'TicketController@index')->name('request.index');
+Route::get('/requests/create', 'TicketController@create')->name('request.create');
+Route::get('/requests/edit', 'TicketController@edit')->name('request.edit');
