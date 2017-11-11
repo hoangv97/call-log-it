@@ -22,6 +22,8 @@
 
 @section('page-level-plugins.scripts')
     @parent
+    {{Html::script('metronic/global/plugins/jquery-validation/js/jquery.validate.min.js')}}
+    {{Html::script('metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js')}}
 @endsection

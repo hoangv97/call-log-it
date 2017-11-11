@@ -21,6 +21,7 @@
                 <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
             </div>
         </div>
+        <a href="javascript:" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"></a>
         <div class="page-top">
             <div class="top-menu">
                 <ul class="nav navbar-nav pull-right">
