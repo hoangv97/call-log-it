@@ -1,5 +1,10 @@
 @extends('layouts.base')
 
+@section('page-level-scripts')
+    @parent
+    {{Html::script('js/request/list.js')}}
+@endsection
+
 @section('page.content')
 <div class="portlet light portlet-fit portlet-form bordered">
     <div class="portlet-title">

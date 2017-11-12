@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('page.container')
+@section('content')
     <div class="page-container">
         @include('partials.sidebar')
 

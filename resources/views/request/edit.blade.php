@@ -3,6 +3,8 @@
 @section('page-level-plugins.styles')
     @parent
     {{Html::style('metronic/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css')}}
+    {{Html::style('metronic/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css')}}
+    {{Html::style('metronic/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.css')}}
 @endsection
 
 @section('page-level-styles')
@@ -26,11 +28,15 @@
     {{Html::script('metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js')}}
+    {{Html::script('metronic/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js')}}
+    {{Html::script('metronic/global/plugins/typeahead/typeahead.bundle.min.js')}}
 @endsection
 
 @section('page-level-scripts')
     @parent
     {{Html::script('metronic/pages/scripts/form-validation.min.js')}}
+
+    {{Html::script('js/request/edit.js')}}
 @endsection
 
 @section('page.content')
@@ -44,30 +50,176 @@
         </div>
         <div class="actions">
             <div>
-                <a href="#" class="btn btn-default">
+                <a href="javascript:" class="btn btn-default btn-sm" id="it-department" data-toggle="modal" data-target="#it-department-modal">
                     <i class="fa fa-users" aria-hidden="true"></i>
                     Thay đổi bộ phận IT
                 </a>
-                <a href="#" class="btn btn-default">
+                <div class="modal fade" id="it-department-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                <h4 class="modal-title">Thay đổi bộ phận IT</h4>
+                            </div>
+                            <div class="modal-body">
+                                {!! Form::open() !!}
+                                {!! Form::select('it-department', ['IT Hà Nội', 'IT Đà Nẵng'], 0, ['class' => 'form-control']); !!}
+                                {!! Form::close() !!}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-default btn-sm" id="priority" data-toggle="modal" data-target="#priority-modal">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     Thay đổi mức độ ưu tiên
                 </a>
-                <a href="#" class="btn btn-default">
+                <div class="modal fade" id="priority-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                <h4 class="modal-title">Thay đổi mức độ ưu tiên</h4>
+                            </div>
+                            <div class="modal-body">
+                                {!! Form::open() !!}
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="control-label" for="priority">
+                                            Mức độ ưu tiên
+                                        </label>
+                                        {!! Form::select('priority', ['Thấp', 'Bình thường', 'Cao', 'Khẩn cấp'], 1, ['class' => 'form-control']); !!}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="priority-reason">
+                                            Lý do thay đổi
+                                            <span class="required" aria-required="true"> * </span>
+                                        </label>
+                                        <textarea class="wysihtml5 form-control" rows="6" name="priority-reason" title="priority-reason"></textarea>
+                                    </div>
+                                </div>
+                                {!! Form::close() !!}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-default btn-sm" id="deadline" data-toggle="modal" data-target="#deadline-modal">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
                     Thay đổi deadline
                 </a>
-                <a href="#" class="btn btn-default">
+                <div class="modal fade" id="deadline-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                <h4 class="modal-title">Thay đổi deadline</h4>
+                            </div>
+                            <div class="modal-body">
+                                {!! Form::open() !!}
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="control-label" for="deadline">
+                                            Deadline
+                                        </label>
+                                        <div id="deadline-picker" class="input-group date date-picker" data-date-format="dd-mm-yyyy" data-date-container="#deadline-picker" data-date-today-highlight="true">
+                                            <input type="text" class="form-control" title="date" value="" readonly name="deadline">
+                                            <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="priority-reason">
+                                            Lý do thay đổi
+                                            <span class="required" aria-required="true"> * </span>
+                                        </label>
+                                        <textarea class="wysihtml5 form-control" rows="6" name="priority-reason" title="priority-reason"></textarea>
+                                    </div>
+                                </div>
+                                {!! Form::close() !!}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="javascript:" class="btn btn-default btn-sm" id="related-person" data-toggle="modal" data-target="#related-person-modal">
                     <i class="fa fa-user" aria-hidden="true"></i>
                     Thay đổi người liên quan
                 </a>
-                <a href="#" class="btn btn-default">
+                <div class="modal fade" id="related-person-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                <h4 class="modal-title">Thay đổi người liên quan</h4>
+                            </div>
+                            <div class="modal-body">
+                                {!! Form::open() !!}
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        {!! Form::text('', '', ['class' => 'form-control', 'id' => 'related-person-input']) !!}
+                                    </div>
+                                </div>
+                                {!! Form::close() !!}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-default btn-sm" id="assign" data-toggle="modal" data-target="#assign-modal">
                     <i class="fa fa-hand-o-right" aria-hidden="true"></i>
                     Assign
                 </a>
+                <div class="modal fade" id="assign-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                <h4 class="modal-title">Assign</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="search-bar">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Tìm nhân viên...">
+                                                <span class="input-group-btn">
+                                                    <button class="btn blue uppercase bold" type="button">
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                        Tìm kiếm
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div style="margin-top: 5px">
                 <div class="btn-group">
-                    <a class="btn btn-default" href="#" data-toggle="dropdown" aria-expanded="true">
+                    <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown" aria-expanded="true">
                         <i class="fa fa-exchange"></i> Thay đổi trạng thái
                         <i class="fa fa-angle-down"></i>
                     </a>
