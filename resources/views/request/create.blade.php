@@ -138,10 +138,10 @@
                                 <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
                                 Gửi yêu cầu
                             </button>
-                            <button type="button" class="btn default">
+                            <a href="{{ route('request.index') }}" class="btn default">
                                 <i class="fa fa-ban" aria-hidden="true"></i>
                                 Hủy bỏ
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -14,10 +14,10 @@
             </span>
         </div>
         <div class="actions">
-            <a href="#" class="btn btn-primary">
+            <a href="javascript:" class="btn btn-primary">
                 Reset bộ lọc
             </a>
-            <a href="#" class="btn btn-primary">
+            <a href="javascript:" class="btn btn-primary">
                 Tìm kiếm
             </a>
         </div>

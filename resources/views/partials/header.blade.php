@@ -31,7 +31,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-default">
                             <li>
-                                <a href="#">
+                                <a href="javascript:">
                                     <i class="icon-user"></i> Tài khoản của tôi
                                 </a>
                             </li>

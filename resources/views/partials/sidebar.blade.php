@@ -15,32 +15,32 @@
                 </a>
                 <ul class="sub-menu">
                     <li class="nav-item start active open">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-inbox" aria-hidden="true"></i>
                             <span class="title">All</span>
                             <span class="selected"></span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-envelope-o" aria-hidden="true"></i>
                             <span class="title">New</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-hourglass-half" aria-hidden="true"></i>
                             <span class="title">Inprogress</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-registered" aria-hidden="true"></i>
                             <span class="title">Resolved</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-calendar-times-o" aria-hidden="true"></i>
                             <span class="title">Out Of Date</span>
                         </a>
@@ -58,32 +58,32 @@
                 </a>
                 <ul class="sub-menu">
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-inbox" aria-hidden="true"></i>
                             <span class="title">All</span>
                             <span class="selected"></span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-envelope-o" aria-hidden="true"></i>
                             <span class="title">New</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-hourglass-half" aria-hidden="true"></i>
                             <span class="title">Inprogress</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-registered" aria-hidden="true"></i>
                             <span class="title">Resolved</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-calendar-times-o" aria-hidden="true"></i>
                             <span class="title">Out Of Date</span>
                         </a>
@@ -101,32 +101,32 @@
                 </a>
                 <ul class="sub-menu">
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-inbox" aria-hidden="true"></i>
                             <span class="title">All</span>
                             <span class="selected"></span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-envelope-o" aria-hidden="true"></i>
                             <span class="title">New</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-hourglass-half" aria-hidden="true"></i>
                             <span class="title">Inprogress</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-reply-all" aria-hidden="true"></i>
                             <span class="title">Feedback</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-calendar-times-o" aria-hidden="true"></i>
                             <span class="title">Out Of Date</span>
                         </a>
@@ -144,38 +144,38 @@
                 </a>
                 <ul class="sub-menu">
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-inbox" aria-hidden="true"></i>
                             <span class="title">All</span>
                             <span class="selected"></span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-envelope-o" aria-hidden="true"></i>
                             <span class="title">New</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-hourglass-half" aria-hidden="true"></i>
                             <span class="title">Inprogress</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-reply-all" aria-hidden="true"></i>
                             <span class="title">Feedback</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-calendar-times-o" aria-hidden="true"></i>
                             <span class="title">Out Of Date</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-minus-circle" aria-hidden="true"></i>
                             <span class="title">Closed</span>
                         </a>
@@ -193,38 +193,38 @@
                 </a>
                 <ul class="sub-menu">
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-inbox" aria-hidden="true"></i>
                             <span class="title">All</span>
                             <span class="selected"></span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-envelope-o" aria-hidden="true"></i>
                             <span class="title">New</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-hourglass-half" aria-hidden="true"></i>
                             <span class="title">Inprogress</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-reply-all" aria-hidden="true"></i>
                             <span class="title">Feedback</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-calendar-times-o" aria-hidden="true"></i>
                             <span class="title">Out Of Date</span>
                         </a>
                     </li>
                     <li class="nav-item start">
-                        <a href="#" class="nav-link">
+                        <a href="javascript:" class="nav-link">
                             <i class="fa fa-minus-circle" aria-hidden="true"></i>
                             <span class="title">Closed</span>
                         </a>

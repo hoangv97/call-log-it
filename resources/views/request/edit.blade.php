@@ -73,7 +73,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="#" class="btn btn-default btn-sm" id="priority" data-toggle="modal" data-target="#priority-modal">
+                <a href="javascript:" class="btn btn-default btn-sm" id="priority" data-toggle="modal" data-target="#priority-modal">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     Thay đổi mức độ ưu tiên
                 </a>
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="#" class="btn btn-default btn-sm" id="deadline" data-toggle="modal" data-target="#deadline-modal">
+                <a href="javascript:" class="btn btn-default btn-sm" id="deadline" data-toggle="modal" data-target="#deadline-modal">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
                     Thay đổi deadline
                 </a>
@@ -181,7 +181,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="#" class="btn btn-default btn-sm" id="assign" data-toggle="modal" data-target="#assign-modal">
+                <a href="javascript:" class="btn btn-default btn-sm" id="assign" data-toggle="modal" data-target="#assign-modal">
                     <i class="fa fa-hand-o-right" aria-hidden="true"></i>
                     Assign
                 </a>
@@ -219,38 +219,38 @@
             </div>
             <div style="margin-top: 5px">
                 <div class="btn-group">
-                    <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown" aria-expanded="true">
+                    <a class="btn btn-default btn-sm" href="javascript:" data-toggle="dropdown" aria-expanded="true">
                         <i class="fa fa-exchange"></i> Thay đổi trạng thái
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="javascript:;">
+                            <a href="javascript:">
                                 <i class="fa fa-envelope-o"></i> New
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:;">
+                            <a href="javascript:">
                                 <i class="fa fa-hourglass-half"></i> Inprogress
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:;">
+                            <a href="javascript:">
                                 <i class="fa fa-registered"></i> Resolved
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:;">
+                            <a href="javascript:">
                                 <i class="fa fa-reply-all"> </i> Feedback
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:;">
+                            <a href="javascript:">
                                 <i class="fa fa-minus-circle"></i> Closed
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:;">
+                            <a href="javascript:">
                                 <i class="fa fa-ban"></i> Cancelled
                             </a>
                         </li>
