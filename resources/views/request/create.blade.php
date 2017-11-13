@@ -4,7 +4,10 @@
     @parent
     {{Html::style('metronic/global/plugins/select2/css/select2.min.css')}}
     {{Html::style('metronic/global/plugins/select2/css/select2-bootstrap.min.css')}}
-    {{Html::style('metronic/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css')}}
+    {{--{{Html::style('metronic/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css')}}--}}
+    {{--{{Html::style('metronic/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}--}}
+    {{Html::style('metronic/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}
+
     {{Html::style('metronic/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css')}}
 
     {{Html::style('metronic/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css')}}
@@ -18,10 +21,14 @@
 
 @section('page-level-plugins.scripts')
     @parent
+{{--    {{Html::script('metronic/global/plugins/moment.min.js')}}--}}
     {{Html::script('metronic/global/plugins/select2/js/select2.full.min.js')}}
     {{Html::script('metronic/global/plugins/jquery-validation/js/jquery.validate.min.js')}}
     {{Html::script('metronic/global/plugins/jquery-validation/js/additional-methods.min.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}
+{{--    {{Html::script('metronic/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}--}}
+    {{Html::script('metronic/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}
+
     {{Html::script('metronic/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js')}}
 
@@ -76,10 +83,10 @@
                                 <label class="control-label" for="deadline">Ngày hết hạn
                                     <span class="required" aria-required="true"> * </span>
                                 </label>
-                                <div id="deadline-picker" class="input-group date date-picker" data-date-format="dd-mm-yyyy" data-date-container="#deadline-picker" data-date-today-highlight="true">
-                                    <input type="text" class="form-control" title="date" readonly name="deadline">
-                                    <span class="input-group-btn">
-                                        <button class="btn default" type="button">
+                                <div id="deadline-picker" class="input-group date form_datetime bs-datetime">
+                                    <input type="text" title="datetime" readonly name="deadline" size="16" class="form-control">
+                                    <span class="input-group-addon">
+                                        <button class="btn default date-set" type="button">
                                             <i class="fa fa-calendar"></i>
                                         </button>
                                     </span>

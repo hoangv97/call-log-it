@@ -5,6 +5,8 @@
     {{Html::style('metronic/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css')}}
     {{Html::style('metronic/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css')}}
     {{Html::style('metronic/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.css')}}
+{{--    {{Html::style('metronic/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}--}}
+    {{Html::style('metronic/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}
 @endsection
 
 @section('page-level-styles')
@@ -25,11 +27,13 @@
 @section('page-level-plugins.scripts')
     @parent
     {{Html::script('metronic/global/plugins/jquery-validation/js/jquery.validate.min.js')}}
-    {{Html::script('metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js')}}
     {{Html::script('metronic/global/plugins/typeahead/typeahead.bundle.min.js')}}
+    {{Html::script('metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}
+    {{--{{Html::script('metronic/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}--}}
+    {{Html::script('metronic/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}
 @endsection
 
 @section('page-level-scripts')
@@ -128,13 +132,13 @@
                                         <label class="control-label" for="deadline">
                                             Deadline
                                         </label>
-                                        <div id="deadline-picker" class="input-group date date-picker" data-date-format="dd-mm-yyyy" data-date-container="#deadline-picker" data-date-today-highlight="true">
-                                            <input type="text" class="form-control" title="date" value="" readonly name="deadline">
-                                            <span class="input-group-btn">
-                                            <button class="btn default" type="button">
-                                                <i class="fa fa-calendar"></i>
-                                            </button>
-                                        </span>
+                                        <div id="deadline-picker" class="input-group date form_datetime bs-datetime">
+                                            <input type="text" title="datetime" readonly name="deadline" size="16" class="form-control">
+                                            <span class="input-group-addon">
+                                                <button class="btn default date-set" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="form-group">
