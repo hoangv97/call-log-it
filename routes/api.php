@@ -16,3 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('test', 'TicketController@test')->name('requests.test');
+
+Route::get('employees', 'EmployeeController@searchEmployeesByName')->name('employees.api');

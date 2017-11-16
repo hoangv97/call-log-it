@@ -14,7 +14,6 @@
                 </span>
             @endif
         </div>
-
         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
             <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
             <label class="control-label visible-ie8 visible-ie9">Email</label>
@@ -25,6 +24,23 @@
                 </span>
             @endif
         </div>
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9" for="team">Team</label>
+            <select name="team" class="form-control">
+                <option value="1">IT Hanoi</option>
+                <option value="2">IT Danang</option>
+                <option value="0">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9" for="role">Role</label>
+            <select name="role" class="form-control">
+                <option value="0">Member</option>
+                <option value="1">Sub-lead</option>
+                <option value="2">Leader</option>
+            </select>
+        </div>
+
         <p class="hint"> Enter your account details below: </p>
         <div class="form-group">
             <label for="username" class="control-label visible-ie8 visible-ie9">Username</label>

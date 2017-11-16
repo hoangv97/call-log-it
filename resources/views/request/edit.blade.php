@@ -38,9 +38,9 @@
 
 @section('page-level-scripts')
     @parent
-    {{Html::script('metronic/pages/scripts/form-validation.min.js')}}
+    {{Html::script('js/form-validation.min.js')}}
 
-    {{Html::script('js/request/edit.js')}}
+    @include('request.edit-script')
 @endsection
 
 @section('page.content')
@@ -54,11 +54,11 @@
         </div>
         <div class="actions">
             <div>
-                <a href="javascript:" class="btn btn-default btn-sm" id="it-department" data-toggle="modal" data-target="#it-department-modal">
+                <a href="javascript:" class="btn btn-default btn-sm" id="team" data-toggle="modal" data-target="#team-modal">
                     <i class="fa fa-users" aria-hidden="true"></i>
                     Thay đổi bộ phận IT
                 </a>
-                <div class="modal fade" id="it-department-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade" id="team-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-sm" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -67,7 +67,7 @@
                             </div>
                             <div class="modal-body">
                                 {!! Form::open() !!}
-                                {!! Form::select('it-department', ['IT Hà Nội', 'IT Đà Nẵng'], 0, ['class' => 'form-control']); !!}
+                                {!! Form::select('team', ['IT Hà Nội', 'IT Đà Nẵng'], 0, ['class' => 'form-control']); !!}
                                 {!! Form::close() !!}
                             </div>
                             <div class="modal-footer">
@@ -173,7 +173,7 @@
                                 {!! Form::open() !!}
                                 <div class="form-body">
                                     <div class="form-group">
-                                        {!! Form::text('', '', ['class' => 'form-control', 'id' => 'related-person-input']) !!}
+                                        {!! Form::text('related-person', '', ['class' => 'form-control', 'id' => 'related-person-input']) !!}
                                     </div>
                                 </div>
                                 {!! Form::close() !!}
@@ -201,7 +201,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="Tìm nhân viên...">
+                                                <input type="text" id="search-employee" class="form-control" placeholder="Tìm nhân viên...">
                                                 <span class="input-group-btn">
                                                     <button class="btn blue uppercase bold" type="button">
                                                         <i class="fa fa-search" aria-hidden="true"></i>

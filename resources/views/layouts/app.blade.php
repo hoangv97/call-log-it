@@ -25,10 +25,6 @@
     {{Html::script('metronic/global/plugins/morris/raphael-min.js')}}
 @endsection
 
-@section('page-level-scripts')
-    {{Html::script('metronic/pages/scripts/dashboard.min.js')}}
-@endsection
-
 @section('theme-layout-scripts')
     {{Html::script('metronic/layouts/layout4/scripts/layout.min.js')}}
     {{Html::script('metronic/layouts/layout4/scripts/demo.min.js')}}

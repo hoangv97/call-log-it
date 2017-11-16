@@ -6,7 +6,7 @@
 @endsection
 
 @section('page-level-styles')
-    {{Html::style('metronic/pages/css/login.min.css')}}
+    {{Html::style('css/login.min.css')}}
     <style>
         .logo a,
         .logo a:hover,

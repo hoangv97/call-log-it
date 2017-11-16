@@ -2,7 +2,7 @@
 
 @section('page-level-styles')
     @parent
-    {{Html::style('metronic/pages/css/error.min.css')}}
+    {{Html::style('css/error.min.css')}}
 @endsection
 
 @section('body')

@@ -38,14 +38,13 @@
 
 @section('page-level-scripts')
     @parent
-    {{Html::script('metronic/pages/scripts/form-validation.min.js')}}
+    {{Html::script('js/form-validation.min.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js')}}
 
-    {{Html::script('js/request/create.js')}}
+    @include('request.create-script')
 @endsection
 
 @section('page.content')
-    {{--FORM--}}
 <div class="portlet light portlet-fit portlet-form bordered">
     <div class="portlet-title">
         <div class="caption">
@@ -97,11 +96,11 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label" for="it-department">
+                                <label class="control-label" for="team">
                                     Bộ phận IT
                                     <span class="required" aria-required="true"> * </span>
                                 </label>
-                                {!! Form::select('it-department', ['IT Hà Nội', 'IT Đà Nẵng'], 0, ['class' => 'form-control']); !!}
+                                {!! Form::select('team', ['IT Hà Nội', 'IT Đà Nẵng'], 0, ['class' => 'form-control']); !!}
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -109,7 +108,7 @@
                                 <label class="control-label" for="related-person">
                                     Người liên quan
                                 </label>
-                                {!! Form::text('related-person', '', ['class' => 'form-control', 'id' => 'related-person']) !!}
+                                {!! Form::text('related-person', '', ['class' => 'form-control', 'id' => 'related-person-input']) !!}
                             </div>
                         </div>
                     </div>

@@ -29,6 +29,11 @@
 
     @yield('theme-layout-styles')
 
+    @section('scripts-top')
+        <script>
+            window.Laravel = {csrfToken: '{{csrf_token()}}'};
+        </script>
+    @show
 </head>
 <body class="@yield('body.class')">
 
