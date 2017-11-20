@@ -9,8 +9,35 @@
 </style>
 @endsection
 
-@section('extended-script')
+@section('extended-script-1')
 
-    initEmployeesSearch('#search-employee')
+    initEmployeesSearch('#assignee')
 
+@endsection
+
+@section('extended-script-2')
+    <script>
+        $('.btn-submit-ticket-info').click(function (e) {
+            e.preventDefault();
+            updateInfoTicket()
+        });
+
+        $('.btn-update-status').click(function (e) {
+            let status = parseInt($(this).attr('data-value')),
+                id = '{{ $ticket->id }}';
+
+            $.post('{{ route('tickets.update') }}', { id, status })
+                .done(() => {
+                    updateInfoTicket()
+                })
+        });
+
+        function updateInfoTicket() {
+            $.get('{{ route('tickets.info') }}', { id: '{{ $ticket->id }}'}, data => {
+                for(let key in data) {
+                    $(`.${key}-info`).html(data[key])
+                }
+            })
+        }
+    </script>
 @endsection

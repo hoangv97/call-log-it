@@ -6,6 +6,11 @@
     {{Html::style('metronic/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')}}
 @endsection
 
+@section('page-level-styles')
+    @parent
+    {{Html::style('css/custom-badge.css')}}
+@endsection
+
 @section('page-level-plugins.scripts')
     {{--@parent--}}
     {{Html::script('metronic/global/scripts/datatable.js')}}
@@ -18,7 +23,7 @@
     <script>
         $(document).ready(function() {
 
-            initRequestsTable('{{ route('requests.test') }}');
+            initRequestsTable('{{ route('tickets.api') }}');
 
             function initRequestsTable(url) {
                 $('#requests-table').dataTable({

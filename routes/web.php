@@ -17,4 +17,5 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/requests', 'TicketController@index')->name('request.index');
 Route::get('/requests/create', 'TicketController@create')->name('request.create');
-Route::get('/requests/edit', 'TicketController@edit')->name('request.edit');
+Route::post('/requests/create', 'TicketController@store')->name('request.store');
+Route::get('/requests/{id}', 'TicketController@edit')->name('request.edit')->where('id', '[0-9]+');

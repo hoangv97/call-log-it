@@ -54,19 +54,13 @@
     <div class="portlet-body">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                {!! Form::open() !!}
+                {!! Form::open(['route' => 'request.store', 'files' => true]) !!}
                 <div class="form-body">
-                    <div class="alert alert-danger display-hide">
-                        <button class="close" data-close="alert"></button> You have some form errors. Please check below.
-                    </div>
-                    <div class="alert alert-success display-hide">
-                        <button class="close" data-close="alert"></button> Your form validation is successful!
-                    </div>
                     <div class="form-group">
-                        <label class="control-label" for="request">Tên công việc
+                        <label class="control-label" for="subject">Tên công việc
                             <span class="required" aria-required="true"> * </span>
                         </label>
-                        {!! Form::text('request', '', ['class' => 'form-control', 'data-required' => 1, 'placeholder' => 'Tên công việc']) !!}
+                        {!! Form::text('subject', '', ['class' => 'form-control', 'data-required' => 1, 'placeholder' => 'Tên công việc']) !!}
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -74,7 +68,7 @@
                                 <label class="control-label" for="priority">
                                     Mức độ ưu tiên
                                 </label>
-                                {!! Form::select('priority', ['Thấp', 'Bình thường', 'Cao', 'Khẩn cấp'], 1, ['class' => 'form-control']); !!}
+                                {!! Form::select('priority', [1 => 'Thấp', 2 => 'Bình thường', 3 => 'Cao', 4 => 'Khẩn cấp'], 2, ['class' => 'form-control']); !!}
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -100,15 +94,15 @@
                                     Bộ phận IT
                                     <span class="required" aria-required="true"> * </span>
                                 </label>
-                                {!! Form::select('team', ['IT Hà Nội', 'IT Đà Nẵng'], 0, ['class' => 'form-control']); !!}
+                                {!! Form::select('team', [1 => 'IT Hà Nội', 2 => 'IT Đà Nẵng'], 1, ['class' => 'form-control']); !!}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label" for="related-person">
+                                <label class="control-label" for="relaters">
                                     Người liên quan
                                 </label>
-                                {!! Form::text('related-person', '', ['class' => 'form-control', 'id' => 'related-person-input']) !!}
+                                {!! Form::text('relaters', '', ['class' => 'form-control', 'id' => 'relaters-input']) !!}
                             </div>
                         </div>
                     </div>
@@ -130,7 +124,7 @@
                                 <span class="input-group-addon btn default btn-file">
                                     <span class="fileinput-new"> Chọn file </span>
                                     <span class="fileinput-exists"> Đổi </span>
-                                    <input type="file" name="...">
+                                    <input type="file" name="image">
                                 </span>
                                 <a href="javascript:" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Xóa </a>
                             </div>

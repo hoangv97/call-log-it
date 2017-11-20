@@ -15,14 +15,14 @@
             todayHighlight: true,
             fontAwesome: true,
             pickerPosition: 'bottom-left',
-            container: '#deadline-picker'
+            container: '#deadline-picker',
         });
 
 
 
-        initEmployeesSearch('#related-person-input');
+        initEmployeesSearch('#relaters-input');
 
-        @yield('extended-script')
+        @yield('extended-script-1')
 
 
         function initEmployeesSearch(selector) {
@@ -42,10 +42,11 @@
                     {
                         highlight: true,
                         minLength: 1
-                    },{
+                    },
+                    {
                         name: 'employees',
-                        displayKey: 'name',
-                        valueKey: 'name',
+                        displayKey: 'name_email',
+                        valueKey: 'name_email',
                         source: employees.ttAdapter(),
                         limit: 5,
                     }
@@ -56,3 +57,5 @@
     })
 
 </script>
+
+@yield('extended-script-2')

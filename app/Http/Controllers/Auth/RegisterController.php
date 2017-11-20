@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Employee;
+use App\Models\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -49,8 +49,9 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'email' => 'required|string|email|max:255|unique:employees',
+            'password' => 'required|string|min:4|confirmed',
+            'image' => 'mimes:jpg,jpeg,png',
         ]);
     }
 
@@ -58,14 +59,30 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\Employee
+     * @return \App\Models\Employee
      */
     protected function create(array $data)
     {
-        return Employee::create([
+        $isInTeam = !is_null($data['team']) && !is_null($data['role']);
+
+        $employee = Employee::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'team_id' => $isInTeam ? $data['team'] : null,
+            'role_id' => $isInTeam ? $data['role'] : null,
+            'avatar_url' => null
         ]);
+
+        if(isset($data['image'])) {
+            $image = $data['image'];
+            $imgType = str_replace('image/', '', $image->getMimeType());
+            $imgName = str_random(10).'.'.$imgType;
+            $imgPath = 'upload/';
+            $image->move($imgPath, $imgName);
+            $employee->update(['avatar_url' => $imgPath.$imgName]);
+        }
+
+        return $employee;
     }
 }

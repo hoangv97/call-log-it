@@ -13,13 +13,17 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Employee::class, function (Faker $faker) {
+$factory->define(App\Models\Employee::class, function (Faker $faker) {
     static $password;
+
+    $hasTeam = rand(0, 5) > 0;
 
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
+        'team_id' => $hasTeam ? rand(1, 2) : null,
+        'role_id' => $hasTeam ? rand(1, 3) : null
     ];
 });

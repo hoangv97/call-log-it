@@ -1,6 +1,6 @@
 <?php
 
-use App\Team;
+use App\Models\Team;
 use Illuminate\Database\Seeder;
 
 class TeamsTableSeeder extends Seeder
@@ -13,12 +13,10 @@ class TeamsTableSeeder extends Seeder
     public function run()
     {
         Team::create([
-            'id' => 0,
             'name' => 'IT Hà Nội'
         ]);
 
         Team::create([
-            'id' => 1,
             'name' => 'IT Đà Nẵng'
         ]);
     }

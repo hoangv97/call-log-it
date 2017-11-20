@@ -1,3 +1,8 @@
+@php
+    use App\Models\Employee;
+    use App\Models\Team;
+@endphp
+
 @extends('layouts.base')
 
 @section('page-level-plugins.styles')
@@ -10,6 +15,7 @@
 @endsection
 
 @section('page-level-styles')
+    {{Html::style('css/custom-badge.css')}}
     <style>
         .request-details .d-line {
             margin-top: 25px;
@@ -49,7 +55,7 @@
         <div class="caption">
             <span class="caption-subject bold">
                 <i class="fa fa-globe" aria-hidden="true"></i>
-                <span> Test</span>
+                <span>{{ $ticket->subject }}</span>
             </span>
         </div>
         <div class="actions">
@@ -65,15 +71,16 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
                                 <h4 class="modal-title">Thay đổi bộ phận IT</h4>
                             </div>
+                            {!! Form::open(['route' => 'tickets.update']) !!}
                             <div class="modal-body">
-                                {!! Form::open() !!}
-                                {!! Form::select('team', ['IT Hà Nội', 'IT Đà Nẵng'], 0, ['class' => 'form-control']); !!}
-                                {!! Form::close() !!}
+                                {!! Form::hidden('id', $ticket->id) !!}
+                                {!! Form::select('team', [1 => 'IT Hà Nội', 2 => 'IT Đà Nẵng'], $ticket->team->id, ['class' => 'form-control']); !!}
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+                                <button type="submit" class="btn btn-primary btn-submit-ticket-info">Lưu thay đổi</button>
                             </div>
+                            {!! Form::close() !!}
                         </div>
                     </div>
                 </div>
@@ -88,14 +95,16 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
                                 <h4 class="modal-title">Thay đổi mức độ ưu tiên</h4>
                             </div>
+                            {!! Form::open(['route' => 'tickets.update']) !!}
                             <div class="modal-body">
-                                {!! Form::open() !!}
                                 <div class="form-body">
+                                    {!! Form::hidden('id', $ticket->id) !!}
+                                    {!! Form::hidden('has-reason', true) !!}
                                     <div class="form-group">
                                         <label class="control-label" for="priority">
                                             Mức độ ưu tiên
                                         </label>
-                                        {!! Form::select('priority', ['Thấp', 'Bình thường', 'Cao', 'Khẩn cấp'], 1, ['class' => 'form-control']); !!}
+                                        {!! Form::select('priority', [1 => 'Thấp', 2 => 'Bình thường', 3 => 'Cao', 4 => 'Khẩn cấp'], $ticket->priority, ['class' => 'form-control']); !!}
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label" for="priority-reason">
@@ -105,12 +114,12 @@
                                         <textarea class="wysihtml5 form-control" rows="6" name="priority-reason" title="priority-reason"></textarea>
                                     </div>
                                 </div>
-                                {!! Form::close() !!}
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+                                <button type="submit" class="btn btn-primary btn-submit-ticket-info">Lưu thay đổi</button>
                             </div>
+                            {!! Form::close() !!}
                         </div>
                     </div>
                 </div>
@@ -125,9 +134,11 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
                                 <h4 class="modal-title">Thay đổi deadline</h4>
                             </div>
+                            {!! Form::open(['route' => 'tickets.update']) !!}
                             <div class="modal-body">
-                                {!! Form::open() !!}
                                 <div class="form-body">
+                                    {!! Form::hidden('id', $ticket->id) !!}
+                                    {!! Form::hidden('has-reason', true) !!}
                                     <div class="form-group">
                                         <label class="control-label" for="deadline">
                                             Deadline
@@ -142,46 +153,47 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label" for="priority-reason">
+                                        <label class="control-label" for="deadline-reason">
                                             Lý do thay đổi
                                             <span class="required" aria-required="true"> * </span>
                                         </label>
-                                        <textarea class="wysihtml5 form-control" rows="6" name="priority-reason" title="priority-reason"></textarea>
+                                        <textarea class="wysihtml5 form-control" rows="6" name="deadline-reason" title="priority-reason"></textarea>
                                     </div>
                                 </div>
-                                {!! Form::close() !!}
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+                                <button type="submit" class="btn btn-primary btn-submit-ticket-info">Lưu thay đổi</button>
                             </div>
+                            {!! Form::close() !!}
                         </div>
                     </div>
                 </div>
-                <a href="javascript:" class="btn btn-default btn-sm" id="related-person" data-toggle="modal" data-target="#related-person-modal">
+                <a href="javascript:" class="btn btn-default btn-sm" id="relaters" data-toggle="modal" data-target="#relaters-modal">
                     <i class="fa fa-user" aria-hidden="true"></i>
                     Thay đổi người liên quan
                 </a>
-                <div class="modal fade" id="related-person-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade" id="relaters-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
                                 <h4 class="modal-title">Thay đổi người liên quan</h4>
                             </div>
+                            {!! Form::open(['route' => 'tickets.update']) !!}
                             <div class="modal-body">
-                                {!! Form::open() !!}
                                 <div class="form-body">
+                                    {!! Form::hidden('id', $ticket->id) !!}
                                     <div class="form-group">
-                                        {!! Form::text('related-person', '', ['class' => 'form-control', 'id' => 'related-person-input']) !!}
+                                        {!! Form::text('relaters', '', ['class' => 'form-control', 'id' => 'relaters-input']) !!}
                                     </div>
                                 </div>
-                                {!! Form::close() !!}
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+                                <button type="submit" class="btn btn-primary btn-submit-ticket-info">Lưu thay đổi</button>
                             </div>
+                            {!! Form::close() !!}
                         </div>
                     </div>
                 </div>
@@ -196,27 +208,20 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
                                 <h4 class="modal-title">Assign</h4>
                             </div>
+                            {!! Form::open(['route' => 'tickets.update']) !!}
                             <div class="modal-body">
-                                <div class="search-bar">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="input-group">
-                                                <input type="text" id="search-employee" class="form-control" placeholder="Tìm nhân viên...">
-                                                <span class="input-group-btn">
-                                                    <button class="btn blue uppercase bold" type="button">
-                                                        <i class="fa fa-search" aria-hidden="true"></i>
-                                                        Tìm kiếm
-                                                    </button>
-                                                </span>
-                                            </div>
-                                        </div>
+                                <div class="form-body">
+                                    {!! Form::hidden('id', $ticket->id) !!}
+                                    <div class="form-group">
+                                        {!! Form::text('assignee', '', ['class' => 'form-control', 'id' => 'assignee']) !!}
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+                                <button type="submit" class="btn btn-primary btn-submit-ticket-info">Lưu thay đổi</button>
                             </div>
+                            {!! Form::close() !!}
                         </div>
                     </div>
                 </div>
@@ -229,32 +234,32 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="javascript:">
+                            <a href="javascript:" class="btn-update-status" data-value="1">
                                 <i class="fa fa-envelope-o"></i> New
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:">
+                            <a href="javascript:" class="btn-update-status" data-value="2">
                                 <i class="fa fa-hourglass-half"></i> Inprogress
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:">
+                            <a href="javascript:" class="btn-update-status" data-value="3">
                                 <i class="fa fa-registered"></i> Resolved
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:">
+                            <a href="javascript:" class="btn-update-status" data-value="4">
                                 <i class="fa fa-reply-all"> </i> Feedback
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:">
+                            <a href="javascript:" class="btn-update-status" data-value="5">
                                 <i class="fa fa-minus-circle"></i> Closed
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:">
+                            <a href="javascript:" class="btn-update-status" data-value="6">
                                 <i class="fa fa-ban"></i> Cancelled
                             </a>
                         </li>
@@ -271,7 +276,7 @@
                         <span class="sbold">Ngày tạo:</span>
                     </div>
                     <div class="col-md-6">
-                        <span>12341234</span>
+                        <span class="created_at-info">{{ $ticket->created_at }}</span>
                     </div>
                 </div>
             </div>
@@ -281,7 +286,7 @@
                         <span class="sbold">Ngày hết hạn:</span>
                     </div>
                     <div class="col-md-6">
-                        <span>123192831</span>
+                        <span class="deadline-info">{{ $ticket->deadline }}</span>
                     </div>
                 </div>
             </div>
@@ -293,7 +298,7 @@
                         <span class="sbold">Người yêu cầu:</span>
                     </div>
                     <div class="col-md-6">
-                        <span>123192831</span>
+                        <span class="creator-info">{{ $ticket->creator->name }}</span>
                     </div>
                 </div>
             </div>
@@ -303,7 +308,7 @@
                         <span class="sbold">Người thực hiện:</span>
                     </div>
                     <div class="col-md-6">
-                        <span>123192831</span>
+                        <span class="assignee-info">{{ isset($ticket->assignee) ? $ticket->assignee->name : '' }}</span>
                     </div>
                 </div>
             </div>
@@ -313,7 +318,7 @@
                         <span class="sbold">Bộ phận IT:</span>
                     </div>
                     <div class="col-md-6">
-                        <span>123192831</span>
+                        <span class="team-info">{{ $ticket->team->name }}</span>
                     </div>
                 </div>
             </div>
@@ -325,7 +330,7 @@
                         <span class="sbold">Mức độ ưu tiên:</span>
                     </div>
                     <div class="col-md-6">
-                        <span>123192831</span>
+                        <span class="priority-info">{!! $ticket->getPriority() !!}</span>
                     </div>
                 </div>
             </div>
@@ -335,7 +340,7 @@
                         <span class="sbold">Trạng thái:</span>
                     </div>
                     <div class="col-md-6">
-                        <span>123192831</span>
+                        <span class="status-info">{!! $ticket->getStatus() !!}</span>
                     </div>
                 </div>
             </div>
@@ -344,8 +349,10 @@
                     <div class="col-md-5 col-md-offset-1">
                         <span class="sbold">Người liên quan:</span>
                     </div>
-                    <div class="col-md-6">
-                        <span>123192831</span>
+                    <div class="col-md-6 relaters-info">
+                        @foreach($ticket->relaters as $relater)
+                            <div>{{ $relater->name }}</div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -365,16 +372,17 @@
         <div class="mt-comments">
             <div class="mt-comment">
                 <div class="mt-comment-img">
-                    <img src="../img/default_user.png" />
+                    <img src="{{ is_null($ticket->creator->avatar_url) ? '../img/default_user.png' : route('home').'/'.$ticket->creator->avatar_url }}" />
                 </div>
                 <div class="mt-comment-body">
                     <div class="mt-comment-info">
-                        <span class="mt-comment-author">Michael Baker</span>
-                        <span class="mt-comment-date">26 Feb, 10:30AM</span>
+                        <span class="mt-comment-author">{{ $ticket->creator->name }}</span>
+                        <span class="mt-comment-date">{{ $ticket->created_at }}</span>
                     </div>
-                    <div class="mt-comment-text"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. </div>
+                    <div class="mt-comment-text">{!! $ticket->content !!}</div>
                 </div>
             </div>
+            {{--todo comments--}}
             <div class="mt-comment">
                 <div class="mt-comment-img">
                     <img src="../img/default_user.png" />
@@ -385,30 +393,6 @@
                         <span class="mt-comment-date">12 Feb, 08:30AM</span>
                     </div>
                     <div class="mt-comment-text"> It is a long established fact that a reader will be distracted. </div>
-                </div>
-            </div>
-            <div class="mt-comment">
-                <div class="mt-comment-img">
-                    <img src="../img/default_user.png" />
-                </div>
-                <div class="mt-comment-body">
-                    <div class="mt-comment-info">
-                        <span class="mt-comment-author">Natasha Kim</span>
-                        <span class="mt-comment-date">19 Dec, 09:50 AM</span>
-                    </div>
-                    <div class="mt-comment-text"> The generated Lorem or non-characteristic Ipsum is therefore or non-characteristic. </div>
-                </div>
-            </div>
-            <div class="mt-comment">
-                <div class="mt-comment-img">
-                    <img src="../img/default_user.png" />
-                </div>
-                <div class="mt-comment-body">
-                    <div class="mt-comment-info">
-                        <span class="mt-comment-author">Sebastian Davidson</span>
-                        <span class="mt-comment-date">10 Dec, 09:20 AM</span>
-                    </div>
-                    <div class="mt-comment-text"> The standard chunk of Lorem or non-characteristic Ipsum used since the 1500s or non-characteristic. </div>
                 </div>
             </div>
         </div>

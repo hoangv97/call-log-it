@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEmployeeTeamTable extends Migration
+class CreateEmployeesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,17 @@ class CreateEmployeeTeamTable extends Migration
      */
     public function up()
     {
-        Schema::create('employee_team', function (Blueprint $table) {
-            $table->integer('employee_id')->unsigned();
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
-            $table->integer('team_id')->unsigned();
+        Schema::create('employees', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->string('avatar_url')->nullable();
+            $table->integer('team_id')->unsigned()->nullable();
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
-            $table->integer('role_id')->unsigned();
+            $table->integer('role_id')->unsigned()->nullable();
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
-            $table->primary(['employee_id', 'team_id']);
+            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -32,6 +35,6 @@ class CreateEmployeeTeamTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employee_team');
+        Schema::dropIfExists('employees');
     }
 }
