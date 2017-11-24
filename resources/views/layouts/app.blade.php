@@ -23,6 +23,8 @@
 @section('page-level-plugins.scripts')
     {{Html::script('metronic/global/plugins/morris/morris.min.js')}}
     {{Html::script('metronic/global/plugins/morris/raphael-min.js')}}
+
+    @include('extends.read-tickets-menu')
 @endsection
 
 @section('theme-layout-scripts')

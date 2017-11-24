@@ -16,22 +16,24 @@ use App\Models\Employee;
 
 $factory->define(App\Models\Ticket::class, function (Faker $faker) {
 
+    $status = rand(1, 6);
+    $creator = collect(Employee::all())->random();
+    do {
+        $assignee = collect(Employee::whereNotNull('role_team_id')->get())->random();
+    }while($assignee == $creator); //prevent duplicate
+
     return [
-        'subject' => $faker->text(40),
-        'content' => $faker->text(200),
-        'created_by' => function() {
-            return collect(Employee::all())->random();
-        },
-        'status' => rand(1, 6),
+        'subject' => $faker->text(80),
+        'content' => $faker->text(500),
+        'created_by' => $creator,
+        'status' => $status,
         'priority' => rand(1, 4),
-        'deadline' => $faker->dateTimeThisYear('now', date_default_timezone_get()),
-        'assigned_to' => function() {
-            return collect(Employee::whereNotNull('team_id')->get())->random();
-        },
-        'rating' => rand(0, 1),
+        'deadline' => $faker->dateTimeBetween('-1 year', '+4 months'), //test out of date deadline
+        'assigned_to' => $assignee,
+        'rating' => $status == 5 ? rand(0, 1) : null, //if closed, there must be rating from creator
         'team_id' => rand(1, 2),
-        'resolved-at' => $faker->dateTimeThisYear('now', date_default_timezone_get()),
-        'closed-at' => $faker->dateTimeThisYear('now', date_default_timezone_get()),
-        'deleted-at' => $faker->dateTimeThisYear('now', date_default_timezone_get())
+        'resolved_at' => $faker->dateTimeThisYear('now', date_default_timezone_get()),
+        'closed_at' => $faker->dateTimeThisYear('now', date_default_timezone_get()),
+        'deleted_at' => $faker->dateTimeThisYear('now', date_default_timezone_get())
     ];
 });

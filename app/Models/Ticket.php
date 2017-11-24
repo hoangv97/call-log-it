@@ -32,9 +32,6 @@ class Ticket extends Model
         return $this->belongsToMany('App\Models\Employee', 'ticket_relaters');
     }
 
-    public function readers() {
-        return $this->belongsToMany('App\Models\Employee', 'ticket_reads')->wherePivot('status', 1);
-    }
 
     public function unreaders() {
         return $this->belongsToMany('App\Models\Employee', 'ticket_reads')->wherePivot('status', 0);

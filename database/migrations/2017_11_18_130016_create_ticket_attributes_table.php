@@ -15,6 +15,8 @@ class CreateTicketAttributesTable extends Migration
     {
         Schema::create('ticket_attributes', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('ticket_id')->unsigned();
+            $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
             $table->string('status')->nullable();
             $table->string('priority')->nullable();
             $table->string('rating')->nullable();

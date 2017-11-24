@@ -40,8 +40,10 @@
     @parent
     {{Html::script('js/form-validation.min.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js')}}
+    {{Html::script('js/datetimepicker.js')}}
+    {{Html::script('js/tagsinput.js')}}
 
-    @include('request.create-script')
+    @include('extends.create-script')
 @endsection
 
 @section('page.content')
@@ -102,7 +104,7 @@
                                 <label class="control-label" for="relaters">
                                     Người liên quan
                                 </label>
-                                {!! Form::text('relaters', '', ['class' => 'form-control', 'id' => 'relaters-input']) !!}
+                                {!! Form::text('relaters', '', ['class' => 'form-control', 'id' => 'relaters']) !!}
                             </div>
                         </div>
                     </div>

@@ -15,68 +15,61 @@ class EmployeesTableSeeder extends Seeder
 
         Employee::create([
             'name' => 'Member HN',
-            'email' => 'mem_hn@test.er',
+            'email' => 'member_hn@tes.t',
             'password' => bcrypt('test'),
             'remember_token' => str_random(10),
-            'team_id' => 1,
-            'role_id' => 1
+            'role_team_id' => 1
         ]);
 
         Employee::create([
             'name' => 'Sub-lead HN',
-            'email' => 'sl_hn@test.er',
+            'email' => 'sublead_hn@tes.t',
             'password' => bcrypt('test'),
             'remember_token' => str_random(10),
-            'team_id' => 1,
-            'role_id' => 2
+            'role_team_id' => 2,
         ]);
 
         Employee::create([
             'name' => 'Leader HN',
-            'email' => 'leader_hn@test.er',
+            'email' => 'leader_hn@tes.t',
             'password' => bcrypt('test'),
             'remember_token' => str_random(10),
-            'team_id' => 1,
-            'role_id' => 3
+            'role_team_id' => 3,
         ]);
 
         Employee::create([
             'name' => 'Member DN',
-            'email' => 'mem_dn@test.er',
+            'email' => 'member_dn@tes.t',
             'password' => bcrypt('test'),
             'remember_token' => str_random(10),
-            'team_id' => 2,
-            'role_id' => 1
+            'role_team_id' => 4,
         ]);
 
         Employee::create([
             'name' => 'Sub-lead DN',
-            'email' => 'sl_dn@test.er',
+            'email' => 'sublead_dn@tes.t',
             'password' => bcrypt('test'),
             'remember_token' => str_random(10),
-            'team_id' => 2,
-            'role_id' => 2
+            'role_team_id' => 5,
         ]);
 
         Employee::create([
             'name' => 'Leader DN',
-            'email' => 'leader_dn@test.er',
+            'email' => 'leader_dn@tes.t',
             'password' => bcrypt('test'),
             'remember_token' => str_random(10),
-            'team_id' => 2,
-            'role_id' => 3
+            'role_team_id' => 6,
         ]);
 
         Employee::create([
             'name' => 'Tester',
-            'email' => 'tester@test.er',
+            'email' => 'tester@tes.t',
             'password' => bcrypt('test'),
             'remember_token' => str_random(10),
-            'team_id' => null,
-            'role_id' => null
+            'role_team_id' => null,
         ]);
 
-        factory(Employee::class, 50)->create();
+        factory(Employee::class, 70)->create();
 
     }
 }

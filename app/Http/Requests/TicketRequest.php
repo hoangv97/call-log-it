@@ -28,7 +28,7 @@ class TicketRequest extends FormRequest
             'deadline' => 'required',
             'team' => 'required|numeric',
             'content' => 'required|string',
-            'image' => 'required|mimes:jpg,jpeg,png'
+            'image' => 'mimes:jpg,jpeg,png'
         ];
     }
 }

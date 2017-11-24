@@ -17,9 +17,11 @@ class TicketRelatersSeeder extends Seeder
 
         foreach ($tickets as $ticket) {
             if(rand(0, 2) > 0) {
-                $employees = collect(Employee::all())->random(rand(1, 4));
+                $employees = collect(Employee::all())->random(rand(1, 5));
                 foreach ($employees as $employee) {
-                    $ticket->relaters()->attach($employee);
+                    //prevent duplicate
+                    if($ticket->assignee->id != $employee->id && $ticket->creator->id != $employee->id)
+                        $ticket->relaters()->attach($employee);
                 }
             }
         }

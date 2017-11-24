@@ -3,234 +3,104 @@
         padding: 5px 14px 5px 30px !important;
     }
 </style>
+@php
+    $subMenus = [
+        [
+            'title' => 'All',
+            'status' => 0,
+            'badge' => 'success',
+            'icon' => 'inbox'
+        ],
+        [
+            'title' => 'New',
+            'status' => 1,
+            'badge' => 'warning',
+            'icon' => 'envelope-o'
+        ],
+        [
+            'title' => 'Inprogress',
+            'status' => 2,
+            'badge' => 'success',
+            'icon' => 'hourglass-half'
+        ],
+        [
+            'title' => 'Resolved',
+            'status' => 3,
+            'badge' => 'success',
+            'icon' => 'registered'
+        ],
+        [
+            'title' => 'Feedback',
+            'status' => 4,
+            'badge' => 'success',
+            'icon' => 'reply-all'
+        ],
+        [
+            'title' => 'Closed',
+            'status' => 5,
+            'badge' => 'danger',
+            'icon' => 'minus-circle'
+        ],
+        [
+            'title' => 'Out Of Date',
+            'status' => 7,
+            'badge' => 'danger',
+            'icon' => 'calendar-times-o'
+        ],
+    ];
+
+    $menus = [
+        [
+            'title' => 'Việc tôi yêu cầu',
+            'subMenuIndices' => [0, 1, 2, 3, 6],
+            'icon' => 'user',
+            'caption' => 'Danh sách công việc yêu cầu',
+            'type' => 1
+        ],
+        [
+            'title' => 'Công việc liên quan',
+            'subMenuIndices' => [0, 1, 2, 3, 6],
+            'icon' => 'list',
+            'caption' => 'Danh sách công việc liên quan',
+            'type' => 2
+        ],
+        [
+            'title' => 'Việc tôi được giao',
+            'subMenuIndices' => [0, 1, 2, 4, 6],
+            'icon' => 'th-list',
+            'caption' => 'Danh sách công việc được giao',
+            'type' => 3
+        ],
+        [
+            'title' => 'Công việc của team',
+            'subMenuIndices' => [0, 1, 2, 4, 5, 6],
+            'icon' => 'users',
+            'caption' => 'Danh sách công việc của team',
+            'type' => 4
+        ],
+        [
+            'title' => 'Công việc của bộ phận IT',
+            'subMenuIndices' => [0, 1, 2, 4, 5, 6],
+            'icon' => 'users',
+            'caption' => 'Danh sách công việc của bộ phận IT',
+            'type' => 5
+        ]
+    ];
+
+    $userMenus = [ 0, 1 ]; //cong viec yeu cau + cong viec lien quan
+    if(Auth::user()->hasPermissions([1, 2, 3])) //cong viec duoc giao
+        $userMenus[] = 2;
+    if(Auth::user()->hasPermissions([2, 4])) //cong viec cua team
+        $userMenus[] = 3;
+    if(Auth::user()->hasPermissions([3, 5])) //cong viec cua bo phan it
+        $userMenus[] = 4;
+
+@endphp
 <div class="page-sidebar-wrapper">
     <div class="page-sidebar navbar-collapse collapse">
-        <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-            <li class="nav-item start active open">
-                <a href="javascript:" class="nav-link nav-toggle">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    <span class="title">Việc tôi yêu cầu</span>
-                    <span class="selected"></span>
-                    <span class="arrow open"></span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="nav-item start active open">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-inbox" aria-hidden="true"></i>
-                            <span class="title">All</span>
-                            <span class="selected"></span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                            <span class="title">New</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-hourglass-half" aria-hidden="true"></i>
-                            <span class="title">Inprogress</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-registered" aria-hidden="true"></i>
-                            <span class="title">Resolved</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-calendar-times-o" aria-hidden="true"></i>
-                            <span class="title">Out Of Date</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-            <li class="nav-item start active open">
-                <a href="javascript:" class="nav-link nav-toggle">
-                    <i class="fa fa-list" aria-hidden="true"></i>
-                    <span class="title">Công việc liên quan</span>
-                    <span class="selected"></span>
-                    <span class="arrow open"></span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-inbox" aria-hidden="true"></i>
-                            <span class="title">All</span>
-                            <span class="selected"></span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                            <span class="title">New</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-hourglass-half" aria-hidden="true"></i>
-                            <span class="title">Inprogress</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-registered" aria-hidden="true"></i>
-                            <span class="title">Resolved</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-calendar-times-o" aria-hidden="true"></i>
-                            <span class="title">Out Of Date</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-            <li class="nav-item start active open">
-                <a href="javascript:" class="nav-link nav-toggle">
-                    <i class="fa fa-th-list" aria-hidden="true"></i>
-                    <span class="title">Việc tôi được giao</span>
-                    <span class="selected"></span>
-                    <span class="arrow open"></span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-inbox" aria-hidden="true"></i>
-                            <span class="title">All</span>
-                            <span class="selected"></span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                            <span class="title">New</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-hourglass-half" aria-hidden="true"></i>
-                            <span class="title">Inprogress</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-reply-all" aria-hidden="true"></i>
-                            <span class="title">Feedback</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-calendar-times-o" aria-hidden="true"></i>
-                            <span class="title">Out Of Date</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-            <li class="nav-item start active open">
-                <a href="javascript:" class="nav-link nav-toggle">
-                    <i class="fa fa-users" aria-hidden="true"></i>
-                    <span class="title">Công việc của team</span>
-                    <span class="selected"></span>
-                    <span class="arrow open"></span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-inbox" aria-hidden="true"></i>
-                            <span class="title">All</span>
-                            <span class="selected"></span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                            <span class="title">New</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-hourglass-half" aria-hidden="true"></i>
-                            <span class="title">Inprogress</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-reply-all" aria-hidden="true"></i>
-                            <span class="title">Feedback</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-calendar-times-o" aria-hidden="true"></i>
-                            <span class="title">Out Of Date</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                            <span class="title">Closed</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-            <li class="nav-item start active open">
-                <a href="javascript:" class="nav-link nav-toggle">
-                    <i class="fa fa-users" aria-hidden="true"></i>
-                    <span class="title" style="font-size: small">Công việc của bộ phận IT</span>
-                    <span class="selected"></span>
-                    <span class="arrow open"></span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-inbox" aria-hidden="true"></i>
-                            <span class="title">All</span>
-                            <span class="selected"></span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                            <span class="title">New</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-hourglass-half" aria-hidden="true"></i>
-                            <span class="title">Inprogress</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-reply-all" aria-hidden="true"></i>
-                            <span class="title">Feedback</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-calendar-times-o" aria-hidden="true"></i>
-                            <span class="title">Out Of Date</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="javascript:" class="nav-link">
-                            <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                            <span class="title">Closed</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+        @foreach($userMenus as $menuIndex)
+            @component('partials.sidebar-menu', [ 'menu' => $menus[$menuIndex], 'subMenus' => $subMenus ])
+            @endcomponent
+        @endforeach
     </div>
 </div>

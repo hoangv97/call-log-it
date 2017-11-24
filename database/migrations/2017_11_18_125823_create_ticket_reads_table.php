@@ -20,7 +20,6 @@ class CreateTicketReadsTable extends Migration
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->tinyInteger('status')->default(0);
             $table->primary(['ticket_id', 'employee_id']);
-            $table->timestamps();
         });
     }
 

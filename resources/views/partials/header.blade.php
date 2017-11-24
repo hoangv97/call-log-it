@@ -32,7 +32,7 @@
                                 </span>
                                 <img alt="avatar" class="img-circle" src="@if(is_null(Auth::user()->avatar_url))../img/default_user.png @else {!! route('home').'/'.Auth::user()->avatar_url !!} @endif" />
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-default">
+                            <ul class="dropdown-menu dropdown-menu-default" style="top: 70px">
                                 <li>
                                     <a href="javascript:">
                                         <i class="icon-user"></i> Tài khoản của tôi

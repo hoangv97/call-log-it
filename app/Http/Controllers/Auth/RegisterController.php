@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\Employee;
 use App\Http\Controllers\Controller;
+use App\Models\RoleTeam;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -48,7 +49,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:employees',
             'email' => 'required|string|email|max:255|unique:employees',
             'password' => 'required|string|min:4|confirmed',
             'image' => 'mimes:jpg,jpeg,png',
@@ -69,11 +70,12 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'team_id' => $isInTeam ? $data['team'] : null,
-            'role_id' => $isInTeam ? $data['role'] : null,
+            //check if user is in team first, then assign them to a team with a role
+            'role_team_id' => $isInTeam ? RoleTeam::where('team_id', '=', $data['team'])->where('role_id', '=', $data['role'])->first()->id : null,
             'avatar_url' => null
         ]);
 
+        //upload image
         if(isset($data['image'])) {
             $image = $data['image'];
             $imgType = str_replace('image/', '', $image->getMimeType());

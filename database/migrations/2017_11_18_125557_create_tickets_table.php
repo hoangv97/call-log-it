@@ -28,9 +28,9 @@ class CreateTicketsTable extends Migration
             $table->string('image_url')->nullable();
             $table->integer('team_id')->unsigned()->nullable();
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
-            $table->dateTime('resolved-at')->nullable();
-            $table->dateTime('closed-at')->nullable();
-            $table->dateTime('deleted-at')->nullable();
+            $table->dateTime('resolved_at')->nullable();
+            $table->dateTime('closed_at')->nullable();
+            $table->dateTime('deleted_at')->nullable();
             $table->timestamps();
         });
     }

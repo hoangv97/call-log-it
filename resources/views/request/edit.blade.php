@@ -1,8 +1,3 @@
-@php
-    use App\Models\Employee;
-    use App\Models\Team;
-@endphp
-
 @extends('layouts.base')
 
 @section('page-level-plugins.styles')
@@ -27,6 +22,15 @@
             border: 1px solid #ccc;
             padding: 2px;
         }
+        .mt-comment-text {
+            color: #606060 !important;
+        }
+        .content-img {
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid #ccc;
+            padding: 1px;
+        }
     </style>
 @endsection
 
@@ -45,8 +49,10 @@
 @section('page-level-scripts')
     @parent
     {{Html::script('js/form-validation.min.js')}}
+    {{Html::script('js/datetimepicker.js')}}
+    {{Html::script('js/tagsinput.js')}}
 
-    @include('request.edit-script')
+    @include('extends.edit-script')
 @endsection
 
 @section('page.content')
@@ -59,213 +65,269 @@
             </span>
         </div>
         <div class="actions">
-            <div>
-                <a href="javascript:" class="btn btn-default btn-sm" id="team" data-toggle="modal" data-target="#team-modal">
-                    <i class="fa fa-users" aria-hidden="true"></i>
-                    Thay đổi bộ phận IT
-                </a>
-                <div class="modal fade" id="team-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-sm" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                                <h4 class="modal-title">Thay đổi bộ phận IT</h4>
-                            </div>
-                            {!! Form::open(['route' => 'tickets.update']) !!}
-                            <div class="modal-body">
-                                {!! Form::hidden('id', $ticket->id) !!}
-                                {!! Form::select('team', [1 => 'IT Hà Nội', 2 => 'IT Đà Nẵng'], $ticket->team->id, ['class' => 'form-control']); !!}
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary btn-submit-ticket-info">Lưu thay đổi</button>
-                            </div>
-                            {!! Form::close() !!}
-                        </div>
-                    </div>
-                </div>
-                <a href="javascript:" class="btn btn-default btn-sm" id="priority" data-toggle="modal" data-target="#priority-modal">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    Thay đổi mức độ ưu tiên
-                </a>
-                <div class="modal fade" id="priority-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                                <h4 class="modal-title">Thay đổi mức độ ưu tiên</h4>
-                            </div>
-                            {!! Form::open(['route' => 'tickets.update']) !!}
-                            <div class="modal-body">
-                                <div class="form-body">
-                                    {!! Form::hidden('id', $ticket->id) !!}
-                                    {!! Form::hidden('has-reason', true) !!}
-                                    <div class="form-group">
-                                        <label class="control-label" for="priority">
-                                            Mức độ ưu tiên
-                                        </label>
-                                        {!! Form::select('priority', [1 => 'Thấp', 2 => 'Bình thường', 3 => 'Cao', 4 => 'Khẩn cấp'], $ticket->priority, ['class' => 'form-control']); !!}
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label" for="priority-reason">
-                                            Lý do thay đổi
-                                            <span class="required" aria-required="true"> * </span>
-                                        </label>
-                                        <textarea class="wysihtml5 form-control" rows="6" name="priority-reason" title="priority-reason"></textarea>
-                                    </div>
+            {{--Khong the edit neu da resolved, closed hoac cancelled--}}
+            @if(TicketParser::canEditTicket($ticket->status))
+                <div>
+                    @if(Auth::user()->hasPermissions([2, 3, 4, 5]))
+                    <a href="javascript:" class="btn btn-default btn-sm" data-toggle="modal" data-target="#team-modal">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        Thay đổi bộ phận IT
+                    </a>
+                    <div class="modal fade" id="team-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                    <h4 class="modal-title">Thay đổi bộ phận IT</h4>
+                                </div>
+                                <div class="modal-body">
+                                    {!! Form::select('team_id', [1 => 'IT Hà Nội', 2 => 'IT Đà Nẵng'], $ticket->team->id, ['class' => 'form-control']); !!}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-primary btn-submit-ticket-info" id="team_id-submit" data-dismiss="modal">Lưu thay đổi</button>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary btn-submit-ticket-info">Lưu thay đổi</button>
-                            </div>
-                            {!! Form::close() !!}
                         </div>
                     </div>
-                </div>
-                <a href="javascript:" class="btn btn-default btn-sm" id="deadline" data-toggle="modal" data-target="#deadline-modal">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                    Thay đổi deadline
-                </a>
-                <div class="modal fade" id="deadline-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                                <h4 class="modal-title">Thay đổi deadline</h4>
-                            </div>
-                            {!! Form::open(['route' => 'tickets.update']) !!}
-                            <div class="modal-body">
-                                <div class="form-body">
-                                    {!! Form::hidden('id', $ticket->id) !!}
-                                    {!! Form::hidden('has-reason', true) !!}
-                                    <div class="form-group">
-                                        <label class="control-label" for="deadline">
-                                            Deadline
-                                        </label>
-                                        <div id="deadline-picker" class="input-group date form_datetime bs-datetime">
-                                            <input type="text" title="datetime" readonly name="deadline" size="16" class="form-control">
-                                            <span class="input-group-addon">
-                                                <button class="btn default date-set" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
+                    @endif
+
+                    @if(Auth::user()->hasPermissions([2, 3, 4, 5]))
+                    <a href="javascript:" class="btn btn-default btn-sm" data-toggle="modal" data-target="#priority-modal">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        Thay đổi mức độ ưu tiên
+                    </a>
+                    <div class="modal fade" id="priority-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                    <h4 class="modal-title">Thay đổi mức độ ưu tiên</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <label class="control-label" for="priority">
+                                                Mức độ ưu tiên
+                                            </label>
+                                            {!! Form::select('priority', [1 => 'Thấp', 2 => 'Bình thường', 3 => 'Cao', 4 => 'Khẩn cấp'], $ticket->priority, ['class' => 'form-control']); !!}
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="priority-reason">
+                                                Lý do thay đổi
+                                                <span class="required" aria-required="true"> * </span>
+                                            </label>
+                                            <textarea class="wysihtml5 form-control" rows="6" required name="priority-reason" title="priority-reason"></textarea>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="control-label" for="deadline-reason">
-                                            Lý do thay đổi
-                                            <span class="required" aria-required="true"> * </span>
-                                        </label>
-                                        <textarea class="wysihtml5 form-control" rows="6" name="deadline-reason" title="priority-reason"></textarea>
-                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-primary btn-submit-ticket-info" id="priority-submit" data-dismiss="modal">Lưu thay đổi</button>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary btn-submit-ticket-info">Lưu thay đổi</button>
-                            </div>
-                            {!! Form::close() !!}
                         </div>
                     </div>
-                </div>
-                <a href="javascript:" class="btn btn-default btn-sm" id="relaters" data-toggle="modal" data-target="#relaters-modal">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    Thay đổi người liên quan
-                </a>
-                <div class="modal fade" id="relaters-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                                <h4 class="modal-title">Thay đổi người liên quan</h4>
-                            </div>
-                            {!! Form::open(['route' => 'tickets.update']) !!}
-                            <div class="modal-body">
-                                <div class="form-body">
-                                    {!! Form::hidden('id', $ticket->id) !!}
-                                    <div class="form-group">
-                                        {!! Form::text('relaters', '', ['class' => 'form-control', 'id' => 'relaters-input']) !!}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary btn-submit-ticket-info">Lưu thay đổi</button>
-                            </div>
-                            {!! Form::close() !!}
-                        </div>
-                    </div>
-                </div>
-                <a href="javascript:" class="btn btn-default btn-sm" id="assign" data-toggle="modal" data-target="#assign-modal">
-                    <i class="fa fa-hand-o-right" aria-hidden="true"></i>
-                    Assign
-                </a>
-                <div class="modal fade" id="assign-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                                <h4 class="modal-title">Assign</h4>
-                            </div>
-                            {!! Form::open(['route' => 'tickets.update']) !!}
-                            <div class="modal-body">
-                                <div class="form-body">
-                                    {!! Form::hidden('id', $ticket->id) !!}
-                                    <div class="form-group">
-                                        {!! Form::text('assignee', '', ['class' => 'form-control', 'id' => 'assignee']) !!}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary btn-submit-ticket-info">Lưu thay đổi</button>
-                            </div>
-                            {!! Form::close() !!}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div style="margin-top: 5px">
-                <div class="btn-group">
-                    <a class="btn btn-default btn-sm" href="javascript:" data-toggle="dropdown" aria-expanded="true">
-                        <i class="fa fa-exchange"></i> Thay đổi trạng thái
-                        <i class="fa fa-angle-down"></i>
+                    @endif
+
+                    @if(Auth::user()->hasPermissions([2, 3, 4, 5]))
+                    <a href="javascript:" class="btn btn-default btn-sm" data-toggle="modal" data-target="#deadline-modal">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        Thay đổi deadline
                     </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="javascript:" class="btn-update-status" data-value="1">
-                                <i class="fa fa-envelope-o"></i> New
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:" class="btn-update-status" data-value="2">
-                                <i class="fa fa-hourglass-half"></i> Inprogress
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:" class="btn-update-status" data-value="3">
-                                <i class="fa fa-registered"></i> Resolved
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:" class="btn-update-status" data-value="4">
-                                <i class="fa fa-reply-all"> </i> Feedback
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:" class="btn-update-status" data-value="5">
-                                <i class="fa fa-minus-circle"></i> Closed
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:" class="btn-update-status" data-value="6">
-                                <i class="fa fa-ban"></i> Cancelled
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="modal fade" id="deadline-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                    <h4 class="modal-title">Thay đổi deadline</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <label class="control-label" for="deadline">
+                                                Deadline
+                                            </label>
+                                            <div id="deadline-picker" class="input-group date form_datetime bs-datetime">
+                                                <input type="text" title="datetime" readonly name="deadline" size="16" class="form-control">
+                                                <span class="input-group-addon">
+                                                    <button class="btn default date-set" type="button">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="deadline-reason">
+                                                Lý do thay đổi
+                                                <span class="required" aria-required="true"> * </span>
+                                            </label>
+                                            <textarea class="wysihtml5 form-control" rows="6" required name="deadline-reason" title="deadline-reason"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-primary btn-submit-ticket-info" id="deadline-submit" data-dismiss="modal">Lưu thay đổi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if(Auth::user()->hasPermissions([2, 3, 4, 5]) || $ticket->creator->id == Auth::id())
+                    <a href="javascript:" class="btn btn-default btn-sm" data-toggle="modal" data-target="#relaters-modal">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        Thay đổi người liên quan
+                    </a>
+                    <div class="modal fade" id="relaters-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                    <h4 class="modal-title">Thay đổi người liên quan</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            {!! Form::text('relaters', '', ['class' => 'form-control', 'id' => 'relaters']) !!}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-primary btn-submit-ticket-info" id="relaters-submit" data-dismiss="modal">Lưu thay đổi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if(Auth::user()->hasPermissions([2, 3, 4, 5]))
+                    <a href="javascript:" class="btn btn-default btn-sm" data-toggle="modal" data-target="#assign-modal">
+                        <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+                        Assign
+                    </a>
+                    <div class="modal fade" id="assign-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                    <h4 class="modal-title">Assign</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            {!! Form::text('assignee', '', ['class' => 'form-control', 'id' => 'assignee']) !!}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-primary btn-submit-ticket-info" id="assignee-submit" data-dismiss="modal">Lưu thay đổi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                 </div>
-            </div>
+            @endif
+
+            {{--Thay doi trang thai (status)--}}
+            {{--Khong the thay doi neu da closed hoac cancelled--}}
+            @if(TicketParser::canEditTicket($ticket->status, [5, 6]))
+                {{--Nguoi tao, nguoi thuc hien, nguoi co quyen team hoac toan cong ty--}}
+                @if(Auth::user()->hasPermissions([2, 3, 4, 5]) || $ticket->creator->id == Auth::id() || $ticket->assignee->id == Auth::id())
+                    {{--Khong hien thi neu la nguoi thuc hien va co trang thai resolved--}}
+                    @if($ticket->assignee->id == Auth::id() && $ticket->status == 3)
+                    @else
+                        @php
+                        $buttons = [];
+                        if($ticket->creator->id == Auth::id()) { //Nguoi tao
+                            $buttons = [
+                                1 => [6],
+                                2 => [6],
+                                3 => [4, 5, 6],
+                                4 => [5, 6]
+                            ];
+                        } else if($ticket->assignee->id == Auth::id()) { //Nguoi thuc hien
+                            $buttons = [
+                                1 => [2],
+                                2 => [3],
+                                4 => [2]
+                            ];
+                        } else if(Auth::user()->hasPermissions([3, 5])) { //Nguoi co quyen toan cong ty
+                            $buttons = [
+                                1 => [2, 6],
+                                2 => [3, 6],
+                                3 => [4, 5, 6],
+                                4 => [2, 5, 6]
+                            ];
+                        } else if(Auth::user()->hasPermissions([2, 4])) { //Nguoi co quyen team
+                            $buttons = [
+                                1 => [2],
+                                2 => [3],
+                                3 => [4],
+                                4 => [2]
+                            ];
+                        }
+                        @endphp
+                        @if(array_key_exists($ticket->status, $buttons))
+                            <div style="margin-top: 5px">
+                                <div class="btn-group">
+                                    <a class="btn btn-default btn-sm" href="javascript:" data-toggle="dropdown" aria-expanded="true">
+                                        <i class="fa fa-exchange"></i> Thay đổi trạng thái
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        @foreach($buttons[$ticket->status] as $button)
+                                            {!! TicketParser::getStatus($button, 1) !!}
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="closed-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                            <h4 class="modal-title">Đánh giá</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-body">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="rating">Đánh giá</label>
+                                                    <div class="mt-radio-list">
+                                                        <label class="mt-radio">
+                                                            <input type="radio" name="rating" value="1" checked/>Hài lòng
+                                                            <span></span>
+                                                        </label>
+                                                        <label class="mt-radio">
+                                                            <input type="radio" name="rating" value="0"/>Không hài lòng
+                                                            <span></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label" for="closed-comment">
+                                                        Bình luận
+                                                        <span class="required" aria-required="true"> * </span>
+                                                    </label>
+                                                    <textarea class="wysihtml5 form-control" rows="6" required name="closed-comment" title="closed-comment"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                            <button type="button" class="btn btn-primary btn-close-ticket" data-dismiss="modal">Lưu thay đổi</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+                @endif
+            @endif
         </div>
     </div>
     <div class="portlet-body request-details">
@@ -368,6 +430,7 @@
             </span>
         </div>
     </div>
+
     <div class="portlet-body">
         <div class="mt-comments">
             <div class="mt-comment">
@@ -377,28 +440,26 @@
                 <div class="mt-comment-body">
                     <div class="mt-comment-info">
                         <span class="mt-comment-author">{{ $ticket->creator->name }}</span>
-                        <span class="mt-comment-date">{{ $ticket->created_at }}</span>
+                        <span class="mt-comment-date">
+                            <i class="fa fa-clock-o" aria-hidden="true"></i> {{ $ticket->created_at }}
+                        </span>
                     </div>
-                    <div class="mt-comment-text">{!! $ticket->content !!}</div>
+                    <div class="mt-comment-text">
+                        {!! is_null($ticket->image_url) ? '' : "<img src='".route('home').'/'."$ticket->image_url' class='content-img'><br/><br/>" !!}
+                        {!! $ticket->content !!}
+                    </div>
                 </div>
             </div>
-            {{--todo comments--}}
-            <div class="mt-comment">
-                <div class="mt-comment-img">
-                    <img src="../img/default_user.png" />
-                </div>
-                <div class="mt-comment-body">
-                    <div class="mt-comment-info">
-                        <span class="mt-comment-author">Larisa Maskalyova</span>
-                        <span class="mt-comment-date">12 Feb, 08:30AM</span>
-                    </div>
-                    <div class="mt-comment-text"> It is a long established fact that a reader will be distracted. </div>
-                </div>
+            {{--comments--}}
+            <div class="thread-comments">
             </div>
         </div>
 
+        {{--Tao binh luan--}}
+        {{--Nguoi tao, nguoi thuc hien, nguoi co quyen team hoac toan cong ty--}}
+        @if(Auth::user()->hasPermissions([2, 3, 4, 5]) || $ticket->creator->id == Auth::id() || $ticket->assignee->id == Auth::id())
         <hr>
-        <h4 style="margin-left: 17px" class="sbold">Bình luận</h4>
+        <h4 style="margin-left: 17px" class="sbold"><i class="fa fa-comments-o" aria-hidden="true"></i> Bình luận</h4>
         {!! Form::open(['class' => 'form-horizontal']) !!}
         <div class="form-body">
             <div class="form-group">
@@ -409,12 +470,13 @@
             </div>
         </div>
         <div class="form-actions">
-            <button type="submit" class="btn blue">
+            <button type="button" class="btn blue btn-submit-comment">
                 <i class="fa fa-comments-o" aria-hidden="true"></i>
                 Gửi bình luận
             </button>
         </div>
         {!! Form::close() !!}
+        @endif
     </div>
 </div>
 @endsection

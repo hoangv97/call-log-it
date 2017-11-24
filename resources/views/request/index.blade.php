@@ -12,7 +12,7 @@
 @endsection
 
 @section('page-level-plugins.scripts')
-    {{--@parent--}}
+    @parent
     {{Html::script('metronic/global/scripts/datatable.js')}}
     {{Html::script('metronic/global/plugins/datatables/datatables.min.js')}}
     {{Html::script('metronic/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js')}}
@@ -23,16 +23,40 @@
     <script>
         $(document).ready(function() {
 
-            initRequestsTable('{{ route('tickets.api') }}');
+            @if(isset($type) && isset($status))
+                initTicketsTable('{{ $type }}', '{{ $status }}');
+            @else
+                initTicketsTable();
+            @endif
 
-            function initRequestsTable(url) {
-                $('#requests-table').dataTable({
+            /*
+            get data table by ajax
+             */
+            $('.btn-tickets-table').click(function () {
+                $parent = $(this).parents('.type-item');
+                let type = parseInt( $parent.attr('data-type') ),
+                    status = parseInt( $(this).attr('data-status') );
+
+                initTicketsTable(type, status)
+            });
+
+            //create new datatable
+            function initTicketsTable(type = 1, status = 0) {
+                let ticketsTable = '#tickets-table';
+
+                if($.fn.DataTable.isDataTable(ticketsTable)) {
+                    $(ticketsTable).DataTable().clear().destroy()
+                }
+                let table = $(ticketsTable).DataTable({
                     serverSide: true,
                     ajax: {
-                        url: url,
+                        url: '{{ route('tickets.api.list') }}',
+                        data: {
+                            type, status
+                        }
                     },
                     columns: [
-                        {data: 'id', name: 'id', title: 'STT', searchable: false},
+                        {data: 'DT_Row_Index', name: 'id', title: 'STT', searchable: false},
                         {data: 'subject', name: 'subject', title: 'Tên công việc'},
                         {data: 'priority', name: 'priority', title: 'Mức độ ưu tiên'},
                         {data: 'created_by', name: 'created_by', title: 'Người yêu cầu'},
@@ -41,19 +65,36 @@
                         {data: 'deadline', name: 'deadline', title: 'Ngày hết hạn'},
                         {data: 'status', name: 'status', title: 'Trạng thái'}
                     ],
+                    //hover a ticket to read it
                     rowCallback: ( row, data, index ) => {
-                        //todo check read requests
-                        if ( data.id === 1 || data.id === 6) {
-                            row.classList.add('bold');
-                            row.onmouseover = function () {
-                                if(row.className.includes('bold')) {
-                                    row.classList.remove('bold')
-                                }
-                                //todo save read request to server
+                        row.onmouseover = function () {
+                            if($(row).hasClass('bold')) {
+                                let ticket_id = $(row).find('a[data-type=subject]').attr('data-id');
+                                $.get('{{ route('tickets.read') }}', { t: ticket_id })
+                                    .done(() => {
+                                        $(row).removeClass('bold')
+                                    })
                             }
                         }
-                    },
+                    }
                 });
+
+                //update caption
+                let $typeItem = $(`.type-item[data-type=${type}]`);
+
+                $('.caption-subject').html( $typeItem.attr('data-caption') );
+
+                //update selected menu item
+                $('.btn-tickets-table').parent().removeClass('active');
+                let $statusItem = $typeItem.find(`.btn-tickets-table[data-status=${status}]`);
+                $statusItem.parent().addClass('active');
+                //remove badge after click
+                $statusItem.find('span.badge').html('');
+
+                //return to top
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 500)
             }
         });
     </script>
@@ -64,7 +105,7 @@
     <div class="portlet-title">
         <div class="caption">
             <span class="caption-subject font-blue sbold">
-                Danh sách công việc
+
             </span>
         </div>
         {{--<div class="actions">
@@ -79,7 +120,7 @@
         </div>--}}
     </div>
     <div class="portlet-body">
-        <table id="requests-table" class="table table-striped table-bordered table-hover table-checkable order-column dataTable no-footer">
+        <table id="tickets-table" class="table table-striped table-bordered table-hover table-checkable order-column dataTable no-footer">
 
         </table>
     </div>
