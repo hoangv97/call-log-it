@@ -25,6 +25,6 @@
     Settings > Plugins > Browse repositories... > Tìm 'Laravel plugin' > Cài 
     Settings > Languages and Frameworks > Php > Laravel > Bật 'Enable plugin for this project'
     
-#####Fake users for testing: 
+##### Fake users for testing: 
     7 first employees
     Password: test
