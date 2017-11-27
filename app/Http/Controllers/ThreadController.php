@@ -26,8 +26,8 @@ class ThreadController extends Controller
 
         $ticket = Ticket::findOrFail($request->ticket_id);
 
-        //unread all
-        $ticket->unreaders->updateExistingPivot(Auth::id(), ['status' => 0]);
+//        //unread all
+        $ticket->unreaders()->updateExistingPivot(Auth::id(), ['status' => 0]);
 
         //rating + close ticket
         if($request->type == 1) {
