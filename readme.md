@@ -1,12 +1,16 @@
 # Call Log IT
 
+### Deployment
+1. Create file .env, copy from .env.example
+2. Config file .env: change DB_USERNAME, DB_PASSWORD
+
 #### Download packages
     $ composer install
     $ composer update
     $ npm install
 
 #### Migrate db
-    Tạo database call_log_it, chạy lệnh sau để fake data
+    Create database call_log_it, fake data by running:
     $ php artisan migrate --seed
     $ php artisan key:generate
 
