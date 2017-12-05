@@ -19,7 +19,7 @@
             $('input[name=relaters]').tagsinput('add', relater)
         });
 
-        initEmployeesSearch('#assignee', '{{ route('employees.api.assignee') }}', '{{ $ticket->id }}', 1); //max = 1
+        initEmployeesSearch('#assignee', '{{ route('employees.api.assignee') }}', 1); //max = 1
 
         getComments();
 

@@ -1,9 +1,9 @@
-function initEmployeesSearch(selector, url, ticketId = undefined, maxTags = undefined) {
+function initEmployeesSearch(selector, url, maxTags = undefined) {
     let employees = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: url + '?q=%QUERY%' + (ticketId !== undefined ? '&t=' + ticketId : ''),
+            url: url + '?q=%QUERY%',
             wildcard: '%QUERY%'
         }
     });
@@ -21,7 +21,7 @@ function initEmployeesSearch(selector, url, ticketId = undefined, maxTags = unde
                 displayKey: 'name',
                 valueKey: 'name',
                 source: employees.ttAdapter(),
-                limit: 5,
+                limit: 10,
             }
         ],
         maxTags: maxTags

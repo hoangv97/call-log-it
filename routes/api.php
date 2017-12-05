@@ -20,6 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('tickets/info', 'TicketApiController@getInfo')->name('tickets.api.info');
 Route::post('tickets/update', 'TicketApiController@update')->name('tickets.api.update');
 
-Route::get('employees', 'EmployeeController@searchAllEmployees')->name('employees.api.all');
-
 Route::get('threads', 'ThreadController@getThreads')->name('threads.api');

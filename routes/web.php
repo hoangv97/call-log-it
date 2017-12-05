@@ -21,7 +21,8 @@ Route::post('/requests/create', 'TicketController@store')->name('request.store')
 Route::get('/requests/{id}', 'TicketController@edit')->name('request.edit')->where('id', '[0-9]+');
 
 Route::get('tickets/list', 'TicketController@getTickets')->name('tickets.api.list');
-Route::get('employees/assignee', 'EmployeeController@searchAssignee')->name('employees.api.assignee');
+Route::get('employees/api/assignee', 'EmployeeController@searchAssignee')->name('employees.api.assignee');
+Route::get('employees/api', 'EmployeeController@searchAllEmployees')->name('employees.api.all');
 
 Route::post('/threads/create', 'ThreadController@store')->name('thread.store');
 

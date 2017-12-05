@@ -20,12 +20,11 @@ class EmployeeController extends Controller
             return null;
 
         $q = $request->q; //query name
-        $t = $request->t; //ticket id
-        if(!isset($q) || !isset($t)) {
+        if(!isset($q)) {
             abort(404);
         }
 
-        $members = Ticket::findOrFail($t)->team->members();
+        $members = $employee->team->members();
         $result = [];
         foreach ($members as $member) {
             if(strpos($member->name, $q)) {
@@ -47,13 +46,8 @@ class EmployeeController extends Controller
         if(!isset($q)) {
             abort(404);
         }
-        $employees = Employee::where('name', 'like', "%$q%")->get(['name']);
-        $result = collect($employees)->map(function ($employee) {
-            return [
-                'name' => $employee->name
-            ];
-        })->all();
-        return response()->json($result);
+        $employees = Employee::where('name', 'like', "%$q%")->where('id', '<>', Auth::id())->get(['name']);
+        return response()->json($employees);
     }
 
 }
