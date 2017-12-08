@@ -70,7 +70,7 @@
                         row.onmouseover = function () {
                             if($(row).hasClass('bold')) {
                                 let ticket_id = $(row).find('a[data-type=subject]').attr('data-id');
-                                $.get('{{ route('tickets.read') }}', { t: ticket_id })
+                                $.get('{{ route('tickets.api.read') }}', { t: ticket_id })
                                     .done(() => {
                                         $(row).removeClass('bold')
                                     })

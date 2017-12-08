@@ -8,6 +8,8 @@ use App\Models\Employee;
 use App\Models\Team;
 use App\Models\Thread;
 use Illuminate\Http\Request;
+use App\Facade\Constant;
+use Illuminate\Support\Facades\DB;
 
 class TicketApiController extends Controller
 {
@@ -32,13 +34,13 @@ class TicketApiController extends Controller
         //update time stamps if column is status
         else if($field == 'status') {
             switch ($value) {
-                case 3:
+                case Constant::STATUS_RESOLVED:
                     $ticket->resolved_at = now();
                     break;
-                case 5:
+                case Constant::STATUS_CLOSED:
                     $ticket->closed_at = now();
                     break;
-                case 6:
+                case Constant::STATUS_CANCELLED:
                     $ticket->deleted_at = now();
                     break;
                 default:
@@ -52,12 +54,12 @@ class TicketApiController extends Controller
 
             $thread->content = $request->reason;
             if($field == 'priority') {
-                $thread->type = 2;
+                $thread->type = Constant::COMMENT_PRIORITY;
                 $field_name = "mức độ ưu tiên";
                 $oldValue = TicketParser::getPriority($ticket[$field], false);
                 $newValue = TicketParser::getPriority($value, false);
             } else {
-                $thread->type = 3;
+                $thread->type = Constant::COMMENT_DEADLINE;
                 $field_name = "deadline";
                 $oldValue = $ticket[$field];
                 $newValue = $value;
@@ -77,8 +79,13 @@ class TicketApiController extends Controller
             case 'relaters':
                 //Remove all relation of old relaters to update again
                 $ticket->relaters()->detach();
-                $ticket->unreaders()->detach();
+                //Remove all read of the ticket
+                DB::table('ticket_reads')->where('ticket_id', $ticket->id)->delete();
 
+                $ticket->unreaders()->attach([
+                    $ticket->creator->id => ['status' => 1],
+                    $ticket->assignee->id => ['status' => 0]
+                ]);
                 $relaters = explode(',', $value);
                 foreach ($relaters as $relater) {
                     $employee = Employee::where('name', '=', $relater)->firstOrFail();
@@ -92,7 +99,11 @@ class TicketApiController extends Controller
                 $employee = Employee::where('name', '=', $value)->firstOrFail();
                 $ticket->assignee()->associate($employee->id);
 
-                $ticket->unreaders()->attach($employee->id); //update new unread ticket
+                if($ticket->unreaders->contains('id', $employee->id)) {
+                    $ticket->unreaders()->updateExistingPivot($employee->id, ['status' => 0]);
+                } else {
+                    $ticket->unreaders()->attach($employee->id); //update new unread ticket
+                }
                 break;
             default:
                 $ticket[$field] = $value; //Set all field to new value
@@ -110,14 +121,19 @@ class TicketApiController extends Controller
         $ticket = Ticket::findOrFail($id);
 
         return response()->json([
-            'team' => $ticket->team->name,
-            'priority' => TicketParser::getPriority($ticket->priority),
-            'deadline' => $ticket->deadline,
-            'relaters' => implode('', collect($ticket->relaters)->map(function ($relater) {
-                return "<div>$relater->name</div>";
-            })->all()),
-            'assignee' => is_null($ticket->assignee) ? null : $ticket->assignee->name,
-            'status' => TicketParser::getStatus($ticket->status)
+            'info' => [
+                'team' => TicketParser::getTeamName($ticket->team),
+                'priority' => TicketParser::getPriority($ticket->priority),
+                'deadline' => $ticket->deadline,
+                'assignee' => is_null($ticket->assignee) ? null : TicketParser::getEmployeeHtml($ticket->assignee->name),
+                'status' => TicketParser::getStatus($ticket->status),
+                'relaters' => implode('', collect($ticket->relaters)->map(function ($relater) {
+                    return TicketParser::getEmployeeHtml($relater->name);
+                })->all()),
+            ],
+            'relaters' => collect($ticket->relaters)->map(function ($relater) {
+                return $relater->name;
+            })->all()
         ]);
     }
     

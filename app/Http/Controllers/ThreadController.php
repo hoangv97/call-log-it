@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Facade\Constant;
+use App\Facade\TicketParser;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Models\Employee;
@@ -26,12 +28,15 @@ class ThreadController extends Controller
 
         $ticket = Ticket::findOrFail($request->ticket_id);
 
-//        //unread all
-        $ticket->unreaders()->updateExistingPivot(Auth::id(), ['status' => 0]);
+        //unread all except the employee commented
+        foreach ($ticket->unreaders as $unreader) {
+            $ticket->unreaders()->updateExistingPivot($unreader->id, ['status' => 0]);
+        }
+        $ticket->unreaders()->updateExistingPivot(Auth::id(), ['status' => 1]);
 
         //rating + close ticket
-        if($request->type == 1) {
-            $ticket->status = 5;
+        if($request->type == Constant::COMMENT_RATING) {
+            $ticket->status = $request->status; //closed or cancelled
             $ticket->closed_at = now();
             $ticket->rating = $request->rating;
             $ticket->save();
@@ -39,7 +44,7 @@ class ThreadController extends Controller
             $rating = ($request->rating == 1 ? 'Hài lòng' : 'Không hài lòng');
             $comment = $request->input('content');
 
-            $thread->note = "Close request IT:<br/>Đánh giá: $rating.<br/>Bình luận: $comment";
+            $thread->note = TicketParser::getStatus($ticket->status, 0)." request IT:<br/>Đánh giá: $rating.<br/>Bình luận: $comment";
         }
 
         $thread->save();

@@ -1,20 +1,25 @@
 <script>
     $(document).ready(() => {
 
-        updateReadBadges();
+        let items = [];
 
-        function updateReadBadges() {
-            $('.type-item').each(function () {
-                let type = $(this).attr('data-type');
-                $(this).find('.btn-tickets-table').each(function () {
-                    let status = $(this).attr('data-status');
-                    $.get('{{ route('tickets.unread') }}', {type, status}, data => {
-                        if (data > 0)
-                            $(this).find('span.badge').html(data)
-                    })
-                })
+        $('.type-item').each(function () {
+            let type = $(this).attr('data-type');
+            $(this).find('.btn-tickets-table').each(function () {
+                let status = $(this).attr('data-status');
+                items.push({ type, status });
             })
-        }
+        });
+
+        $.get('{{ route('tickets.api.unread') }}', { items }, data => {
+            for (let item of data) {
+                if (item.count > 0)
+                    $(`.type-item[data-type=${item.type}]`)
+                        .find(`.btn-tickets-table[data-status=${item.status}]`)
+                        .find('span.badge')
+                        .html(item.count < 100 ? item.count : '99+')
+            }
+        })
 
     });
 </script>

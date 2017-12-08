@@ -1,5 +1,6 @@
 <?php
 
+use App\Facade\Constant;
 use Faker\Generator as Faker;
 use App\Models\Employee;
 
@@ -30,8 +31,8 @@ $factory->define(App\Models\Ticket::class, function (Faker $faker) {
         'priority' => rand(1, 4),
         'deadline' => $faker->dateTimeBetween('-1 year', '+4 months'), //test out of date deadline
         'assigned_to' => $assignee,
-        'rating' => $status == 5 ? rand(0, 1) : null, //if closed, there must be rating from creator
-        'team_id' => rand(1, 2),
+        'rating' => $status == Constant::STATUS_CLOSED ? rand(0, 1) : null, //if closed, there must be rating from creator
+        'team_id' => $assignee->team->id,
         'resolved_at' => $faker->dateTimeThisYear('now', date_default_timezone_get()),
         'closed_at' => $faker->dateTimeThisYear('now', date_default_timezone_get()),
         'deleted_at' => $faker->dateTimeThisYear('now', date_default_timezone_get())

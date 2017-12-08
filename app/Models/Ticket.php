@@ -2,11 +2,29 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
 use App\Facade\TicketParser;
 
 class Ticket extends Model
 {
+    use Sluggable, SluggableScopeHelpers;
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'subject'
+            ]
+        ];
+    }
+
 
     public function getPriority() {
         return TicketParser::getPriority($this->priority);

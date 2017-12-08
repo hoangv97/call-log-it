@@ -4,10 +4,10 @@
         <i class="fa fa-circle" aria-hidden="true"></i>
     </li>
     <li>
-        <span class="active">IT</span>
+        <span class="active"><a href="{{ route('home') }}">IT</a></span>
         <i class="fa fa-circle" aria-hidden="true"></i>
     </li>
     <li>
-        <span class="active">Request IT</span>
+        <span class="active"><a href="{{ route('request.index') }}">Request IT</a></span>
     </li>
 </ul>

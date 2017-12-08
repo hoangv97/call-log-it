@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Facade\Constant;
 use App\Models\Employee;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ class EmployeeController extends Controller
     public function searchAssignee(Request $request) {
         $employee = Auth::user();
         //Kiem tra quyen cua nguoi tim kiem: can co quyen team hoac quyen cong ty
-        if(! $employee->hasPermissions([2, 3, 4, 5]))
+        if(! $employee->hasPermissions(Constant::PERMISSIONS_TEAM_COMPANY))
             return null;
 
         $q = $request->q; //query name

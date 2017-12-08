@@ -31,6 +31,7 @@ class CreateTicketsTable extends Migration
             $table->dateTime('resolved_at')->nullable();
             $table->dateTime('closed_at')->nullable();
             $table->dateTime('deleted_at')->nullable();
+            $table->string('slug');
             $table->timestamps();
         });
     }
