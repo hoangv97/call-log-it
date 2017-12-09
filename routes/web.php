@@ -25,6 +25,7 @@ Route::post('/threads/create', 'ThreadController@store')->name('thread.store');
 
 //API
 Route::get('api/tickets/list', 'TicketController@getTickets')->name('tickets.api.list');
+
 Route::get('api/employees/assignee', 'EmployeeController@searchAssignee')->name('employees.api.assignee');
 Route::get('api/employees', 'EmployeeController@searchAllEmployees')->name('employees.api.all');
 

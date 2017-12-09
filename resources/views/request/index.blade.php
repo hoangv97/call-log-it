@@ -72,7 +72,28 @@
                                 let ticket_id = $(row).find('a[data-type=subject]').attr('data-id');
                                 $.get('{{ route('tickets.api.read') }}', { t: ticket_id })
                                     .done(() => {
-                                        $(row).removeClass('bold')
+                                        $(row).removeClass('bold');
+
+                                        //update unread badges
+                                        $typeItem = $('.status-item.active').parent().parent();
+                                        let type = $typeItem.attr('data-type');
+                                        let items = [];
+
+                                        $typeItem.find('.btn-tickets-table').each(function () {
+                                            items.push({ type, status: $(this).attr('data-status') })
+                                        });
+
+                                        $.get('{{ route('tickets.api.unread') }}', { items }, data => {
+                                            for (let item of data) {
+                                                $badge = $typeItem
+                                                    .find(`.btn-tickets-table[data-status=${item.status}]`)
+                                                    .find('span.badge');
+                                                if (item.count > 0)
+                                                    $badge.html(item.count < 100 ? item.count : '99+');
+                                                else
+                                                    $badge.html('')
+                                            }
+                                        })
                                     })
                             }
                         }
@@ -88,8 +109,6 @@
                 $('.btn-tickets-table').parent().removeClass('active');
                 let $statusItem = $typeItem.find(`.btn-tickets-table[data-status=${status}]`);
                 $statusItem.parent().addClass('active');
-                //remove badge after click
-                $statusItem.find('span.badge').html('');
 
                 //return to top
                 $('html, body').animate({

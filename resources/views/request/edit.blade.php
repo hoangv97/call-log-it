@@ -32,8 +32,6 @@
             padding: 1px;
         }
         .employee-badge {
-            color: #111;
-            background-color: #E1E5EC;
             margin-bottom: 3px;
         }
     </style>

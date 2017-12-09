@@ -26,6 +26,15 @@
     {{Html::script('metronic/global/plugins/jquery-validation/js/jquery.validate.min.js')}}
     {{Html::script('metronic/global/plugins/jquery-validation/js/additional-methods.min.js')}}
     {{Html::script('metronic/global/plugins/select2/js/select2.full.min.js')}}
+    <script>
+        $('form').each(function() {
+            $(this).find('input').keypress(function(e) {
+                if(e.which == 13) {
+                    this.form.submit()
+                }
+            })
+        })
+    </script>
 @endsection
 
 @section('body.class')login

@@ -69,7 +69,7 @@ class EmployeesTableSeeder extends Seeder
             'role_team_id' => null,
         ]);
 
-        factory(Employee::class, 300)->create();
+        factory(Employee::class, 200)->create();
 
     }
 }

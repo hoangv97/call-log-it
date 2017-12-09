@@ -18,7 +18,9 @@ class TicketParser extends Facade {
      * get employee name with badge html
      */
     public static function getEmployeeHtml($name) {
-        return '<span class="badge badge-roundless employee-badge">'.$name.'</span>';
+        return '<span class="badge badge-roundless employee-badge" style="color: #111;background-color: #E1E5EC">'
+                    .$name.
+                '</span>';
     }
 
     /*
