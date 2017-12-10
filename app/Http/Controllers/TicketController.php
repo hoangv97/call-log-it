@@ -271,7 +271,7 @@ class TicketController extends Controller
         return DataTables::of($tickets)
             ->addIndexColumn()
             ->editColumn('subject', function ($ticket) {
-                return "<a href='" . route('request.edit_with_slug', ['slug' => $ticket->slug]) . "' data-type='subject' data-id='$ticket->id'>$ticket->subject</a>";
+                return "<a href='".route('request.edit_with_slug', ['slug' => $ticket->slug])."' data-type='subject' data-id='$ticket->id'>$ticket->subject</a>";
             })
             ->editColumn('priority', function ($ticket) {
                 return TicketParser::getPriority($ticket->priority);
@@ -304,43 +304,43 @@ class TicketController extends Controller
     public function renderSidebarMenu() {
         $subMenus = [
             [
-                'title' => 'All',
+                'title' => Constant::STATUSES[Constant::STATUS_ALL],
                 'status' => Constant::STATUS_ALL,
                 'badge' => 'success',
                 'icon' => 'inbox'
             ],
             [
-                'title' => 'New',
+                'title' => Constant::STATUSES[Constant::STATUS_NEW],
                 'status' => Constant::STATUS_NEW,
                 'badge' => 'warning',
                 'icon' => 'envelope-o'
             ],
             [
-                'title' => 'Inprogress',
+                'title' => Constant::STATUSES[Constant::STATUS_INPROGRESS],
                 'status' => Constant::STATUS_INPROGRESS,
                 'badge' => 'success',
                 'icon' => 'hourglass-half'
             ],
             [
-                'title' => 'Resolved',
+                'title' => Constant::STATUSES[Constant::STATUS_RESOLVED],
                 'status' => Constant::STATUS_RESOLVED,
                 'badge' => 'success',
                 'icon' => 'registered'
             ],
             [
-                'title' => 'Feedback',
+                'title' => Constant::STATUSES[Constant::STATUS_FEEDBACK],
                 'status' => Constant::STATUS_FEEDBACK,
                 'badge' => 'success',
                 'icon' => 'reply-all'
             ],
             [
-                'title' => 'Closed',
+                'title' => Constant::STATUSES[Constant::STATUS_CLOSED],
                 'status' => Constant::STATUS_CLOSED,
                 'badge' => 'danger',
                 'icon' => 'minus-circle'
             ],
             [
-                'title' => 'Out Of Date',
+                'title' => Constant::STATUSES[Constant::STATUS_OUT_OF_DATE],
                 'status' => Constant::STATUS_OUT_OF_DATE,
                 'badge' => 'danger',
                 'icon' => 'calendar-times-o'

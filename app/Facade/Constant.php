@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Facade;
 class Constant extends Facade {
 
     const STATUS_ALL        = 0;
+
     const STATUS_NEW        = 1;
     const STATUS_INPROGRESS = 2;
     const STATUS_RESOLVED   = 3;
@@ -20,6 +21,8 @@ class Constant extends Facade {
         self::STATUS_CLOSED,
         self::STATUS_CANCELLED
     ];
+
+    const STATUSES = ['All', "New", "Inprogress", "Resolved", "Feedback", "Closed", "Cancelled", "Out Of Date"];
 
 
     const PERMISSION_MANAGE_TICKET_PERSON  = 1;

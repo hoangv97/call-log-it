@@ -11,7 +11,9 @@ class TicketParser extends Facade {
      */
     public static function getTeamName($team) {
         $badges = ['', 'danger', 'info'];
-        return '<span class="badge badge-roundless badge-'.$team->id.' badge-'.$badges[$team->id].'">'.$team->name.'</span>';
+        return '<span class="badge badge-roundless badge-'.$team->id.' badge-'.$badges[$team->id].'">'
+                    .$team->name.
+                '</span>';
     }
 
     /*
@@ -46,7 +48,9 @@ class TicketParser extends Facade {
         $badges = ['', 'info', 'primary', 'warning', 'danger'];
         if(!$withHtml)
             return ucfirst($priorities[$priority]);
-        return '<span class="badge badge-roundless badge-'.$priority.' badge-'.$badges[$priority].'">'.ucfirst($priorities[$priority]).'</span>';
+        return '<span class="badge badge-roundless badge-'.$priority.' badge-'.$badges[$priority].'">'
+                    .ucfirst($priorities[$priority]).
+                '</span>';
     }
 
     /*
@@ -56,18 +60,21 @@ class TicketParser extends Facade {
      */
     public static function getStatus($status, $type = null)
     {
-        $statuses = ['', "new", "inprogress", "resolved", "feedback", "closed", "cancelled"];
         if (is_null($type)) { //Badge
             $badges = ['', 'warning', 'primary', 'success', 'info', 'danger', 'danger'];
-            return '<span class="badge badge-roundless badge-' . $status . ' badge-' . $badges[$status] . '">' . ucfirst($statuses[$status]) . '</span>';
+            return '<span class="badge badge-roundless badge-' . $status . ' badge-'.$badges[$status].'">'
+                        .Constant::STATUSES[$status].
+                    '</span>';
         } else if($type == 0) {
-            return ucfirst($statuses[$status]);
+            return Constant::STATUSES[$status];
         } else { //icons
             //if closed or cancelled, open modal, not update to server
             if($status == Constant::STATUS_CLOSED || $status == Constant::STATUS_CANCELLED)
                 $closeModal = 'data-toggle="modal" data-target="#closed-modal"';
             $icons = ['', 'envelope-o', 'hourglass-half', 'registered', 'reply-all', 'minus-circle', 'ban'];
-            return '<li><a href="javascript:" class="btn-update-status" '.(isset($closeModal) ? $closeModal : '').' data-value="'.($status).'"><i class="fa fa-'.$icons[$status].'"></i> '.ucfirst($statuses[$status]).'</a></li>';
+            return '<li><a href="javascript:" class="btn-update-status" '.(isset($closeModal) ? $closeModal : '').' data-value="'.($status).'">
+                        <i class="fa fa-'.$icons[$status].'"></i> '.Constant::STATUSES[$status].
+                    '</a></li>';
         }
     }
 
