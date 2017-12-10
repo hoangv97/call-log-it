@@ -286,7 +286,7 @@ class TicketController extends Controller
                 return TicketParser::getTeamName($ticket->team);
             })
             ->editColumn('deadline', function ($ticket) {
-                return $ticket->deadline;
+                return $ticket->deadline->format(Constant::DATETIME_FORMAT);
             })
             ->editColumn('status', function ($ticket) {
                 return TicketParser::getStatus($ticket->status);

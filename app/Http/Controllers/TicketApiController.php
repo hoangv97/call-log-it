@@ -124,7 +124,7 @@ class TicketApiController extends Controller
             'info' => [
                 'team' => TicketParser::getTeamName($ticket->team),
                 'priority' => TicketParser::getPriority($ticket->priority),
-                'deadline' => $ticket->deadline,
+                'deadline' => $ticket->deadline->format(Constant::DATETIME_FORMAT),
                 'assignee' => is_null($ticket->assignee) ? null : TicketParser::getEmployeeHtml($ticket->assignee->name),
                 'status' => TicketParser::getStatus($ticket->status),
                 'relaters' => implode('', collect($ticket->relaters)->map(function ($relater) {

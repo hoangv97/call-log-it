@@ -4,6 +4,7 @@ function initDatetimepicker(selector) {
         todayHighlight: true,
         fontAwesome: true,
         pickerPosition: 'bottom-left',
-        container: '#deadline-picker'
+        container: '#deadline-picker',
+        format: 'yyyy-mm-dd hh:ii:00'
     });
 }

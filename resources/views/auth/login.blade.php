@@ -34,6 +34,23 @@
                 <span></span>
             </label>
         </div>
+        <div class="login-options">
+            <h4>Hoặc đăng nhập bằng</h4>
+            <ul class="social-icons">
+                <li>
+                    <a class="social-icon-color facebook" data-original-title="facebook" href="javascript:"></a>
+                </li>
+                <li>
+                    <a class="social-icon-color twitter" data-original-title="Twitter" href="javascript:"></a>
+                </li>
+                <li>
+                    <a class="social-icon-color googleplus" data-original-title="Goole Plus" href="javascript:"></a>
+                </li>
+                <li>
+                    <a class="social-icon-color linkedin" data-original-title="Linkedin" href="javascript:"></a>
+                </li>
+            </ul>
+        </div>
         <div class="create-account">
             <p>
                 <a href="{{ route('register') }}" id="register-btn" class="uppercase">Tạo tài khoản</a>

@@ -70,7 +70,7 @@
                         <span class="sbold">Ngày tạo:</span>
                     </div>
                     <div class="col-md-6">
-                        <span class="created_at-info">{{ $ticket->created_at }}</span>
+                        <span class="created_at-info">{{ $ticket->created_at->format(Constant::DATETIME_FORMAT) }}</span>
                     </div>
                 </div>
             </div>
@@ -171,7 +171,7 @@
                     <div class="mt-comment-info">
                         <span class="mt-comment-author">{{ $ticket->creator->name }}</span>
                         <span class="mt-comment-date">
-                            <i class="fa fa-clock-o" aria-hidden="true"></i> {{ $ticket->created_at }}
+                            <i class="fa fa-clock-o" aria-hidden="true"></i> {{ $ticket->created_at->format(Constant::DATETIME_FORMAT) }}
                         </span>
                     </div>
                     <div class="mt-comment-text">

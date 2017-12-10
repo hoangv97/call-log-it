@@ -6,14 +6,18 @@ use Illuminate\Support\Facades\Facade;
 
 class Constant extends Facade {
 
-    const STATUS_ALL        = 0;
+    const DATETIME_FORMAT = 'H:i:s d-m-Y';
 
+    const STATUSES = ['All', "New", "Inprogress", "Resolved", "Feedback", "Closed", "Cancelled", "Out Of Date"];
+
+    const STATUS_ALL        = 0;
     const STATUS_NEW        = 1;
     const STATUS_INPROGRESS = 2;
     const STATUS_RESOLVED   = 3;
     const STATUS_FEEDBACK   = 4;
     const STATUS_CLOSED     = 5;
     const STATUS_CANCELLED  = 6;
+
     const STATUS_OUT_OF_DATE  = 7;
 
     const STATUSES_CLOSED = [
@@ -21,9 +25,6 @@ class Constant extends Facade {
         self::STATUS_CLOSED,
         self::STATUS_CANCELLED
     ];
-
-    const STATUSES = ['All', "New", "Inprogress", "Resolved", "Feedback", "Closed", "Cancelled", "Out Of Date"];
-
 
     const PERMISSION_MANAGE_TICKET_PERSON  = 1;
     const PERMISSION_MANAGE_TICKET_TEAM    = 2;

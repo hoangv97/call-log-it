@@ -69,7 +69,7 @@ class ThreadController extends Controller
                     'avatar_url' => route('home').'/'.(!is_null($employee->avatar_url) ? $employee->avatar_url : 'img/default_user.png')
                 ],
                 'content' => is_null($thread->note) ? $thread->content : $thread->note,
-                'created_at' => $thread->created_at->format('Y-m-d H:i:s')
+                'created_at' => $thread->created_at->format(Constant::DATETIME_FORMAT)
             ];
         }
 //        dd($result);
