@@ -10,8 +10,8 @@ class TicketParser extends Facade {
      * get team name with html
      */
     public static function getTeamName($team) {
-        $badges = ['', 'danger', 'info'];
-        return '<span class="badge badge-roundless badge-'.$team->id.' badge-'.$badges[$team->id].'">'
+        $badges = ['', 'success', 'info'];
+        return '<span class="label label-'.$team->id.' label-'.$badges[$team->id].'">'
                     .$team->name.
                 '</span>';
     }
@@ -20,9 +20,9 @@ class TicketParser extends Facade {
      * get employee name with badge html
      */
     public static function getEmployeeHtml($name) {
-        return '<span class="badge badge-roundless employee-badge" style="color: #111;background-color: #E1E5EC">'
+        return '<span class="label" style="color: #111; background-color: #E1E5EC">'
                     .$name.
-                '</span>';
+                '</span><br>';
     }
 
     /*
@@ -48,7 +48,7 @@ class TicketParser extends Facade {
         $badges = ['', 'info', 'primary', 'warning', 'danger'];
         if(!$withHtml)
             return ucfirst($priorities[$priority]);
-        return '<span class="badge badge-roundless badge-'.$priority.' badge-'.$badges[$priority].'">'
+        return '<span class="label label-'.$priority.' label-'.$badges[$priority].'">'
                     .ucfirst($priorities[$priority]).
                 '</span>';
     }
@@ -62,7 +62,7 @@ class TicketParser extends Facade {
     {
         if (is_null($type)) { //Badge
             $badges = ['', 'warning', 'primary', 'success', 'info', 'danger', 'danger'];
-            return '<span class="badge badge-roundless badge-' . $status . ' badge-'.$badges[$status].'">'
+            return '<span class="label label-'.$status.' label-'.$badges[$status].'">'
                         .Constant::STATUSES[$status].
                     '</span>';
         } else if($type == 0) {

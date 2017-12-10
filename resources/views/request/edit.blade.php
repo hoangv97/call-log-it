@@ -25,15 +25,6 @@
         .mt-comment-text {
             color: #606060 !important;
         }
-        .content-img {
-            width: 100%;
-            max-width: 600px;
-            border: 1px solid #ccc;
-            padding: 1px;
-        }
-        .employee-badge {
-            margin-bottom: 3px;
-        }
     </style>
 @endsection
 
@@ -184,7 +175,7 @@
                         </span>
                     </div>
                     <div class="mt-comment-text">
-                        {!! is_null($ticket->image_url) ? '' : "<img src='".route('home').'/'."$ticket->image_url' class='content-img'><br/><br/>" !!}
+                        {!! is_null($ticket->image_url) ? '' : "<img src='".route('home').'/'."$ticket->image_url' class='img-thumbnail'><br/><br/>" !!}
                         {!! $ticket->content !!}
                     </div>
                 </div>
