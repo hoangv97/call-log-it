@@ -92,12 +92,22 @@
 
         /*
         update all field by ajax
+        add block ui for sync ajax
         */
         function updateAllData() {
+            let content = '.ticket-content';
+            App.blockUI({
+                target: content,
+                animate: true
+            });
+
             getTicketButtons()
                 .always(getTicketInfo)
                 .always(getComments)
                 .always(addEvents)
+                .done(() => {
+                    App.unblockUI(content)
+                })
         }
 
         /*

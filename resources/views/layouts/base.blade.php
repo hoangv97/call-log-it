@@ -19,7 +19,7 @@
                 @include('partials.breadcrumb')
 
                 <!-- PAGE CONTENT-->
-                <div class="row">
+                <div class="row ticket-content">
                     <div class="col-sm-12">
                         @yield('page.content')
                     </div>
