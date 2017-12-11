@@ -2,6 +2,7 @@
 
 namespace App\Facade;
 
+use App\Models\Employee;
 use Illuminate\Support\Facades\Facade;
 
 class TicketParser extends Facade {
@@ -17,12 +18,12 @@ class TicketParser extends Facade {
     }
 
     /*
-     * get employee name with badge html
+     * get employee name with label html
      */
-    public static function getEmployeeHtml($name) {
-        return '<span class="label" style="color: #111; background-color: #E1E5EC">'
-                    .$name.
-                '</span><br>';
+    public static function getEmployeeLabel(Employee $employee) {
+        return '<span class="label" title="'.$employee->email.'" style="color: #111; background-color: #E1E5EC; cursor: pointer">'
+            .$employee->name.
+            '</span>';
     }
 
     /*
@@ -54,13 +55,13 @@ class TicketParser extends Facade {
     }
 
     /*
-     * null: return badge html
+     * null: return label html
      * 0: name only
      * 1: a tag html with icon (for edit view)
      */
     public static function getStatus($status, $type = null)
     {
-        if (is_null($type)) { //Badge
+        if (is_null($type)) { //Label
             $badges = ['', 'warning', 'primary', 'success', 'info', 'danger', 'danger'];
             return '<span class="label label-'.$status.' label-'.$badges[$status].'">'
                         .Constant::STATUSES[$status].
@@ -71,9 +72,12 @@ class TicketParser extends Facade {
             //if closed or cancelled, open modal, not update to server
             if($status == Constant::STATUS_CLOSED || $status == Constant::STATUS_CANCELLED)
                 $closeModal = 'data-toggle="modal" data-target="#closed-modal"';
+
             $icons = ['', 'envelope-o', 'hourglass-half', 'registered', 'reply-all', 'minus-circle', 'ban'];
+            $fonts = ['', 'yellow', 'blue', 'green', 'blue', 'red', 'red'];
+
             return '<li><a href="javascript:" class="btn-update-status" '.(isset($closeModal) ? $closeModal : '').' data-value="'.($status).'">
-                        <i class="fa fa-'.$icons[$status].'"></i> '.Constant::STATUSES[$status].
+                        <i class="fa fa-'.$icons[$status].' font-'.$fonts[$status].'"></i> '.Constant::STATUSES[$status].
                     '</a></li>';
         }
     }

@@ -3,7 +3,7 @@
     <div>
         @if(Auth::user()->hasPermissions(Constant::PERMISSIONS_TEAM_COMPANY))
             <a href="javascript:" class="btn btn-default btn-sm" data-toggle="modal" data-target="#team-modal">
-                <i class="fa fa-users" aria-hidden="true"></i>
+                <i class="fa fa-users font-red-flamingo" aria-hidden="true"></i>
                 Thay đổi bộ phận IT
             </a>
             <div class="modal fade" id="team-modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -27,7 +27,7 @@
 
         @if(Auth::user()->hasPermissions(Constant::PERMISSIONS_TEAM_COMPANY))
             <a href="javascript:" class="btn btn-default btn-sm" data-toggle="modal" data-target="#priority-modal">
-                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                <i class="fa fa-pencil-square-o font-red-flamingo" aria-hidden="true"></i>
                 Thay đổi mức độ ưu tiên
             </a>
             <div class="modal fade" id="priority-modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -65,7 +65,7 @@
 
         @if(Auth::user()->hasPermissions(Constant::PERMISSIONS_TEAM_COMPANY))
             <a href="javascript:" class="btn btn-default btn-sm" data-toggle="modal" data-target="#deadline-modal">
-                <i class="fa fa-calendar" aria-hidden="true"></i>
+                <i class="fa fa-calendar font-red-flamingo" aria-hidden="true"></i>
                 Thay đổi deadline
             </a>
             <div class="modal fade" id="deadline-modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -110,7 +110,7 @@
 
         @if(Auth::user()->hasPermissions(Constant::PERMISSIONS_TEAM_COMPANY) || $ticket->creator->id == Auth::id())
             <a href="javascript:" class="btn btn-default btn-sm" data-toggle="modal" data-target="#relaters-modal">
-                <i class="fa fa-user" aria-hidden="true"></i>
+                <i class="fa fa-user font-red-flamingo" aria-hidden="true"></i>
                 Thay đổi người liên quan
             </a>
             <div class="modal fade" id="relaters-modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -138,7 +138,7 @@
 
         @if(Auth::user()->hasPermissions(Constant::PERMISSIONS_TEAM_COMPANY))
             <a href="javascript:" class="btn btn-default btn-sm" data-toggle="modal" data-target="#assign-modal">
-                <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+                <i class="fa fa-hand-o-right font-red-flamingo" aria-hidden="true"></i>
                 Assign
             </a>
             <div class="modal fade" id="assign-modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -178,7 +178,7 @@
                 <div style="margin-top: 5px">
                     <div class="btn-group">
                         <a class="btn btn-default btn-sm" href="javascript:" data-toggle="dropdown" aria-expanded="true">
-                            <i class="fa fa-exchange"></i> Thay đổi trạng thái
+                            <i class="fa fa-exchange font-blue-steel"></i> Thay đổi trạng thái
                             <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu">

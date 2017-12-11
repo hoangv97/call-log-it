@@ -12,13 +12,15 @@ class EmployeesTableSeeder extends Seeder
      */
     public function run()
     {
+        $avatars = ['member', 'sublead', 'leader'];
 
         Employee::create([
             'name' => 'Member HN',
             'email' => 'member_hn@tes.t',
             'password' => bcrypt('test'),
             'remember_token' => str_random(10),
-            'role_team_id' => 1
+            'role_team_id' => 1,
+            'avatar_url' => "img/$avatars[0].png",
         ]);
 
         Employee::create([
@@ -27,6 +29,7 @@ class EmployeesTableSeeder extends Seeder
             'password' => bcrypt('test'),
             'remember_token' => str_random(10),
             'role_team_id' => 2,
+            'avatar_url' => "img/$avatars[1].png",
         ]);
 
         Employee::create([
@@ -35,6 +38,7 @@ class EmployeesTableSeeder extends Seeder
             'password' => bcrypt('test'),
             'remember_token' => str_random(10),
             'role_team_id' => 3,
+            'avatar_url' => "img/$avatars[2].png",
         ]);
 
         Employee::create([
@@ -43,6 +47,7 @@ class EmployeesTableSeeder extends Seeder
             'password' => bcrypt('test'),
             'remember_token' => str_random(10),
             'role_team_id' => 4,
+            'avatar_url' => "img/$avatars[0].png",
         ]);
 
         Employee::create([
@@ -51,6 +56,7 @@ class EmployeesTableSeeder extends Seeder
             'password' => bcrypt('test'),
             'remember_token' => str_random(10),
             'role_team_id' => 5,
+            'avatar_url' => "img/$avatars[1].png",
         ]);
 
         Employee::create([
@@ -59,6 +65,7 @@ class EmployeesTableSeeder extends Seeder
             'password' => bcrypt('test'),
             'remember_token' => str_random(10),
             'role_team_id' => 6,
+            'avatar_url' => "img/$avatars[2].png",
         ]);
 
         Employee::create([

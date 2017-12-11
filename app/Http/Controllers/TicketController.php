@@ -277,10 +277,10 @@ class TicketController extends Controller
                 return TicketParser::getPriority($ticket->priority);
             })
             ->editColumn('created_by', function ($ticket) {
-                return TicketParser::getEmployeeHtml($ticket->creator->name);
+                return TicketParser::getEmployeeLabel($ticket->creator);
             })
             ->editColumn('assigned_to', function ($ticket) {
-                return TicketParser::getEmployeeHtml($ticket->assignee->name);
+                return TicketParser::getEmployeeLabel($ticket->assignee);
             })
             ->editColumn('team', function ($ticket) {
                 return TicketParser::getTeamName($ticket->team);

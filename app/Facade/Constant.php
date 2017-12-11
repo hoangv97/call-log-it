@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 class Constant extends Facade {
 
-    const DATETIME_FORMAT = 'H:i:s d-m-Y';
+    const DATETIME_FORMAT = 'H:i:s d/m/Y';
 
     const STATUSES = ['All', "New", "Inprogress", "Resolved", "Feedback", "Closed", "Cancelled", "Out Of Date"];
 

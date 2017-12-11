@@ -125,10 +125,10 @@ class TicketApiController extends Controller
                 'team' => TicketParser::getTeamName($ticket->team),
                 'priority' => TicketParser::getPriority($ticket->priority),
                 'deadline' => $ticket->deadline->format(Constant::DATETIME_FORMAT),
-                'assignee' => is_null($ticket->assignee) ? null : TicketParser::getEmployeeHtml($ticket->assignee->name),
+                'assignee' => is_null($ticket->assignee) ? null : TicketParser::getEmployeeLabel($ticket->assignee),
                 'status' => TicketParser::getStatus($ticket->status),
-                'relaters' => implode('', collect($ticket->relaters)->map(function ($relater) {
-                    return TicketParser::getEmployeeHtml($relater->name);
+                'relaters' => implode('<div style="height: 10px;"></div>', collect($ticket->relaters)->map(function ($relater) {
+                    return TicketParser::getEmployeeLabel($relater);
                 })->all()),
             ],
             'relaters' => collect($ticket->relaters)->map(function ($relater) {

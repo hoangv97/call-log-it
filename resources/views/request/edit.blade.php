@@ -92,7 +92,7 @@
                         <span class="sbold">Người yêu cầu:</span>
                     </div>
                     <div class="col-md-6">
-                        {!! TicketParser::getEmployeeHtml($ticket->creator->name) !!}
+                        {!! TicketParser::getEmployeeLabel($ticket->creator) !!}
                     </div>
                 </div>
             </div>
