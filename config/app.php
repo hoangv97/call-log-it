@@ -167,7 +167,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
-        \App\Providers\ToastrProvider::class,
+        Kamaln7\Toastr\ToastrServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -234,7 +234,7 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'TicketParser' => App\Facade\TicketParser::class,
         'Constant' => App\Facade\Constant::class,
-        'Toastr' => \App\Helpers\Toastr\ToastrFacade::class
+        'Toastr' => Kamaln7\Toastr\Facades\Toastr::class
     ],
 
 ];

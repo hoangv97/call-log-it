@@ -25,13 +25,7 @@
     {{Html::script('metronic/global/plugins/morris/morris.min.js')}}
     {{Html::script('metronic/global/plugins/morris/raphael-min.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-toastr/toastr.min.js')}}
-    <script>
-        @if (session()->has('toastr'))
-            @foreach(session('toastr') as $toastr)
-                @toastr($toastr)
-            @endforeach
-        @endif
-    </script>
+    {!! Toastr::render() !!}
 
     @include('extends.read-tickets-menu')
 @endsection

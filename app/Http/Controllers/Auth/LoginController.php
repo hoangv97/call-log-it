@@ -47,13 +47,6 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $employee)
     {
-        \Session::flash('toastr', [
-                [
-                    'level' => 'success',
-                    'title' => 'Đăng nhập thành công',
-                    'message' => 'Xin chào ' . $employee->name,
-                ]
-            ]
-        );
+        \Toastr::success("Xin chào $employee->name", 'Đăng nhập thành công');
     }
 }

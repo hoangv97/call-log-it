@@ -98,15 +98,6 @@ class TicketController extends Controller
             $ticket->assignee->id
         ]);
 
-        \Session::flash('toastr', [
-                [
-                    'level' => 'success',
-                    'title' => 'Tạo yêu cầu thành công',
-                    'message' => "Đã tạo yêu cầu: $ticket->subject",
-                ]
-            ]
-        );
-
         return redirect()->route('request.edit', ['id' => $ticket->id]);
     }
 
