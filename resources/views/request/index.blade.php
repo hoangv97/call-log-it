@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('page-level-plugins.styles')
-   {{--@parent--}}
+   @parent
     {{Html::style('metronic/global/plugins/datatables/datatables.min.css')}}
     {{Html::style('metronic/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')}}
 @endsection

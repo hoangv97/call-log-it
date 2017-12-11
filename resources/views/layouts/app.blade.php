@@ -2,6 +2,7 @@
 
 @section('page-level-plugins.styles')
     {{Html::style('metronic/global/plugins/morris/morris.css')}}
+    {{Html::style('metronic/global/plugins/bootstrap-toastr/toastr.min.css')}}
 @endsection
 
 @section('theme-layout-styles')
@@ -23,6 +24,14 @@
 @section('page-level-plugins.scripts')
     {{Html::script('metronic/global/plugins/morris/morris.min.js')}}
     {{Html::script('metronic/global/plugins/morris/raphael-min.js')}}
+    {{Html::script('metronic/global/plugins/bootstrap-toastr/toastr.min.js')}}
+    <script>
+        @if (session()->has('toastr'))
+            @foreach(session('toastr') as $toastr)
+                @toastr($toastr)
+            @endforeach
+        @endif
+    </script>
 
     @include('extends.read-tickets-menu')
 @endsection

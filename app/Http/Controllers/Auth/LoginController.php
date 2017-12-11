@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -35,5 +37,23 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param Request $request
+     * @param  Employee $employee
+     */
+    protected function authenticated(Request $request, $employee)
+    {
+        \Session::flash('toastr', [
+                [
+                    'level' => 'success',
+                    'title' => 'Đăng nhập thành công',
+                    'message' => 'Xin chào ' . $employee->name,
+                ]
+            ]
+        );
     }
 }
