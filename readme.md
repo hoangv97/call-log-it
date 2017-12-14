@@ -29,7 +29,7 @@
     Settings > Plugins > Browse repositories... > Find 'Laravel plugin' > Set up
     Settings > Languages and Frameworks > Php > Laravel > Turn on 'Enable plugin for this project'
     
-###Testing
+### Testing
 ##### Fake users for testing: 
     7 first employees
     Password: test
