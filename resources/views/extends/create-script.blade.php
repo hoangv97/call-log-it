@@ -10,7 +10,7 @@
 
         initDatetimepicker('#deadline-picker');
 
-        initEmployeesSearch('#relaters', '{{ route('employees.api.all') }}');
+        initEmployeesSelect2('#relaters', '{{ route('employees.api.all') }}');
 
     })
 </script>

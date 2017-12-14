@@ -10,8 +10,8 @@ class Team extends Model
 
     public function employees() {
         return $this->hasManyThrough(
-            'App\Models\Employee',
-            'App\Models\RoleTeam',
+            Employee::class,
+            RoleTeam::class,
             'team_id',
             'role_team_id');
     }
@@ -29,7 +29,7 @@ class Team extends Model
     }
 
     public function tickets() {
-        return $this->hasMany('App\Models\Ticket');
+        return $this->hasMany(Ticket::class);
     }
 
     public function getTicketsByStatus($status = null) {

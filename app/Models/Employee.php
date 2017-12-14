@@ -33,19 +33,19 @@ class Employee extends Authenticatable
      * Get Role, Team, Permission
      */
     public function roleInTeam() {
-        return $this->belongsTo('App\Models\RoleTeam', 'role_team_id');
+        return $this->belongsTo(RoleTeam::class, 'role_team_id');
     }
 
     public function team() {
         if(is_null($this->roleInTeam))
             return null;
-        return $this->roleInTeam->belongsTo('App\Models\Team');
+        return $this->roleInTeam->belongsTo(Team::class);
     }
 
     public function role() {
         if(is_null($this->roleInTeam))
             return null;
-        return $this->roleInTeam->belongsTo('App\Models\Role');
+        return $this->roleInTeam->belongsTo(Role::class);
     }
 
     /*
@@ -83,7 +83,7 @@ class Employee extends Authenticatable
     public function permissionRoleTeams() {
         if(is_null($this->roleInTeam))
             return null;
-        return $this->roleInTeam->hasMany('App\Models\PermissionRoleTeam');
+        return $this->roleInTeam->hasMany(PermissionRoleTeam::class);
     }
 
     /*
@@ -93,7 +93,7 @@ class Employee extends Authenticatable
 
     //Cong viec toi yeu cau
     public function createdTickets() {
-        return $this->hasMany('App\Models\Ticket', 'created_by');
+        return $this->hasMany(Ticket::class, 'created_by');
     }
 
     public function getCreatedTicketsByStatus($status = null) {
@@ -102,7 +102,7 @@ class Employee extends Authenticatable
 
     //Cong viec lien quan
     public function relatedTickets() {
-        return $this->belongsToMany('App\Models\Ticket', 'ticket_relaters');
+        return $this->belongsToMany(Ticket::class, 'ticket_relaters');
     }
 
     public function getRelatedTicketsByStatus($status = null) {
@@ -111,7 +111,7 @@ class Employee extends Authenticatable
 
     //Cong viec duoc giao
     public function assignedTickets() {
-        return $this->hasMany('App\Models\Ticket', 'assigned_to');
+        return $this->hasMany(Ticket::class, 'assigned_to');
     }
 
     public function getAssignedTicketsByStatus($status = null) {
@@ -121,6 +121,6 @@ class Employee extends Authenticatable
 
     //Cong viec chua doc
     public function unreadTickets() {
-        return $this->belongsToMany('App\Models\Ticket', 'ticket_reads')->wherePivot('status', 0);
+        return $this->belongsToMany(Ticket::class, 'ticket_reads')->wherePivot('status', 0);
     }
 }

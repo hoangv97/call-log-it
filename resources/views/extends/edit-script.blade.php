@@ -18,9 +18,12 @@
                 let field = $(this).attr('id').split('-')[0],
                     id = '{{ $ticket->id }}',
                     value, reason;
+
                 //Get input
                 if(field === 'team_id' || field === 'priority') {
-                    value = $(`select[name=${field}] option:selected`).val();
+                    value = $(`select[name=${field}] option:selected`).val()
+                } else if(field === 'relaters[]' || field === 'assignee') {
+                    value = $(`select[name="${field}"]`).select2('val')
                 } else {
                     value = $(`input[name=${field}]`).val()
                 }
@@ -79,9 +82,8 @@
                     status: $('#closed-modal').attr('data-status'),
                     _token: '{{ csrf_token() }}'
                 };
-                updateToServer('{{ route('thread.store') }}', data);
-                $('.modal-backdrop').remove()
-            });
+                updateToServer('{{ route('thread.store') }}', data)
+            })
         }
 
         //Update data to server then update info, comments in view
@@ -95,17 +97,18 @@
         add block ui for sync ajax
         */
         function updateAllData() {
+            $('.modal-backdrop').remove();
+
             let content = '.ticket-content';
             App.blockUI({
                 target: content,
                 animate: true
             });
 
-            getTicketButtons()
-                .always(getTicketInfo)
-                .always(getComments)
-                .always(addEvents)
-                .done(() => {
+            //ajax
+            $.when(getTicketButtons(), getTicketInfo(), getComments())
+                .then(() => {
+                    addEvents();
                     App.unblockUI(content)
                 })
         }
@@ -118,9 +121,20 @@
                 for(let key in data.info) {
                     $(`.${key}-info`).html(data.info[key])
                 }
-                for(let relater of data.relaters) {
-                    $('input[name=relaters]').tagsinput('add', relater)
-                }
+
+                //update relaters to select form
+//                let relatersSelect = $('#relaters');
+//                for(let relater of data.relaters) {
+//                    let newOption = new Option(relater.name, relater.id, true, true);
+//                    relatersSelect.append(newOption).trigger('change');
+//                    relatersSelect.trigger({
+//                        type: 'select2:select',
+//                        params: {
+//                            data: data.relater
+//                        }
+//                    });
+//                }
+//                console.log($('#relaters').select2()[0].options)
             })
         }
 
@@ -142,9 +156,9 @@
                     //get current deadline
                     $('input[name=deadline]').val( $('.deadline-info').html() );
 
-                    initEmployeesSearch('#relaters', '{{ route('employees.api.all') }}');
+                    initEmployeesSelect2('#relaters', '{{ route('employees.api.all') }}');
 
-                    initEmployeesSearch('#assignee', '{{ route('employees.api.assignee') }}', 1); //max = 1
+                    initEmployeesSelect2('#assignee', '{{ route('employees.api.assignee') }}', 0, '{{ $ticket->team->id }}')
                 }
             })
         }
@@ -154,27 +168,11 @@
          */
         function getComments() {
             return $.get('{{ route('threads.api') }}', { id: '{{ $ticket->id }}' }, response => {
-                $('.thread-comments').html('');
-                $('textarea[name=comment]').data("wysihtml5").editor.setValue('');
+                $('.thread-comments').html(response.html);
 
-                response.forEach(thread => {
-                    $('.thread-comments').append(
-                        `<div class="mt-comment">
-                            <div class="mt-comment-img">
-                                <img src="${thread.creator.avatar_url}" />
-                            </div>
-                            <div class="mt-comment-body">
-                                <div class="mt-comment-info">
-                                    <span class="mt-comment-author">${thread.creator.name}</span>
-                                    <span class="mt-comment-date">
-                                        <i class="fa fa-clock-o" aria-hidden="true"></i> ${thread.created_at}
-                                    </span>
-                                </div>
-                                <div class="mt-comment-text">${thread.content}</div>
-                            </div>
-                        </div>`
-                    )
-                });
+                $commentArea = $('textarea[name=comment]');
+                if($commentArea.data("wysihtml5"))
+                    $commentArea.data("wysihtml5").editor.setValue('')
             })
         }
     })

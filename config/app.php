@@ -79,7 +79,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'vi',
 
     /*
     |--------------------------------------------------------------------------
@@ -234,7 +234,8 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'TicketParser' => App\Facade\TicketParser::class,
         'Constant' => App\Facade\Constant::class,
-        'Toastr' => Kamaln7\Toastr\Facades\Toastr::class
+        'Toastr' => Kamaln7\Toastr\Facades\Toastr::class,
+        'Carbon' => \Carbon\Carbon::class
     ],
 
 ];

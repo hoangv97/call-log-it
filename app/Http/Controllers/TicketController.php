@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Facade\TicketParser;
 use App\Facade\Constant;
 use App\Http\Requests\TicketRequest;
+use App\Jobs\SendEmail;
 use App\Models\Employee;
 use App\Models\Ticket;
 use App\Models\Team;
@@ -77,16 +78,16 @@ class TicketController extends Controller
             $imgName = str_random(15) . '.' . $imgType;
             $imgPath = 'upload/';
             $image->move($imgPath, $imgName);
+
             $ticket->image_url = $imgPath . $imgName;
         }
 
         $ticket->save();
 
-        //update relaters
-        if(!is_null($request->relaters)) {
-            $relaters = explode(',', $request->relaters);
-            foreach ($relaters as $relater) {
-                $employee = Employee::where('name', '=', $relater)->firstOrFail();
+        //update relaters: array of indices
+        if(!is_null($request->relaters) || count($request->relaters) > 0) {
+            foreach ($request->relaters as $relater) {
+                $employee = Employee::findOrFail($relater);
 
                 $ticket->relaters()->attach($employee->id);
                 // update read table for all related employees
@@ -97,6 +98,10 @@ class TicketController extends Controller
             Auth::id() => ['status' => 1], //creator
             $ticket->assignee->id
         ]);
+
+        //Send email to notify new ticket for the leader of a team
+        $job = (new SendEmail(1, $ticket->id))->onQueue('sending email');
+        $this->dispatch($job);
 
         return redirect()->route('request.edit', ['id' => $ticket->id]);
     }
@@ -286,7 +291,7 @@ class TicketController extends Controller
                 return TicketParser::getTeamName($ticket->team);
             })
             ->editColumn('deadline', function ($ticket) {
-                return $ticket->deadline->format(Constant::DATETIME_FORMAT);
+                return '<span data-date="'.$ticket->deadline.'">'.$ticket->deadline->format(Constant::DATETIME_FORMAT).'</span>';
             })
             ->editColumn('status', function ($ticket) {
                 return TicketParser::getStatus($ticket->status);

@@ -30,7 +30,7 @@
                                 <span class="username username-hide-on-mobile">
                                     {!! Auth::user()->name !!}
                                 </span>
-                                <img alt="avatar" class="img-circle" src="@if(is_null(Auth::user()->avatar_url))../img/default_user.png @else {!! route('home').'/'.Auth::user()->avatar_url !!} @endif" />
+                                <img alt="avatar" class="img-circle" src="@if(is_null(Auth::user()->avatar_url))../{{ Constant::DEFAULT_AVATAR_URL }} @else {!! route('home').'/'.Auth::user()->avatar_url !!} @endif" />
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default" style="top: 70px">
                                 <li>

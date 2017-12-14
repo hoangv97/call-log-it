@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Facade\Constant;
 use App\Models\Employee;
+use App\Models\Team;
 use App\Models\Ticket;
+use function foo\func;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -15,30 +17,27 @@ class EmployeeController extends Controller
      * return members of a team
      */
     public function searchAssignee(Request $request) {
-        $employee = Auth::user();
         //Kiem tra quyen cua nguoi tim kiem: can co quyen team hoac quyen cong ty
-        if(! $employee->hasPermissions(Constant::PERMISSIONS_TEAM_COMPANY))
+        if(! Auth::user()->hasPermissions(Constant::PERMISSIONS_TEAM_COMPANY))
             return null;
-
         $q = $request->q; //query name
-        if(!isset($q)) {
-            abort(404);
-        }
+        $team = Team::findOrFail($request->t);
 
-        $members = $employee->team->members();
         $result = [];
+        $members = $team->members();
         foreach ($members as $member) {
-            if(strpos($member->name, $q)) {
-                $result[] = [
-                    'name' => $member->name
-                ];
+            if(!isset($q) || strpos(strtolower($member->name), strtolower($q)) !== false) {
+                $result[] = $this->getEmployeeInfo($member);
             }
         }
-        return $result;
+        return response()->json([
+            'total_count' => count($result),
+            'employees' => $result
+        ]);
     }
 
     /*
-     * Tim kiem tat ca nhan vien trong cong ty
+     * Tra ve tat ca nhan vien trong cong ty
      * Tim kiem nguoi lien quan cho 1 cong viec
      */
     public function searchAllEmployees(Request $request)
@@ -47,8 +46,25 @@ class EmployeeController extends Controller
         if(!isset($q)) {
             abort(404);
         }
-        $employees = Employee::where('name', 'like', "%$q%")->where('id', '<>', Auth::id())->get(['name']);
-        return response()->json($employees);
+        $employees = Employee::where('name', 'like', "%$q%")/*->where('id', '<>', Auth::id())*/->get(['id', 'name', 'email', 'avatar_url']);
+        return response()->json([
+            'total_count' => count($employees),
+            'employees' => $employees->map(function ($employee) {
+                return $this->getEmployeeInfo($employee);
+            })
+        ]);
+    }
+
+    /*
+     * Return info fields of an employee for searching
+     */
+    protected function getEmployeeInfo(Employee $employee) {
+        return [
+            'id' => $employee->id,
+            'name' => $employee->name,
+            'email' => $employee->email,
+            'avatar_url' => route('home')."/".(is_null($employee->avatar_url) ? Constant::DEFAULT_AVATAR_URL : $employee->avatar_url)
+        ];
     }
 
 }

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Facade\TicketParser;
+use App\Jobs\SendEmail;
 use App\Models\Ticket;
 use App\Models\Employee;
 use App\Models\Team;
 use App\Models\Thread;
+use App\Models\TicketRead;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Facade\Constant;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +27,7 @@ class TicketApiController extends Controller
 
         $field = $request->field;
         $value = $request->value;
-        if($ticket[$field] == $value) //Khong cap nhat neu van la gia tri cu
+        if(!is_null($ticket[$field]) && $ticket[$field] == $value) //Khong cap nhat neu van la gia tri cu
             return;
 
         //if change its team, change assignee to the new team's leader
@@ -76,27 +79,32 @@ class TicketApiController extends Controller
         //change related employees
         //update unread for all users in each ticket
         switch ($field) {
-            case 'relaters':
+            case 'relaters[]':
                 //Remove all relation of old relaters to update again
                 $ticket->relaters()->detach();
                 //Remove all read of the ticket
-                DB::table('ticket_reads')->where('ticket_id', $ticket->id)->delete();
+                TicketRead::where('ticket_id', $ticket->id)->delete();
 
                 $ticket->unreaders()->attach([
                     $ticket->creator->id => ['status' => 1],
                     $ticket->assignee->id => ['status' => 0]
                 ]);
-                $relaters = explode(',', $value);
+                $relaters = $value;
+                if(is_null($relaters)) { //remove all relaters
+                    break;
+                }
                 foreach ($relaters as $relater) {
-                    $employee = Employee::where('name', '=', $relater)->firstOrFail();
+                    $employee = Employee::findOrFail($relater);
+
                     $ticket->relaters()->attach($employee->id);
                     $ticket->unreaders()->attach($employee->id);
                 }
                 break;
             case 'assignee':
-                $ticket->unreaders()->detach($ticket->assignee); //Remove unread of old assignee
+                //Remove unread of old assignee
+                TicketRead::where('ticket_id', $ticket->id)->where('employee_id', $ticket->assignee->id)->delete();
 
-                $employee = Employee::where('name', '=', $value)->firstOrFail();
+                $employee = Employee::findOrFail($value);
                 $ticket->assignee()->associate($employee->id);
 
                 if($ticket->unreaders->contains('id', $employee->id)) {
@@ -110,6 +118,10 @@ class TicketApiController extends Controller
                 break;
         }
         $ticket->save();
+
+        //Send email to notify update for the assignee of the ticket
+        $job = (new SendEmail(2, $ticket->id))->onQueue('sending email');
+        $this->dispatch($job);
     }
 
     /*
@@ -132,7 +144,10 @@ class TicketApiController extends Controller
                 })->all()),
             ],
             'relaters' => collect($ticket->relaters)->map(function ($relater) {
-                return $relater->name;
+                return [
+                    'id' => $relater->id,
+                    'name' => $relater->name
+                ];
             })->all()
         ]);
     }

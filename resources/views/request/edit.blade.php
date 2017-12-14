@@ -2,10 +2,11 @@
 
 @section('page-level-plugins.styles')
     @parent
+    {{Html::style('metronic/global/plugins/select2/css/select2.min.css')}}
+    {{Html::style('metronic/global/plugins/select2/css/select2-bootstrap.min.css')}}
+
     {{Html::style('metronic/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css')}}
-    {{Html::style('metronic/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css')}}
-    {{Html::style('metronic/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.css')}}
-{{--    {{Html::style('metronic/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}--}}
+
     {{Html::style('metronic/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}
 @endsection
 
@@ -33,18 +34,20 @@
     {{Html::script('metronic/global/plugins/jquery-validation/js/jquery.validate.min.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js')}}
-    {{Html::script('metronic/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js')}}
+
     {{Html::script('metronic/global/plugins/typeahead/typeahead.bundle.min.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}
-    {{--{{Html::script('metronic/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}--}}
     {{Html::script('metronic/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}
+
+    {{Html::script('metronic/global/plugins/select2/js/select2.full.min.js')}}
+    {{Html::script('metronic/global/plugins/select2/js/i18n/vi.js')}}
 @endsection
 
 @section('page-level-scripts')
     @parent
     {{Html::script('js/form-validation.min.js')}}
     {{Html::script('js/datetimepicker.js')}}
-    {{Html::script('js/tagsinput.js')}}
+    {{Html::script('js/select2.js')}}
 
     @include('extends.edit-script')
 @endsection
@@ -53,7 +56,7 @@
 <div class="portlet light portlet-fit portlet-form bordered">
     <div class="portlet-title">
         <div class="caption">
-            <span class="caption-subject bold">
+            <span class="caption-subject bold" style="margin-left: 20px">
                 <i class="fa fa-globe" aria-hidden="true"></i>
                 <span>{{ $ticket->subject }}</span>
             </span>
@@ -70,7 +73,9 @@
                         <span class="sbold">Ngày tạo:</span>
                     </div>
                     <div class="col-md-6">
-                        <span class="created_at-info">{{ $ticket->created_at->format(Constant::DATETIME_FORMAT) }}</span>
+                        <span class="created_at-info">
+                            {{ $ticket->created_at->format(Constant::DATETIME_FORMAT) }}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -163,26 +168,10 @@
 
     <div class="portlet-body">
         <div class="mt-comments">
-            <div class="mt-comment">
-                <div class="mt-comment-img">
-                    <img src="{{ is_null($ticket->creator->avatar_url) ? '../img/default_user.png' : route('home').'/'.$ticket->creator->avatar_url }}" />
-                </div>
-                <div class="mt-comment-body">
-                    <div class="mt-comment-info">
-                        <span class="mt-comment-author">{{ $ticket->creator->name }}</span>
-                        <span class="mt-comment-date">
-                            <i class="fa fa-clock-o" aria-hidden="true"></i> {{ $ticket->created_at->format(Constant::DATETIME_FORMAT) }}
-                        </span>
-                    </div>
-                    <div class="mt-comment-text">
-                        {!! is_null($ticket->image_url) ? '' : "<img src='".route('home').'/'."$ticket->image_url' class='img-thumbnail'><br/><br/>" !!}
-                        {!! $ticket->content !!}
-                    </div>
-                </div>
-            </div>
+            {{-- ticket's content --}}
+            @include('partials.edit-comment', ['ticket' => $ticket])
             {{--comments--}}
-            <div class="thread-comments">
-            </div>
+            <div class="thread-comments"></div>
         </div>
 
         {{--Tao binh luan--}}

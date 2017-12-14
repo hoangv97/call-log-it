@@ -42,24 +42,28 @@ class Ticket extends Model
     }
 
     public function team() {
-        return $this->belongsTo('App\Models\Team');
+        return $this->belongsTo(Team::class);
     }
 
     public function creator() {
-        return $this->belongsTo('App\Models\Employee', 'created_by');
+        return $this->belongsTo(Employee::class, 'created_by');
     }
 
     public function assignee() {
-        return $this->belongsTo('App\Models\Employee', 'assigned_to');
+        return $this->belongsTo(Employee::class, 'assigned_to');
     }
 
     public function relaters() {
-        return $this->belongsToMany('App\Models\Employee', 'ticket_relaters');
+        return $this->belongsToMany(Employee::class, 'ticket_relaters');
     }
 
 
     public function unreaders() {
-        return $this->belongsToMany('App\Models\Employee', 'ticket_reads')->wherePivot('status', 0);
+        return $this->belongsToMany(Employee::class, 'ticket_reads')->wherePivot('status', 0);
+    }
+
+    public function comments() {
+        return $this->hasMany(Thread::class);
     }
 
 }

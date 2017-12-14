@@ -123,13 +123,13 @@
                         <div class="modal-body">
                             <div class="form-body">
                                 <div class="form-group">
-                                    {!! Form::text('relaters', '', ['class' => 'form-control', 'id' => 'relaters']) !!}
+                                    {!! Form::select('relaters[]', [], null, ['class' => 'form-control', 'id' => 'relaters', 'multiple' => true]) !!}
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                            <button type="button" class="btn btn-primary btn-submit-ticket-info" id="relaters-submit" data-dismiss="modal">Lưu thay đổi</button>
+                            <button type="button" class="btn btn-primary btn-submit-ticket-info" id="relaters[]-submit" data-dismiss="modal">Lưu thay đổi</button>
                         </div>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
                 <i class="fa fa-hand-o-right font-red-flamingo" aria-hidden="true"></i>
                 Assign
             </a>
-            <div class="modal fade" id="assign-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="assign-modal" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -151,7 +151,7 @@
                         <div class="modal-body">
                             <div class="form-body">
                                 <div class="form-group">
-                                    {!! Form::text('assignee', '', ['class' => 'form-control', 'id' => 'assignee']) !!}
+                                    {!! Form::select('assignee', [], null, ['class' => 'form-control', 'id' => 'assignee']) !!}
                                 </div>
                             </div>
                         </div>

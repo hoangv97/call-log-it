@@ -54,26 +54,17 @@ class ThreadController extends Controller
      * API: json
      * Cap nhat thread o phan comment
      */
-    public function getThreads(Request $request) {
-        $threads = Thread::where('ticket_id', '=', $request->id)->get();
+    public function getComments(Request $request) {
+        $ticket = Ticket::findOrFail($request->id);
+        $comments = $ticket->comments;
 
-//        dd($threads);
-        $result = [];
-
-        foreach ($threads as $thread) {
-            $employee = Employee::find($thread->employee_id);
-            $result[] = [
-                'id' => $request->id,
-                'creator' => [
-                    'name' => $employee->name,
-                    'avatar_url' => route('home').'/'.(!is_null($employee->avatar_url) ? $employee->avatar_url : 'img/default_user.png')
-                ],
-                'content' => is_null($thread->note) ? $thread->content : $thread->note,
-                'created_at' => $thread->created_at->format(Constant::DATETIME_FORMAT)
-            ];
+        $html = '';
+        foreach ($comments as $comment) {
+            $html .= view('partials.edit-comment', compact('comment'))->render();
         }
-//        dd($result);
-        return response()->json($result);
+        return response()->json([
+            'html' => $html
+        ]);
     }
 
 }

@@ -9,6 +9,8 @@ class Thread extends Model
 
     protected $table = 'ticket_thread';
 
-
+    public function employee() {
+        return $this->belongsTo(Employee::class);
+    }
 
 }

@@ -12,7 +12,7 @@ class TicketParser extends Facade {
      */
     public static function getTeamName($team) {
         $badges = ['', 'success', 'info'];
-        return '<span class="label label-'.$team->id.' label-'.$badges[$team->id].'">'
+        return '<span data-team-id="'.$team->id.'" class="label label-'.$badges[$team->id].'">'
                     .$team->name.
                 '</span>';
     }
@@ -21,7 +21,7 @@ class TicketParser extends Facade {
      * get employee name with label html
      */
     public static function getEmployeeLabel(Employee $employee) {
-        return '<span class="label" title="'.$employee->email.'" style="color: #111; background-color: #E1E5EC; cursor: pointer">'
+        return '<span data-name="'.$employee->name.'" class="label" title="'.$employee->email.'" style="color: #111; background-color: #E1E5EC; cursor: pointer">'
             .$employee->name.
             '</span>';
     }

@@ -4,14 +4,10 @@
     @parent
     {{Html::style('metronic/global/plugins/select2/css/select2.min.css')}}
     {{Html::style('metronic/global/plugins/select2/css/select2-bootstrap.min.css')}}
-    {{--{{Html::style('metronic/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css')}}--}}
-    {{--{{Html::style('metronic/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}--}}
+
     {{Html::style('metronic/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}
 
     {{Html::style('metronic/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css')}}
-
-    {{Html::style('metronic/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css')}}
-    {{Html::style('metronic/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.css')}}
 @endsection
 
 @section('page-level-styles')
@@ -21,19 +17,16 @@
 
 @section('page-level-plugins.scripts')
     @parent
-{{--    {{Html::script('metronic/global/plugins/moment.min.js')}}--}}
-    {{Html::script('metronic/global/plugins/select2/js/select2.full.min.js')}}
     {{Html::script('metronic/global/plugins/jquery-validation/js/jquery.validate.min.js')}}
     {{Html::script('metronic/global/plugins/jquery-validation/js/additional-methods.min.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}
-{{--    {{Html::script('metronic/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}--}}
     {{Html::script('metronic/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}
 
     {{Html::script('metronic/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js')}}
 
-    {{Html::script('metronic/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js')}}
-    {{Html::script('metronic/global/plugins/typeahead/typeahead.bundle.min.js')}}
+    {{Html::script('metronic/global/plugins/select2/js/select2.full.min.js')}}
+    {{Html::script('metronic/global/plugins/select2/js/i18n/vi.js')}}
 @endsection
 
 @section('page-level-scripts')
@@ -41,7 +34,7 @@
     {{Html::script('js/form-validation.min.js')}}
     {{Html::script('metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js')}}
     {{Html::script('js/datetimepicker.js')}}
-    {{Html::script('js/tagsinput.js')}}
+    {{Html::script('js/select2.js')}}
 
     @include('extends.create-script')
 @endsection
@@ -70,7 +63,7 @@
                                 <label class="control-label" for="priority">
                                     Mức độ ưu tiên
                                 </label>
-                                {!! Form::select('priority', [1 => 'Thấp', 2 => 'Bình thường', 3 => 'Cao', 4 => 'Khẩn cấp'], 2, ['class' => 'form-control']); !!}
+                                {!! Form::select('priority', [1 => 'Thấp', 2 => 'Bình thường', 3 => 'Cao', 4 => 'Khẩn cấp'], 2, ['class' => 'form-control']) !!}
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -104,7 +97,7 @@
                                 <label class="control-label" for="relaters">
                                     Người liên quan
                                 </label>
-                                {!! Form::text('relaters', '', ['class' => 'form-control', 'id' => 'relaters']) !!}
+                                {!! Form::select('relaters[]', [], null, ['class' => 'form-control', 'id' => 'relaters', 'multiple' => true]) !!}
                             </div>
                         </div>
                     </div>

@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'call_log_it@example.com'),
+        'name' => env('MAIL_FROM_NAME', 'Call Log IT'),
     ],
 
     /*
@@ -119,5 +119,7 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
+
+    'subject' => '[Call Log IT] Thông báo'
 
 ];
