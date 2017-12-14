@@ -123,18 +123,17 @@
                 }
 
                 //update relaters to select form
-//                let relatersSelect = $('#relaters');
-//                for(let relater of data.relaters) {
-//                    let newOption = new Option(relater.name, relater.id, true, true);
-//                    relatersSelect.append(newOption).trigger('change');
-//                    relatersSelect.trigger({
-//                        type: 'select2:select',
-//                        params: {
-//                            data: data.relater
-//                        }
-//                    });
-//                }
-//                console.log($('#relaters').select2()[0].options)
+                let relatersSelect = $('#relaters');
+                for(let relater of data.relaters) {
+                    let newOption = new Option(relater.name, relater.id, true, true);
+                    relatersSelect.append(newOption).trigger('change');
+                    relatersSelect.trigger({
+                        type: 'select2:select',
+                        params: {
+                            data: data.relater
+                        }
+                    })
+                }
             })
         }
 

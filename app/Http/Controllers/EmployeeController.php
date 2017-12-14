@@ -62,6 +62,7 @@ class EmployeeController extends Controller
         return [
             'id' => $employee->id,
             'name' => $employee->name,
+            'text' => $employee->name,
             'email' => $employee->email,
             'avatar_url' => route('home')."/".(is_null($employee->avatar_url) ? Constant::DEFAULT_AVATAR_URL : $employee->avatar_url)
         ];

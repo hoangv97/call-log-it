@@ -32,7 +32,7 @@ function initEmployeesSelect2(selector, url, minimumInputLength = 1, teamId) {
                 "</div>" +
             "</div>"
         ,
-        templateSelection: repo => repo.name,
+        templateSelection: repo => repo.name || repo.text,
         language: 'vi',
         placeholder: 'Chọn nhân viên',
         allowClear: true
