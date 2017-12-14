@@ -35,7 +35,8 @@ class NotifyNewTicket extends Mailable
         return $this->view('mail.new-ticket')
             ->subject(config('mail.subject'))
             ->with([
-                'ticket' => $this->ticket
+                'ticket' => $this->ticket,
+                'signature' => config('mail.signature')
             ]);
     }
 }

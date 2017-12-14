@@ -120,6 +120,11 @@ return [
         ],
     ],
 
-    'subject' => '[Call Log IT] Thông báo'
+    /*
+     *
+     */
+    'subject' => '[Call Log IT] Thông báo',
+
+    'signature' => "<br><br>Call Log IT Team."
 
 ];
