@@ -103,7 +103,7 @@ class TicketController extends Controller
         $job = (new SendEmail(1, $ticket->id))->onQueue('sending email');
         $this->dispatch($job);
 
-        return redirect()->route('request.edit', ['id' => $ticket->id]);
+        return redirect()->route('request.edit_with_slug', $ticket->slug);
     }
 
     /**
