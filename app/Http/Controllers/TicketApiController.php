@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Facade\Constant;
 use Illuminate\Support\Facades\DB;
+use function PHPSTORM_META\type;
 
 class TicketApiController extends Controller
 {
@@ -28,7 +29,7 @@ class TicketApiController extends Controller
         $field = $request->field;
         $value = $request->value;
         if(!is_null($ticket[$field]) && $ticket[$field] == $value) //Khong cap nhat neu van la gia tri cu
-            return;
+            return $this->getErrors('Chưa thực hiện thay đổi nào.');
 
         //if change its team, change assignee to the new team's leader
         if($field == 'team_id') {
@@ -53,6 +54,9 @@ class TicketApiController extends Controller
         }
         //update thread (comments) if field is priority or deadline
         else if($field == 'priority' || $field == 'deadline') {
+            if(is_null($request->reason)) {
+                return $this->getErrors('Chưa điền lý do thay đổi.');
+            }
             $thread = new Thread;
 
             $thread->content = $request->reason;
@@ -66,6 +70,9 @@ class TicketApiController extends Controller
                 $field_name = "deadline";
                 $oldValue = $ticket[$field];
                 $newValue = $value;
+
+                if(is_null($value))
+                    return $this->getErrors('Chưa chọn deadline');
             }
             $thread->ticket_id = $ticket->id;
             $thread->employee_id = $request->creator_id;
@@ -97,10 +104,16 @@ class TicketApiController extends Controller
                     $employee = Employee::findOrFail($relater);
 
                     $ticket->relaters()->attach($employee->id);
-                    $ticket->unreaders()->attach($employee->id);
+
+                    //prevent duplicate in ticket_read table
+                    if($employee->id != $ticket->creator->id && $employee->id != $ticket->assignee->id)
+                        $ticket->unreaders()->attach($employee->id);
                 }
                 break;
             case 'assignee':
+                if(is_null($value))
+                    return $this->getErrors('Chưa chọn nhân viên');
+
                 //Remove unread of old assignee
                 TicketRead::where('ticket_id', $ticket->id)->where('employee_id', $ticket->assignee->id)->delete();
 
@@ -122,6 +135,11 @@ class TicketApiController extends Controller
         //Send email to notify update for the assignee of the ticket
         $job = (new SendEmail(2, $ticket->id))->onQueue('sending email');
         $this->dispatch($job);
+
+        return response()->json([
+            'success' => true,
+            'detail' => 'Thay đổi thành công'
+        ]);
     }
 
     /*
@@ -151,5 +169,14 @@ class TicketApiController extends Controller
             })->all()
         ]);
     }
-    
+
+    /*
+     * Return error response
+     */
+    protected function getErrors($detail) {
+        return response()->json([
+            'success' => false,
+            'detail' => $detail
+        ]);
+    }
 }

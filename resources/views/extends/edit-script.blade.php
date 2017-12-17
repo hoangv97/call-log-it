@@ -9,9 +9,47 @@
 
     $(document).ready(() => {
 
+        let contentSelector = '.ticket-content';
+
         //init functions
+        blockUI(contentSelector);
         updateAllData();
 
+        //submit comment by button
+        $('.btn-submit-comment').click(function () {
+            let comment = $('textarea[name=comment]').val();
+            if(comment === null || comment === '')
+                return;
+
+            let data = {
+                content: comment,
+                ticket_id: '{{ $ticket->id }}',
+                type: '{{ Constant::COMMENT_NORMAL }}',
+                _token: '{{ csrf_token() }}'
+            };
+            updateToServer('{{ route('thread.store') }}', data)
+        });
+
+
+
+        //Update data to server then update info, comments in view
+        function updateToServer(url, data) {
+            blockUI(contentSelector);
+
+            $.post(url, data)
+                .done(response => {
+                    if (response.success !== undefined) {
+                        if (response.success) {
+                            toastr.success('', response.detail)
+                        } else {
+                            toastr.error(response.detail, 'Đã xảy ra lỗi')
+                        }
+                    }
+                })
+                .always(updateAllData)
+        }
+
+        //add events for buttons
         function addEvents() {
             //update ticket info
             $('.btn-submit-ticket-info').click(function() {
@@ -61,17 +99,6 @@
                 updateToServer('{{ route('tickets.api.update') }}', data)
             });
 
-            //submit comment
-            $('.btn-submit-comment').click(function () {
-                let data = {
-                    content: $('textarea[name=comment]').val(),
-                    ticket_id: '{{ $ticket->id }}',
-                    type: '{{ Constant::COMMENT_NORMAL }}',
-                    _token: '{{ csrf_token() }}'
-                };
-                updateToServer('{{ route('thread.store') }}', data)
-            });
-
             //close ticket
             $('.btn-close-ticket').click(function () {
                 let data = {
@@ -86,12 +113,6 @@
             })
         }
 
-        //Update data to server then update info, comments in view
-        function updateToServer(url, data) {
-            $.post(url, data)
-                .always(updateAllData)
-        }
-
         /*
         update all field by ajax
         add block ui for sync ajax
@@ -99,17 +120,11 @@
         function updateAllData() {
             $('.modal-backdrop').remove();
 
-            let content = '.ticket-content';
-            App.blockUI({
-                target: content,
-                animate: true
-            });
-
             //ajax
             $.when(getTicketButtons(), getTicketInfo(), getComments())
                 .then(() => {
                     addEvents();
-                    App.unblockUI(content)
+                    unblockUI(contentSelector)
                 })
         }
 
@@ -152,8 +167,6 @@
                     $('.wysihtml5[name=closed-comment]').wysihtml5();
 
                     initDatetimepicker('#deadline-picker');
-                    //get current deadline
-                    $('input[name=deadline]').val( $('.deadline-info').html() );
 
                     initEmployeesSelect2('#relaters', '{{ route('employees.api.all') }}');
 
@@ -173,6 +186,20 @@
                 if($commentArea.data("wysihtml5"))
                     $commentArea.data("wysihtml5").editor.setValue('')
             })
+        }
+
+        /*
+        block & unblock target to show ajax
+         */
+        function blockUI(target) {
+            App.blockUI({
+                target: target,
+                animate: true
+            });
+        }
+
+        function unblockUI(target) {
+            App.unblockUI(target)
         }
     })
 </script>

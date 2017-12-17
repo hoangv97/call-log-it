@@ -67,8 +67,8 @@
             </div>
             @if ($errors->has('image'))
                 <span class="help-block">
-                        <strong>{{ $errors->first('image') }}</strong>
-                    </span>
+                    <strong>{{ $errors->first('image') }}</strong>
+                </span>
             @endif
         </div>
 
@@ -79,8 +79,8 @@
             <input id="email" value="{{ old('email') }}" required class="form-control placeholder-no-fix" type="email" placeholder="Email" name="email" />
             @if ($errors->has('email'))
                 <span class="help-block">
-                        <strong>{{ $errors->first('email') }}</strong>
-                    </span>
+                    <strong>{{ $errors->first('email') }}</strong>
+                </span>
             @endif
         </div>
         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">

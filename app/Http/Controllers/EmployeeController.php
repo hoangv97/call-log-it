@@ -46,7 +46,8 @@ class EmployeeController extends Controller
         if(!isset($q)) {
             abort(404);
         }
-        $employees = Employee::where('name', 'like', "%$q%")/*->where('id', '<>', Auth::id())*/->get(['id', 'name', 'email', 'avatar_url']);
+        $employees = Employee::where('name', 'like', "%$q%")->where('id', '<>', Auth::id())->get(['id', 'name', 'email', 'avatar_url']);
+
         return response()->json([
             'total_count' => count($employees),
             'employees' => $employees->map(function ($employee) {
