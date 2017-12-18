@@ -390,17 +390,18 @@ class TicketController extends Controller
             ]
         ];
 
-        $userMenus = [ 0, 1 ]; //cong viec yeu cau + cong viec lien quan
+        $menuIndices = [ 0, 1 ]; //cong viec yeu cau + cong viec lien quan
         if(Auth::user()->hasPermissions(Constant::PERMISSIONS_MANAGE_TICKET)) //cong viec duoc giao
-            $userMenus[] = 2;
+            $menuIndices[] = 2;
         if(Auth::user()->hasPermissions(Constant::PERMISSIONS_TEAM)) //cong viec cua team
-            $userMenus[] = 3;
+            $menuIndices[] = 3;
         if(Auth::user()->hasPermissions(Constant::PERMISSIONS_COMPANY)) //cong viec cua bo phan it
-            $userMenus[] = 4;
+            $menuIndices[] = 4;
 
         $sidebar = '';
-        foreach ($userMenus as $menuIndex) {
-            $sidebar .= view('partials.sidebar-menu', ['menu' => $menus[$menuIndex], 'subMenus' => $subMenus])->render();
+        foreach ($menuIndices as $menuIndex) {
+            $menu = $menus[$menuIndex];
+            $sidebar .= view('partials.sidebar-menu', compact('menu', 'subMenus'))->render();
         }
         return $sidebar;
     }

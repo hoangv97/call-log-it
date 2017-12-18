@@ -17,20 +17,20 @@ use App\Models\Employee;
 
 $factory->define(App\Models\Ticket::class, function (Faker $faker) {
 
-    $status = rand(1, 6);
+    $status = rand(Constant::STATUS_NEW, Constant::STATUS_CANCELLED);
     $creator = collect(Employee::all())->random();
     do {
         $assignee = collect(Employee::whereNotNull('role_team_id')->get())->random();
-    }while($assignee == $creator); //prevent duplicate
+    } while($assignee->id == $creator->id); //prevent duplicate
 
     return [
-        'subject' => $faker->text(80),
-        'content' => $faker->text(500),
-        'created_by' => $creator,
+        'subject' => $faker->realText(75),
+        'content' => $faker->realText(500),
+        'created_by' => $creator->id,
         'status' => $status,
         'priority' => rand(1, 4),
         'deadline' => $faker->dateTimeBetween('-1 year', '+4 months'), //test out of date deadline
-        'assigned_to' => $assignee,
+        'assigned_to' => $assignee->id,
         'rating' => $status == Constant::STATUS_CLOSED ? rand(0, 1) : null, //if closed, there must be rating from creator
         'team_id' => $assignee->team->id,
         'resolved_at' => $faker->dateTimeThisYear('now', date_default_timezone_get()),

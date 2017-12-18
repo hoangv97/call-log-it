@@ -37,7 +37,6 @@ class ThreadController extends Controller
 
         //rating + close ticket
         if($request->type == Constant::COMMENT_RATING) {
-            $rating = $request->rating == 1 ? 'Hài lòng' : 'Không hài lòng';
             $comment = $request->input('content');
 
             if(is_null($comment)) {
@@ -52,7 +51,7 @@ class ThreadController extends Controller
             $ticket->rating = $request->rating;
             $ticket->save();
 
-            $thread->note = TicketParser::getStatus($ticket->status, 0)." request IT:<br/>Đánh giá: $rating.<br/>Bình luận: $comment";
+            $thread->note = TicketParser::getThreadNote($ticket->status, $request->rating, $comment);
 
             //Send email to notify update for the assignee of the ticket
             $job = (new SendEmail(2, $ticket->id))->onQueue('sending email');

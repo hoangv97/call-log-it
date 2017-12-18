@@ -23,7 +23,8 @@ $factory->define(App\Models\Employee::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('test'),
         'remember_token' => str_random(10),
+
         //is user is in a team, they can only be member or sub-lead
-        'role_team_id' => $hasTeam ? (rand(1, 2) == 1 ? rand(1, 2) : rand(4, 5))  : null,
+        'role_team_id' => $hasTeam ? (rand(1, 2) == 1 ? rand(1, 2) : rand(4, 5)) : null,
     ];
 });
