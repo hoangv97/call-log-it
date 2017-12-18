@@ -31,6 +31,20 @@
         });
 
 
+        /*
+        update all field by ajax
+        add block ui for sync ajax
+        */
+        function updateAllData() {
+            $('.modal-backdrop').remove();
+
+            //ajax
+            $.when(getTicketButtons(), getTicketInfo(), getComments())
+                .then(() => {
+                    addEvents();
+                    unblockUI(contentSelector)
+                })
+        }
 
         //Update data to server then update info, comments in view
         function updateToServer(url, data) {
@@ -46,7 +60,7 @@
                         }
                     }
                 })
-                .always(updateAllData)
+                .done(updateAllData)
         }
 
         //add events for buttons
@@ -111,21 +125,6 @@
                 };
                 updateToServer('{{ route('thread.store') }}', data)
             })
-        }
-
-        /*
-        update all field by ajax
-        add block ui for sync ajax
-        */
-        function updateAllData() {
-            $('.modal-backdrop').remove();
-
-            //ajax
-            $.when(getTicketButtons(), getTicketInfo(), getComments())
-                .then(() => {
-                    addEvents();
-                    unblockUI(contentSelector)
-                })
         }
 
         /*
@@ -195,7 +194,7 @@
             App.blockUI({
                 target: target,
                 animate: true
-            });
+            })
         }
 
         function unblockUI(target) {

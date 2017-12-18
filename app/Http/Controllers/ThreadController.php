@@ -37,7 +37,7 @@ class ThreadController extends Controller
 
         //rating + close ticket
         if($request->type == Constant::COMMENT_RATING) {
-            $rating = ($request->rating == 1 ? 'Hài lòng' : 'Không hài lòng');
+            $rating = $request->rating == 1 ? 'Hài lòng' : 'Không hài lòng';
             $comment = $request->input('content');
 
             if(is_null($comment)) {
@@ -58,6 +58,8 @@ class ThreadController extends Controller
             $job = (new SendEmail(2, $ticket->id))->onQueue('sending email');
             $this->dispatch($job);
 
+            $thread->save();
+
             return response()->json([
                 'success' => true,
                 'detail' => 'Thay đổi thành công'
@@ -65,6 +67,8 @@ class ThreadController extends Controller
         }
 
         $thread->save();
+
+        return '';
     }
 
     /*
