@@ -13,10 +13,10 @@ return [
     |
     */
 
-    'password' => 'Passwords must be at least four characters and match the confirmation.',
-    'reset' => 'Your password has been reset!',
-    'sent' => 'We have e-mailed your password reset link!',
-    'token' => 'This password reset token is invalid.',
-    'user' => "We can't find a user with that e-mail address.",
+    'password' => 'Mật khẩu phải dài ít nhất 4 ký tự.',
+    'reset' => 'Mật khẩu của bạn đã được đặt lại!',
+    'sent' => 'Một liên kết đặt lại mật khẩu đã được gửi vào hòm thư của bạn!',
+    'token' => 'Token đặt lại mật khẩu không hợp lệ.',
+    'user' => "Không thể tìm được người dùng với địa chỉ email này.",
 
 ];
