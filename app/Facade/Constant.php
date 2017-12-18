@@ -11,6 +11,7 @@ class Constant extends Facade {
 
     const STATUSES = ['All', "New", "Inprogress", "Resolved", "Feedback", "Closed", "Cancelled", "Out Of Date"];
 
+    //Cac trang thai cua job
     const STATUS_ALL        = 0;
     const STATUS_NEW        = 1;
     const STATUS_INPROGRESS = 2;
@@ -27,6 +28,7 @@ class Constant extends Facade {
         self::STATUS_CANCELLED
     ];
 
+    //Cac quyen cua nguoi dung
     const PERMISSION_MANAGE_TICKET_PERSON  = 1;
     const PERMISSION_MANAGE_TICKET_TEAM    = 2;
     const PERMISSION_MANAGE_TICKET_COMPANY = 3;
