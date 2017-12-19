@@ -98,8 +98,7 @@
                 let value = $(this).data('value');
 
                 //if status is closed or cancelled, open modal for user to comment, not update
-                if(value === '{{ Constant::STATUS_CLOSED }}'
-                    || value === '{{ Constant::STATUS_CANCELLED }}') {
+                if(value == '{{ Constant::STATUS_CLOSED }}' || value == '{{ Constant::STATUS_CANCELLED }}') {
                     $('#closed-modal').data('status', value);
                     return
                 }

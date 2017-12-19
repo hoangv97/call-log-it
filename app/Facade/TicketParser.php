@@ -95,13 +95,14 @@ class TicketParser extends Facade {
      * when a ticket is closed or cancelled
      */
     public static function getThreadNote($status, $ratingNumber, $comment) {
-        $rating = $ratingNumber == 1 ? 'Hài lòng' : 'Không hài lòng';
-        $ratingColor = $ratingNumber == 1 ? 'yellow-crusta' : 'red';
+        $ratings = ['Không hài lòng', 'Hài lòng'];
+        $ratingIcons = ['times-circle-o', 'check-circle-o'];
+        $ratingColors = ['red', 'yellow-crusta'];
 
         return
             "<b>".self::getStatus($status, 0)." request IT:</b><br/>
             <br/>
-            <b>Đánh giá: <span class='font-$ratingColor'>$rating</span></b><br/>
+            <b>Đánh giá: <span class='font-$ratingColors[$ratingNumber]'><i class='fa fa-$ratingIcons[$ratingNumber]' aria-hidden='true'></i> $ratings[$ratingNumber]</span></b><br/>
             <br/>
             <b>Bình luận:</b><br/>
             $comment";

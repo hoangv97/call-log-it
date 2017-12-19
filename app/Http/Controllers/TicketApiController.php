@@ -35,21 +35,12 @@ class TicketApiController extends Controller
         if($field == 'team_id') {
             $ticket->assignee()->associate(Team::find($value)->leader()->id);
         }
-        //update time stamps if column is status
+        //column is status
         else if($field == 'status') {
-            switch ($value) {
-                case Constant::STATUS_RESOLVED:
-                    $ticket->resolved_at = now();
-                    break;
-                case Constant::STATUS_CLOSED:
-                    $ticket->closed_at = now();
-                    break;
-                case Constant::STATUS_CANCELLED:
-                    $ticket->deleted_at = now();
-                    break;
-                default:
-                    $ticket->updated_at = now();
-                    break;
+            if($value == Constant::STATUS_RESOLVED) {
+                $ticket->resolved_at = now();
+            } else if($value == Constant::STATUS_CLOSED || $value == Constant::STATUS_CANCELLED) {
+                return $this->getErrors('Không thể thay đổi trạng thái của yêu cầu');
             }
         }
         //update thread (comments) if field is priority or deadline
