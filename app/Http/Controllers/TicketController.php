@@ -355,6 +355,7 @@ class TicketController extends Controller
         ];
 
         $menus = [
+            [],
             [
                 'title' => 'Việc tôi yêu cầu',
                 'subMenuIndices' => [0, 1, 2, 3, 6],
@@ -392,13 +393,20 @@ class TicketController extends Controller
             ]
         ];
 
-        $menuIndices = [ 0, 1 ]; //cong viec yeu cau + cong viec lien quan
-        if(Auth::user()->hasPermissions(Constant::PERMISSIONS_MANAGE_TICKET)) //cong viec duoc giao
-            $menuIndices[] = 2;
-        if(Auth::user()->hasPermissions(Constant::PERMISSIONS_TEAM)) //cong viec cua team
-            $menuIndices[] = 3;
-        if(Auth::user()->hasPermissions(Constant::PERMISSIONS_COMPANY)) //cong viec cua bo phan it
-            $menuIndices[] = 4;
+        //cong viec yeu cau + cong viec lien quan
+        $menuIndices = [
+            Constant::MENU_CREATED_TICKETS,
+            Constant::MENU_RELATED_TICKETS
+        ];
+        //cong viec duoc giao
+        if(Auth::user()->hasPermissions(Constant::PERMISSIONS_MANAGE_TICKET))
+            $menuIndices[] = Constant::MENU_ASSIGNED_TICKETS;
+        //cong viec cua team
+        if(Auth::user()->hasPermissions(Constant::PERMISSIONS_TEAM))
+            $menuIndices[] = Constant::MENU_TEAM_TICKETS;
+        //cong viec cua bo phan it
+        if(Auth::user()->hasPermissions(Constant::PERMISSIONS_COMPANY))
+            $menuIndices[] = Constant::MENU_COMPANY_TICKETS;
 
         $sidebar = '';
         foreach ($menuIndices as $menuIndex) {

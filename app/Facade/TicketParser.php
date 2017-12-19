@@ -111,7 +111,7 @@ class TicketParser extends Facade {
      * return breadcrumb item name by type
      */
     public static function getBreadcrumb($type, $nameOnly = false) {
-        if($type == 1)
+        if($type == Constant::MENU_CREATED_TICKETS)
             return null;
         $names = [null, null, 'Related', 'Assigned', 'Team IT', 'Department IT'];
 

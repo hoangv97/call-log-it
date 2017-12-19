@@ -41,7 +41,7 @@
 
                 //change current breadcrumb item
                 $('.current-breadcrumb-item').remove();
-                if(type === 1)
+                if(type === parseInt('{{ Constant::MENU_CREATED_TICKETS }}'))
                     return;
 
                 $('.breadcrumb').append(
