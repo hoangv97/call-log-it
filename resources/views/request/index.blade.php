@@ -34,10 +34,24 @@
              */
             $('.btn-tickets-table').click(function () {
                 $parent = $(this).parents('.type-item');
-                let type = parseInt( $parent.attr('data-type') ),
-                    status = parseInt( $(this).attr('data-status') );
+                let type = parseInt( $parent.data('type') ),
+                    status = parseInt( $(this).data('status') );
 
-                initTicketsTable(type, status)
+                initTicketsTable(type, status);
+
+                //change current breadcrumb item
+                $('.current-breadcrumb-item').remove();
+                if(type === 1)
+                    return;
+
+                $('.breadcrumb').append(
+                    `<li class="current-breadcrumb-item">
+                        <i class="fa fa-circle" aria-hidden="true"></i>
+                        <span class="active">
+                            <a href="${ $(this).data('breadcrumb-href') }">${ $(this).data('breadcrumb-name') }</a>
+                        </span>
+                    </li>`
+                )
             });
 
             //create new datatable
@@ -47,7 +61,7 @@
                 if($.fn.DataTable.isDataTable(ticketsTable)) {
                     $(ticketsTable).DataTable().clear().destroy()
                 }
-                let table = $(ticketsTable).DataTable({
+                $(ticketsTable).DataTable({
                     serverSide: true,
                     ajax: {
                         url: '{{ route('tickets.api.list') }}',
@@ -69,7 +83,7 @@
                     rowCallback: ( row, data, index ) => {
                         row.onmouseover = function () {
                             if($(row).hasClass('bold')) {
-                                let ticket_id = $(row).find('a[data-type=subject]').attr('data-id');
+                                let ticket_id = $(row).find('a[data-type=subject]').data('id');
                                 $.get('{{ route('tickets.api.read') }}', { t: ticket_id })
                                     .done(() => {
                                         $(row).removeClass('bold');
@@ -80,7 +94,7 @@
                                         let items = [];
 
                                         $typeItem.find('.btn-tickets-table').each(function () {
-                                            items.push({ type, status: $(this).attr('data-status') })
+                                            items.push({ type, status: $(this).data('status') })
                                         });
 
                                         $.get('{{ route('tickets.api.unread') }}', { items }, data => {
@@ -103,7 +117,7 @@
                 //update caption
                 let $typeItem = $(`.type-item[data-type=${type}]`);
 
-                $('.caption-subject').html( $typeItem.attr('data-caption') );
+                $('.caption-subject').html( $typeItem.data('caption') );
 
                 //update selected menu item
                 $('.btn-tickets-table').parent().removeClass('active');

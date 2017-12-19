@@ -107,4 +107,21 @@ class TicketParser extends Facade {
             $comment";
     }
 
+    /*
+     * return breadcrumb item name by type
+     */
+    public static function getBreadcrumb($type, $nameOnly = false) {
+        if($type == 1)
+            return null;
+        $names = [null, null, 'Related', 'Assigned', 'Team IT', 'Department IT'];
+
+        if($nameOnly)
+            return $names[$type];
+
+        return [
+            'name' => $names[$type],
+            'href' => route('request.index', [ 't' => $type, 's' => Constant::STATUS_ALL ])
+        ];
+    }
+
 }

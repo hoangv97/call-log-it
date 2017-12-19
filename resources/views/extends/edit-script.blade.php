@@ -95,12 +95,12 @@
 
             //update status
             $('.btn-update-status').click(function() {
-                let value = $(this).attr('data-value');
+                let value = $(this).data('value');
 
                 //if status is closed or cancelled, open modal for user to comment, not update
                 if(value === '{{ Constant::STATUS_CLOSED }}'
                     || value === '{{ Constant::STATUS_CANCELLED }}') {
-                    $('#closed-modal').attr('data-status', value);
+                    $('#closed-modal').data('status', value);
                     return
                 }
 
@@ -120,7 +120,7 @@
                     content: $('textarea[name=closed-comment]').val(),
                     ticket_id: '{{ $ticket->id }}',
                     type: '{{ Constant::COMMENT_RATING }}',
-                    status: $('#closed-modal').attr('data-status'),
+                    status: $('#closed-modal').data('status'),
                     _token: '{{ csrf_token() }}'
                 };
                 updateToServer('{{ route('thread.store') }}', data)

@@ -8,9 +8,19 @@
         </a>
         <ul class="sub-menu">
             @foreach($menu['subMenuIndices'] as $subMenuIndex)
-                @php($subMenu = $subMenus[$subMenuIndex])
+                @php
+                    $subMenu = $subMenus[$subMenuIndex];
+                    $isIndexPage = Route::currentRouteName() == 'request.index';
+                    $href = route('request.index', [ 't' => $menu['type'], 's' => $subMenu['status'] ]);
+                @endphp
                 <li class="nav-item start status-item">
-                    <a href="{{ Route::currentRouteName() == 'request.index' ? 'javascript:' : route('request.index', [ 't' => $menu['type'], 's' => $subMenu['status'] ]) }}" class="nav-link btn-tickets-table" data-status="{{ $subMenu['status'] }}">
+                    <a class="nav-link btn-tickets-table"
+                       href="{{ $isIndexPage ? 'javascript:' : $href }}"
+                       data-status="{{ $subMenu['status'] }}"
+                    @if($isIndexPage)
+                        data-breadcrumb-href="{{ $href }}" data-breadcrumb-name="{{ TicketParser::getBreadcrumb($menu['type'], true) }}"
+                    @endif
+                    >
                         <i class="fa fa-{{ $subMenu['icon'] }}" aria-hidden="true"></i>
                         <span class="title">{{ $subMenu['title'] }}</span>
                         <span class="selected"></span>

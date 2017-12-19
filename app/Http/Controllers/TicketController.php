@@ -29,12 +29,14 @@ class TicketController extends Controller
         if(isset($request->t) && isset($request->s)) {
             $type = $request->t;
             $status = $request->s;
+
+            $breadcrumb = TicketParser::getBreadcrumb($type);
         } else {
             $type = Constant::MENU_CREATED_TICKETS;
             $status = Constant::STATUS_ALL;
         }
         $sidebar = $this->renderSidebarMenu();
-        return view('request.index', compact('sidebar', 'type', 'status'));
+        return view('request.index', compact('sidebar', 'type', 'status', 'breadcrumb'));
     }
 
     /**

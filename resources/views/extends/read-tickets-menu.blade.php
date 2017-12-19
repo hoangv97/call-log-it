@@ -4,9 +4,9 @@
         let items = [];
 
         $('.type-item').each(function () {
-            let type = $(this).attr('data-type');
+            let type = $(this).data('type');
             $(this).find('.btn-tickets-table').each(function () {
-                let status = $(this).attr('data-status');
+                let status = $(this).data('status');
                 items.push({ type, status });
             })
         });
