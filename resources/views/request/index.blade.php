@@ -23,6 +23,9 @@
     <script>
         $(document).ready(function() {
 
+            //remove query string from url
+            history.replaceState({}, null, window.location.origin + window.location.pathname);
+
             @if(isset($type) && isset($status))
                 initTicketsTable('{{ $type }}', '{{ $status }}');
             @else

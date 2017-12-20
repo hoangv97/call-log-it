@@ -46,7 +46,7 @@ class EmployeeController extends Controller
         if(!isset($q)) {
             abort(404);
         }
-        $employees = Employee::where('name', 'like', "%$q%")->where('id', '<>', Auth::id())->get(['id', 'name', 'email', 'avatar_url']);
+        $employees = Employee::where('name', 'like', "%$q%")->where('id', '<>', Auth::id())->get();
 
         return response()->json([
             'total_count' => count($employees),
@@ -65,6 +65,7 @@ class EmployeeController extends Controller
             'name' => $employee->name,
             'text' => $employee->name,
             'email' => $employee->email,
+            'roleInTeam' => is_null($employee->roleInTeam) ? null : $employee->roleInTeam->name,
             'avatar_url' => route('home')."/".(is_null($employee->avatar_url) ? Constant::DEFAULT_AVATAR_URL : $employee->avatar_url)
         ];
     }
