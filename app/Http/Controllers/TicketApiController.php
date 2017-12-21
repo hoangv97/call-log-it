@@ -12,8 +12,6 @@ use App\Models\TicketRead;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Facade\Constant;
-use Illuminate\Support\Facades\DB;
-use function PHPSTORM_META\type;
 
 class TicketApiController extends Controller
 {
@@ -21,6 +19,8 @@ class TicketApiController extends Controller
     /*
      * update in edit view
      * update each field per request
+     *
+     * query keys: field, value, t_id, c_id, reason
      */
     public function update(Request $request) {
         $ticket = Ticket::findOrFail($request->t_id);
@@ -135,9 +135,11 @@ class TicketApiController extends Controller
     /*
      * API: json
      * return info of each ticket to update in edit view
+     *
+     * query keys: id
      */
     public function getInfo(Request $request) {
-        $id = $request->input('id');
+        $id = $request->id;
         $ticket = Ticket::findOrFail($id);
 
         return response()->json([

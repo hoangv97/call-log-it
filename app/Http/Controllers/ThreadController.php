@@ -18,6 +18,8 @@ class ThreadController extends Controller
      * update /create new thread
      * rating ticket
      * set unread ticket for all users
+     *
+     * query keys: type, t_id, content, rating, status, _token
      */
     public function store(Request $request) {
         $thread = new Thread;
@@ -73,6 +75,7 @@ class ThreadController extends Controller
     /*
      * API: json
      * Cap nhat thread o phan comment
+     * query keys: id
      */
     public function getComments(Request $request) {
         $ticket = Ticket::findOrFail($request->id);
