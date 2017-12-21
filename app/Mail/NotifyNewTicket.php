@@ -9,20 +9,21 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class NotifyNewTicket extends Mailable
+class NotifyNewTicket extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    protected $ticket;
+    protected $ticket, $receiver;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Ticket $ticket)
+    public function __construct(Ticket $ticket, Employee $receiver)
     {
         $this->ticket= $ticket;
+        $this->receiver = $receiver;
     }
 
     /**
@@ -36,6 +37,7 @@ class NotifyNewTicket extends Mailable
             ->subject(config('mail.subject'))
             ->with([
                 'ticket' => $this->ticket,
+                'receiver' => $this->receiver,
                 'signature' => config('mail.signature')
             ]);
     }

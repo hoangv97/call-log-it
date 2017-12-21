@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Facade\TicketParser;
-use App\Jobs\SendEmail;
+use App\Facade\SendEmail;
 use App\Models\Ticket;
 use App\Models\Employee;
 use App\Models\Team;
@@ -23,8 +23,7 @@ class TicketApiController extends Controller
      * update each field per request
      */
     public function update(Request $request) {
-        $id = $request->id;
-        $ticket = Ticket::findOrFail($id);
+        $ticket = Ticket::findOrFail($request->t_id);
 
         $field = $request->field;
         $value = $request->value;
@@ -45,6 +44,9 @@ class TicketApiController extends Controller
         }
         //update thread (comments) if field is priority or deadline
         else if($field == 'priority' || $field == 'deadline') {
+            if($field == 'deadline' && is_null($value)) {
+                return $this->getErrors('Vui lòng nhập deadline.');
+            }
             if(is_null($request->reason)) {
                 return $this->getErrors('Chưa điền lý do thay đổi.');
             }
@@ -56,17 +58,14 @@ class TicketApiController extends Controller
                 $field_name = "mức độ ưu tiên";
                 $oldValue = TicketParser::getPriority($ticket[$field], false);
                 $newValue = TicketParser::getPriority($value, false);
-            } else {
+            } else { //deadline
                 $thread->type = Constant::COMMENT_DEADLINE;
-                $field_name = "deadline";
-                $oldValue = $ticket[$field];
-                $newValue = $value;
-
-                if(is_null($value))
-                    return $this->getErrors('Chưa chọn deadline');
+                $field_name = $field;
+                $oldValue = $ticket[$field]->format(Constant::DATETIME_FORMAT);
+                $newValue = Carbon::parse($value)->format(Constant::DATETIME_FORMAT);
             }
             $thread->ticket_id = $ticket->id;
-            $thread->employee_id = $request->creator_id;
+            $thread->employee_id = $request->c_id;
 
             $thread->note = "Thay đổi $field_name: $oldValue => $newValue<br/>Lý do: $request->reason";
 
@@ -124,8 +123,8 @@ class TicketApiController extends Controller
         $ticket->save();
 
         //Send email to notify update for the assignee of the ticket
-        $job = (new SendEmail(2, $ticket->id))->onQueue('sending email');
-        $this->dispatch($job);
+        $ticket = Ticket::findOrFail($request->t_id);
+        SendEmail::sendMailsForTicket(Constant::MAIL_UPDATED_TICKET, $ticket, $request->c_id);
 
         return response()->json([
             'success' => true,

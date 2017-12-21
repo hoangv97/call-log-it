@@ -66,4 +66,20 @@ class Ticket extends Model
         return $this->hasMany(Thread::class);
     }
 
+    /*
+     * return receivers' indices to send emails
+     * except changer id
+     */
+    public function getMailReceiverIds($changerId) {
+        $relaters = ($this->relaters->count() == 0) ? collect([]) : $this->relaters;
+
+        return $relaters
+            ->map(function ($relater) {
+                return $relater->id;
+            })
+            ->merge([$this->creator->id, $this->assignee->id])
+            ->diff([$changerId])
+            ->unique()->values()->all();
+    }
+
 }

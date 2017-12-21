@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Facade\SendEmail;
 use App\Facade\TicketParser;
 use App\Facade\Constant;
 use App\Http\Requests\TicketRequest;
-use App\Jobs\SendEmail;
 use App\Models\Employee;
 use App\Models\Ticket;
 use App\Models\Team;
@@ -102,8 +102,7 @@ class TicketController extends Controller
         ]);
 
         //Send email to notify new ticket for the leader of a team
-        $job = (new SendEmail(1, $ticket->id))->onQueue('sending email');
-        $this->dispatch($job);
+        SendEmail::sendMailsForTicket(Constant::MAIL_NEW_TICKET, $ticket, Auth::id());
 
         return redirect()->route('request.edit_with_slug', $ticket->slug);
     }

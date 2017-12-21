@@ -75,4 +75,10 @@ class Constant extends Facade {
     const MENU_TEAM_TICKETS = 4;
     const MENU_COMPANY_TICKETS = 5;
 
+    /*
+     * mail type
+     */
+    const MAIL_NEW_TICKET = 1;
+    const MAIL_UPDATED_TICKET = 2;
+
 }

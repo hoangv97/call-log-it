@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Facade\Constant;
 use App\Facade\TicketParser;
-use App\Jobs\SendEmail;
+use App\Facade\SendEmail;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Models\Employee;
@@ -24,10 +24,10 @@ class ThreadController extends Controller
 
         $thread->content = $request->input('content');
         $thread->type = $request->type;
-        $thread->ticket_id = $request->ticket_id;
+        $thread->ticket_id = $request->t_id;
         $thread->employee_id = Auth::id();
 
-        $ticket = Ticket::findOrFail($request->ticket_id);
+        $ticket = Ticket::findOrFail($request->t_id);
 
         //unread all except the employee commented
         foreach ($ticket->unreaders as $unreader) {
@@ -53,11 +53,11 @@ class ThreadController extends Controller
 
             $thread->note = TicketParser::getThreadNote($ticket->status, $request->rating, $comment);
 
-            //Send email to notify update for the assignee of the ticket
-            $job = (new SendEmail(2, $ticket->id))->onQueue('sending email');
-            $this->dispatch($job);
-
             $thread->save();
+
+            //Send email to notify update for the assignee of the ticket
+            $ticket = Ticket::findOrFail($request->t_id);
+            SendEmail::sendMailsForTicket(Constant::MAIL_UPDATED_TICKET, $ticket, Auth::id());
 
             return response()->json([
                 'success' => true,

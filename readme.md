@@ -1,8 +1,19 @@
 # Call Log IT
 
-### Deployment
-    1. Create file .env, copy from .env.example
-    2. Config file .env: change DB_USERNAME, DB_PASSWORD, MAIL account
+> Tool giao việc cho bộ phận IT tích hợp trên hệ thống Intranet
+
+## Technology & Library
+
+    Laravel 5
+    MySQL
+    JQuery
+    Bootstrap
+    Metronic Theme By Keenthemes
+
+## Deployment
+
+    Create file .env, copy from .env.example
+    Config file .env: change DB_USERNAME, DB_PASSWORD, MAIL account
 
 #### Download packages
     $ composer install
@@ -22,20 +33,24 @@
 #### Run app
     $ php artisan serve
     
+## Development
+
+#### Fake users for testing: 
+    7 first employees
+    Password: test
+    
+#### Email for testing
+    Log In https://mailtrap.io with your email
+    Open Demo inbox in mailtrap.io
+    In Credentials tab, copy your username and password 
+    Paste to MAIL_USERNAME and MAIL_PASSWORD in .env file
+    Clear cache to apply changes
+    Send emails in background by running: 
+    $ php artisan queue:work
+    
 #### Debug, print log
     $ tail -f storage/logs/laravel.log
     
 #### PhpStorm plugin instructions
     Settings > Plugins > Browse repositories... > Find 'Laravel plugin' > Set up
     Settings > Languages and Frameworks > Php > Laravel > Turn on 'Enable plugin for this project'
-    
-### Testing
-##### Fake users for testing: 
-    7 first employees
-    Password: test
-##### Email for testing
-    Log In https://mailtrap.io with your email
-    In Credentials tab, copy your username and password 
-    Paste to MAIL_USERNAME and MAIL_PASSWORD in .env file
-    Clear cache to apply changes
-    Open Demo inbox in mailtrap.io

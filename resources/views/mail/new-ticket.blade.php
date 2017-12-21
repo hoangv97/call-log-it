@@ -5,9 +5,9 @@
 </head>
 <body>
     <p>
-        Chào {{ $ticket->assignee->name }},
+        Chào {{ $receiver->name }},
         <br><br>
-        Bạn có một yêu cầu mới: <a href="{{ route('request.edit', ['id' => $ticket->id]) }}" target="_blank">{{ $ticket->subject }}</a>, được gửi từ nhân viên: {{ $ticket->creator->name }}.
+        Bạn có liên quan đến một yêu cầu mới: <a href="{{ route('request.edit', ['id' => $ticket->id]) }}" target="_blank">{{ $ticket->subject }}</a>, được gửi từ nhân viên: {{ $ticket->creator->name }}.
         {!! $signature !!}
     </p>
 </body>

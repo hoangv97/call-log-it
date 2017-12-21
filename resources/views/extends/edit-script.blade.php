@@ -60,6 +60,10 @@
                         }
                     }
                 })
+                .fail(() => {
+                    unblockUI(contentSelector);
+                    toastr.error('Vui lòng thử lại', 'Đã xảy ra lỗi!')
+                })
                 .done(updateAllData)
         }
 
@@ -68,7 +72,8 @@
             //update ticket info
             $('.btn-submit-ticket-info').click(function() {
                 let field = $(this).attr('id').split('-')[0],
-                    id = '{{ $ticket->id }}',
+                    t_id = '{{ $ticket->id }}',
+                    c_id = '{{ Auth::id() }}',
                     value, reason;
 
                 //Get input
@@ -84,10 +89,9 @@
                     reason = $(`textarea[name=${field}-reason]`).val()
                 }
                 //Set data to send
-                let data = { id, field, value };
+                let data = { t_id, field, value, c_id };
                 if(reason !== undefined) {
                     data.reason = reason;
-                    data.creator_id = '{{ Auth::id() }}'
                 }
                 //Send to server
                 updateToServer('{{ route('tickets.api.update') }}', data)
@@ -106,7 +110,8 @@
                 let data = {
                     value,
                     field: 'status',
-                    id: '{{ $ticket->id }}'
+                    t_id: '{{ $ticket->id }}',
+                    c_id: '{{ Auth::id() }}'
                 };
 
                 updateToServer('{{ route('tickets.api.update') }}', data)
@@ -117,7 +122,7 @@
                 let data = {
                     rating: $('input[name=rating]:checked').val(),
                     content: $('textarea[name=closed-comment]').val(),
-                    ticket_id: '{{ $ticket->id }}',
+                    t_id: '{{ $ticket->id }}',
                     type: '{{ Constant::COMMENT_RATING }}',
                     status: $('#closed-modal').data('status'),
                     _token: '{{ csrf_token() }}'
@@ -168,7 +173,7 @@
 
                     initEmployeesSelect2('#relaters', '{{ route('employees.api.all') }}');
 
-                    initEmployeesSelect2('#assignee', '{{ route('employees.api.assignee') }}', 0, '{{ $ticket->team->id }}')
+                    initEmployeesSelect2('#assignee', '{{ route('employees.api.assignee') }}', 0, '{{ $ticket->id }}')
                 }
             })
         }

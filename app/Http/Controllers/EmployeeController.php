@@ -21,10 +21,10 @@ class EmployeeController extends Controller
         if(! Auth::user()->hasPermissions(Constant::PERMISSIONS_TEAM_COMPANY))
             return null;
         $q = $request->q; //query name
-        $team = Team::findOrFail($request->t);
+        $ticket = Ticket::findOrFail($request->t);
 
         $result = [];
-        $members = $team->members();
+        $members = $ticket->team->members();
         foreach ($members as $member) {
             if(!isset($q) || strpos(strtolower($member->name), strtolower($q)) !== false) {
                 $result[] = $this->getEmployeeInfo($member);
