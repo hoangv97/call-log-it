@@ -2,6 +2,8 @@
 
 > Tool giao việc cho bộ phận IT tích hợp trên hệ thống Intranet
 
+> Cán bộ trong công ty có thể gửi yêu cầu xử lý sự cố máy tính lên bộ phận IT để được hỗ trợ. Đội trưởng đội IT có thể giao việc các các chuyên viên IT và theo dõi tiến độ thực hiện.
+
 ## Technology & Library
 
     Laravel 5
