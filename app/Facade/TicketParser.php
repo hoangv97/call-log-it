@@ -21,9 +21,13 @@ class TicketParser extends Facade {
      * get employee name with label html
      */
     public static function getEmployeeLabel(Employee $employee) {
-        return '<span data-name="'.$employee->name.'" class="label" title="'.$employee->email.'" style="color: #111; background-color: #E1E5EC; cursor: pointer">'
-            .$employee->name.
-            '</span>';
+        return '<span 
+                    data-name="'.$employee->name.'" class="label" 
+                    title="'.(is_null($employee->roleInTeam) ? '' : ($employee->roleInTeam->name.'  |  ')).$employee->email.'" 
+                    style="color: #111; background-color: #E1E5EC; cursor: pointer"
+                >'
+                    .$employee->name.
+                '</span>';
     }
 
     /*

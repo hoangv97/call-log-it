@@ -23,7 +23,7 @@
 
             let data = {
                 content: comment,
-                ticket_id: '{{ $ticket->id }}',
+                t_id: '{{ $ticket->id }}',
                 type: '{{ Constant::COMMENT_NORMAL }}',
                 _token: '{{ csrf_token() }}'
             };
