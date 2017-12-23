@@ -20,7 +20,7 @@ $factory->define(App\Models\Ticket::class, function (Faker $faker) {
     $status = rand(Constant::STATUS_NEW, Constant::STATUS_CANCELLED);
     $creator = collect(Employee::all())->random();
     do {
-        $assignee = collect(Employee::whereNotNull('role_team_id')->get())->random();
+        $assignee = collect(Employee::whereNotNull('role_team_id')->where('role_team_id', '<>', 3)->where('role_team_id', '<>', 6)->get())->random();
     } while($assignee->id == $creator->id); //prevent duplicate
 
     return [

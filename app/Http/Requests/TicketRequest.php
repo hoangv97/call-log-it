@@ -25,7 +25,7 @@ class TicketRequest extends FormRequest
     {
         return [
             'subject' => 'required|string',
-            'deadline' => 'required',
+            'deadline' => 'required|after:'.now(),
             'team' => 'required|numeric',
             'content' => 'required|string',
             'image' => 'mimes:jpg,jpeg,png',
