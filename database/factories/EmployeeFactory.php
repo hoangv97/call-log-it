@@ -12,7 +12,6 @@ use Faker\Generator as Faker;
 | model instances for testing / seeding your application's database.
 |
 */
-
 $factory->define(App\Models\Employee::class, function (Faker $faker) {
     static $password;
 
@@ -28,3 +27,4 @@ $factory->define(App\Models\Employee::class, function (Faker $faker) {
         'role_team_id' => $hasTeam ? (rand(1, 2) == 1 ? rand(1, 2) : rand(4, 5)) : null,
     ];
 });
+
