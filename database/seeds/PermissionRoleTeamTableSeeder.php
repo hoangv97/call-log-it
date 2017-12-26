@@ -26,7 +26,7 @@ class PermissionRoleTeamTableSeeder extends Seeder
         $danangTeam->name = 'IT Đà Nẵng';
         $danangTeam->save();
 
-        $teams = [$hanoiTeam, $danangTeam];
+        $teams = [null, $hanoiTeam, $danangTeam];
 
         //Roles
         $memberRole = new Role;
@@ -41,13 +41,13 @@ class PermissionRoleTeamTableSeeder extends Seeder
         $leaderRole->name = 'Leader';
         $leaderRole->save();
 
-        $roles = [$memberRole, $subleadRole, $leaderRole];
+        $roles = [null, $memberRole, $subleadRole, $leaderRole];
 
         //RoleTeam
         for($i = 1; $i <= 2; $i++) {
             for($j = 1; $j <= 3; $j++) {
                 RoleTeam::create([
-                    'name' => $roles[$j-1]->name." ".$teams[$i-1]->name,
+                    'name' => $roles[$j]->name." ".$teams[$i]->name,
                     'team_id' => $i,
                     'role_id' => $j
                 ]);
@@ -66,17 +66,19 @@ class PermissionRoleTeamTableSeeder extends Seeder
 
         //PermissionRoleTeam
         $prts = [
-            [Constant::PERMISSION_MANAGE_TICKET_PERSON, 1], [Constant::PERMISSION_MANAGE_TICKET_PERSON, 4],
-            [Constant::PERMISSION_MANAGE_TICKET_TEAM, 3], [Constant::PERMISSION_MANAGE_TICKET_TEAM, 5],
-            [Constant::PERMISSION_MANAGE_TICKET_COMPANY, 6],
-            [Constant::PERMISSION_VIEW_TICKET_TEAM, 2], [Constant::PERMISSION_VIEW_TICKET_TEAM, 5], [Constant::PERMISSION_VIEW_TICKET_TEAM, 6],
-            [Constant::PERMISSION_VIEW_TICKET_COMPANY, 3]
+            Constant::PERMISSION_MANAGE_TICKET_PERSON  => [1, 4],
+            Constant::PERMISSION_MANAGE_TICKET_TEAM    => [3, 5],
+            Constant::PERMISSION_MANAGE_TICKET_COMPANY => [6],
+            Constant::PERMISSION_VIEW_TICKET_TEAM      => [2, 5, 6],
+            Constant::PERMISSION_VIEW_TICKET_COMPANY   => [3]
         ];
-        foreach ($prts as $prt) {
-            PermissionRoleTeam::create([
-                'permission_id' => $prt[0],
-                'role_team_id' => $prt[1]
-            ]);
+        foreach ($prts as $prt => $rt_ids) {
+            foreach ($rt_ids as $rt_id) {
+                PermissionRoleTeam::create([
+                    'permission_id' => $prt,
+                    'role_team_id' => $rt_id
+                ]);
+            }
         }
 
     }

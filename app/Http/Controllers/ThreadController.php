@@ -62,6 +62,7 @@ class ThreadController extends Controller
                 'detail' => 'Thay đổi thành công'
             ]);
         }
+
         $thread->save();
 
         //Send email to notify update for the assignee of the ticket
