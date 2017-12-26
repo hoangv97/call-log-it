@@ -57,17 +57,16 @@ class ThreadController extends Controller
 
             $thread->save();
 
-            //Send email to notify update for the assignee of the ticket
-            $ticket = Ticket::findOrFail($request->t_id);
-            SendEmail::sendMailsForTicket(Constant::MAIL_UPDATED_TICKET, $ticket, Auth::id());
-
             return response()->json([
                 'success' => true,
                 'detail' => 'Thay đổi thành công'
             ]);
         }
-
         $thread->save();
+
+        //Send email to notify update for the assignee of the ticket
+        $ticket = Ticket::findOrFail($request->t_id);
+        SendEmail::sendMailsForTicket(Constant::MAIL_UPDATED_TICKET, $ticket, Auth::id());
 
         return '';
     }

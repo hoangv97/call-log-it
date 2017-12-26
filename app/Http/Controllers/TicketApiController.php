@@ -44,8 +44,11 @@ class TicketApiController extends Controller
         }
         //update thread (comments) if field is priority or deadline
         else if($field == 'priority' || $field == 'deadline') {
-            if($field == 'deadline' && is_null($value)) {
-                return $this->getErrors('Vui lòng nhập deadline.');
+            if($field == 'deadline') {
+                if(is_null($value)) //truong deadline trong
+                    return $this->getErrors('Vui lòng nhập deadline.');
+                if(Carbon::parse($value) < now()) //deadline < gio hien tai
+                    return $this->getErrors('Deadline phải là một ngày sau ' . now() . '.');
             }
             if(is_null($request->reason)) {
                 return $this->getErrors('Chưa điền lý do thay đổi.');
