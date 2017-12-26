@@ -20,7 +20,7 @@ $factory->define(App\Models\Ticket::class, function (Faker $faker) {
     $status = rand(Constant::STATUS_NEW, Constant::STATUS_CANCELLED);
     $creator = collect(Employee::all())->random();
     do {
-        $assignee = collect(Employee::whereNotNull('role_team_id')->where('role_team_id', '<>', 3)->where('role_team_id', '<>', 6)->get())->random();
+        $assignee = collect(Employee::find([1, 3, 4, 6]))->random();
     } while($assignee->id == $creator->id); //prevent duplicate
 
     return [
@@ -29,7 +29,7 @@ $factory->define(App\Models\Ticket::class, function (Faker $faker) {
         'created_by' => $creator->id,
         'status' => $status,
         'priority' => rand(1, 4),
-        'deadline' => $faker->dateTimeBetween('-1 year', '+4 months'), //test out of date deadline
+        'deadline' => $faker->dateTimeBetween('-1 year', '+6 months'), //test out of date deadline
         'assigned_to' => $assignee->id,
         'rating' => $status == Constant::STATUS_CLOSED ? rand(0, 1) : null, //if closed, there must be rating from creator
         'team_id' => $assignee->team->id,

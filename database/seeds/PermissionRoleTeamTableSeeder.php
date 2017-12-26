@@ -1,5 +1,6 @@
 <?php
 
+use App\Facade\Constant;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Team;
@@ -65,11 +66,11 @@ class PermissionRoleTeamTableSeeder extends Seeder
 
         //PermissionRoleTeam
         $prts = [
-            [1, 1], [1, 4],
-            [2, 3], [2, 5],
-            [3, 6],
-            [4, 2], [4, 5], [4, 6],
-            [5, 3]
+            [Constant::PERMISSION_MANAGE_TICKET_PERSON, 1], [Constant::PERMISSION_MANAGE_TICKET_PERSON, 4],
+            [Constant::PERMISSION_MANAGE_TICKET_TEAM, 3], [Constant::PERMISSION_MANAGE_TICKET_TEAM, 5],
+            [Constant::PERMISSION_MANAGE_TICKET_COMPANY, 6],
+            [Constant::PERMISSION_VIEW_TICKET_TEAM, 2], [Constant::PERMISSION_VIEW_TICKET_TEAM, 5], [Constant::PERMISSION_VIEW_TICKET_TEAM, 6],
+            [Constant::PERMISSION_VIEW_TICKET_COMPANY, 3]
         ];
         foreach ($prts as $prt) {
             PermissionRoleTeam::create([
