@@ -33,7 +33,7 @@
         </div>
         <div class="form-group">
             <label class="control-label visible-ie8 visible-ie9" for="team">Nhóm</label>
-            <select name="team" class="form-control">óm
+            <select name="team" class="form-control">
                 <option value="">Nhóm</option>
                 <option value="1">IT Hanoi</option>
                 <option value="2">IT Danang</option>
