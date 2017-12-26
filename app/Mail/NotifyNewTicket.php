@@ -31,6 +31,7 @@ class NotifyNewTicket extends Mailable implements ShouldQueue
      *
      * @return $this
      */
+    
     public function build()
     {
         return $this->view('mail.new-ticket')

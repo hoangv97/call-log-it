@@ -7,7 +7,7 @@ class EmployeesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
+     * Seed Emp info
      * @return void
      */
     public function run()
