@@ -140,25 +140,11 @@
 <div class="portlet light bordered">
     <div class="portlet-title">
         <div class="caption">
-            <span class="caption-subject font-blue sbold">
-
-            </span>
+            <span class="caption-subject font-blue sbold"></span>
         </div>
-        {{--<div class="actions">
-            <div class="btn-group btn-group-devided" data-toggle="buttons">
-                <a href="javascript:" class="btn btn-primary">
-                    Reset bộ lọc
-                </a>
-                <a href="javascript:" class="btn btn-primary">
-                    Tìm kiếm
-                </a>
-            </div>
-        </div>--}}
     </div>
     <div class="portlet-body">
-        <table id="tickets-table" class="table table-striped table-bordered table-hover table-checkable order-column dataTable no-footer">
-
-        </table>
+        <table id="tickets-table" class="table table-striped table-bordered table-hover table-checkable order-column dataTable no-footer"></table>
     </div>
 </div>
 @endsection
